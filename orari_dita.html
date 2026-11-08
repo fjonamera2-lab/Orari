@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0c0e14">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Orari Mësimor 2026–2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg: #0c0e14;
+  --surface: #141720;
+  --surface2: #1c1f2d;
+  --surface3: #252838;
+  --border: rgba(255,255,255,0.09);
+  --border2: rgba(255,255,255,0.05);
+
+  --gold: #f0b429;
+  --gold-dim: rgba(240,180,41,0.13);
+  --gold-glow: rgba(240,180,41,0.28);
+
+  --teal: #38d9d0;
+  --teal-dim: rgba(56,217,208,0.11);
+
+  --text: #eceaf4;
+  --text-dim: #9b98aa;
+  --text-faint: #5a5870;
+
+  --exact: #52d68a;
+  --exact-bg: rgba(82,214,138,0.09);
+  --exact-border: rgba(82,214,138,0.30);
+
+  --lang: #70b5ff;
+  --lang-bg: rgba(112,181,255,0.09);
+  --lang-border: rgba(112,181,255,0.30);
+
+  --social: #ff9066;
+  --social-bg: rgba(255,144,102,0.09);
+  --social-border: rgba(255,144,102,0.30);
+
+  --other: #c97eff;
+  --other-bg: rgba(201,126,255,0.09);
+  --other-border: rgba(201,126,255,0.30);
+
+  --r: 14px;
+  --r-sm: 10px;
+}
+
+html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;max-width:100%;
+  -webkit-font-smoothing:antialiased;
+}
+
+body::before{
+  content:'';
+  position:fixed;
+  top:-20%;left:50%;
+  transform:translateX(-50%);
+  width:800px;height:500px;
+  background:radial-gradient(ellipse,rgba(240,180,41,0.05) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+.page{
+  position:relative;z-index:1;
+  max-width:1100px;
+  margin:0 auto;
+  padding:20px 14px 80px;
+}
+
+/* ── Header ── */
+.header{margin-bottom:24px;animation:fadeDown 0.5s ease both}
+.header-top{
+  display:flex;align-items:center;
+  justify-content:space-between;
+  gap:12px;flex-wrap:wrap;
+}
+.header-brand{display:flex;align-items:center;gap:12px}
+.brand-icon{
+  width:48px;height:48px;
+  background:var(--gold-dim);
+  border:1px solid var(--gold-glow);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+}
+.brand-year{
+  font-size:10px;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--gold);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.brand-title{
+  font-size:clamp(17px,4vw,24px);
+  font-weight:700;
+  color:var(--text);
+  line-height:1.1;
+}
+
+/* Mode toggle */
+.mode-switch{
+  display:flex;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:4px;gap:2px;
+}
+.mode-btn{
+  padding:9px 20px;
+  border-radius:9px;
+  border:none;
+  font-family:'Outfit',sans-serif;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.2s;
+  background:transparent;
+  color:var(--text-dim);
+  white-space:nowrap;
+}
+.mode-btn.active{
+  background:var(--surface3);
+  color:var(--gold);
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
+.mode-btn.tmode.active{color:var(--teal)}
+
+/* ── Selector card ── */
+.selector-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:16px;
+  margin-bottom:18px;
+  animation:fadeUp 0.45s 0.05s ease both;
+  display:flex;flex-wrap:wrap;
+  align-items:center;gap:12px;
+}
+.selector-label{
+  font-size:10px;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--text-faint);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.sel-wrap{position:relative;flex:1;min-width:130px;max-width:280px}
+.sel-wrap select{
+  width:100%;appearance:none;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--r-sm);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  font-size:15px;
+  font-weight:500;
+  padding:12px 38px 12px 14px;
+  cursor:pointer;outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.sel-wrap select:focus{border-color:var(--gold-glow);box-shadow:0 0 0 3px rgba(240,180,41,0.09)}
+.sel-wrap.tsel select:focus{border-color:rgba(56,217,208,0.3);box-shadow:0 0 0 3px rgba(56,217,208,0.07)}
+.sel-wrap::after{content:'⌄';position:absolute;right:12px;top:50%;transform:translateY(-52%);color:var(--text-faint);font-size:17px;pointer-events:none;font-weight:700}
+.sel-wrap select option{background:#1c1f2d}
+#classSelect{display:none}
+#viewClass .selector-card{position:relative;z-index:50}
+.cls-btn{width:100%;text-align:left;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:'Outfit',sans-serif;font-size:15px;font-weight:500;padding:12px 38px 12px 14px;cursor:pointer;outline:none;transition:border-color .2s,box-shadow .2s}
+.cls-btn:focus,.cls-btn.open{border-color:var(--gold-glow);box-shadow:0 0 0 3px rgba(240,180,41,0.09)}
+.cls-panel{position:absolute;top:calc(100% + 6px);left:0;width:min(330px,calc(100vw - 24px));max-height:60vh;overflow-y:auto;background:var(--surface2);border:1px solid var(--gold-glow);border-radius:var(--r-sm);box-shadow:0 8px 32px rgba(0,0,0,.45);padding:10px;z-index:999;display:none}
+.cls-panel.open{display:block}
+.cls-grp{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--gold);margin:6px 2px 6px;text-transform:uppercase}
+.cls-grp:first-child{margin-top:0}
+.cls-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cls-item{padding:10px 0;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-align:center}
+.cls-item.active{background:var(--gold-dim);border-color:var(--gold-glow);color:var(--gold)}
+
+.search-wrap{position:relative;flex:1;min-width:130px;max-width:240px}
+.search-wrap input{
+  width:100%;background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--r-sm);
+  padding:12px 14px 12px 40px;
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  font-size:15px;font-weight:500;
+  outline:none;transition:border-color 0.2s;
+}
+.search-wrap input:focus{border-color:rgba(56,217,208,0.3);box-shadow:0 0 0 3px rgba(56,217,208,0.07)}
+.search-wrap input::placeholder{color:var(--text-faint)}
+.teacher-autocomplete{position:relative;flex:1;min-width:200px;max-width:320px;}
+.teacher-autocomplete .search-wrap{max-width:100%;width:100%;}
+.teacher-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface2);border:1px solid rgba(56,217,208,0.35);border-radius:var(--r-sm);list-style:none;max-height:260px;overflow-y:auto;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.4);display:none;scrollbar-width:thin;scrollbar-color:var(--teal) transparent;}
+.teacher-dropdown.open{display:block;}
+.teacher-dropdown li{padding:10px 14px;cursor:pointer;font-size:14px;font-weight:500;color:var(--text);border-bottom:1px solid var(--border2);transition:background 0.12s;}
+.teacher-dropdown li:last-child{border-bottom:none;}
+.teacher-dropdown li:hover,.teacher-dropdown li.active{background:var(--teal-dim);color:var(--teal);}
+.teacher-dropdown li.dd-head{cursor:default;pointer-events:none;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);padding:8px 14px 6px;background:rgba(240,180,41,0.08);font-weight:700}
+.teacher-dropdown li.recent::before{content:'★ ';color:var(--gold)}
+.teacher-dropdown li mark{background:transparent;color:var(--gold);font-weight:700;}
+.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text-faint);font-size:16px;pointer-events:none}
+
+/* Legend */
+.legend{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text-dim)}
+.leg-dot{width:8px;height:8px;border-radius:3px;flex-shrink:0}
+
+/* ── Views ── */
+.view{display:none}
+.view.active{display:block}
+
+/* ── Schedule header ── */
+.sch-header{
+  display:flex;align-items:center;
+  justify-content:space-between;
+  margin-bottom:16px;flex-wrap:wrap;gap:10px;
+  animation:fadeUp 0.4s 0.1s ease both;
+}
+.sch-identity{display:flex;align-items:center;gap:14px}
+.sch-badge{
+  width:54px;height:54px;
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;font-weight:800;flex-shrink:0;
+}
+.sch-badge.gold{background:var(--gold-dim);border:1px solid var(--gold-glow);color:var(--gold)}
+.sch-badge.teal{background:var(--teal-dim);border:1px solid rgba(56,217,208,0.22);color:var(--teal)}
+.sch-name{font-size:22px;font-weight:700;color:var(--text);line-height:1.2}
+.sch-sub{font-size:13px;color:var(--text-dim);margin-top:3px;font-weight:400}
+
+/* Stats */
+.stats-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.stat-pill{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 16px;
+  display:flex;align-items:center;gap:10px;
+}
+.stat-val{font-size:26px;font-weight:800;color:var(--teal);line-height:1}
+.stat-lbl{font-size:12px;color:var(--text-faint);font-weight:500;letter-spacing:0.3px}
+
+/* ── Desktop table ── */
+.tbl-wrap{
+  overflow-x:auto;
+  border-radius:var(--r);
+  border:1px solid var(--border);
+  -webkit-overflow-scrolling:touch;
+  animation:fadeUp 0.4s 0.15s ease both;
+}
+.tbl-wrap.anim{animation:tableIn 0.3s ease both}
+table{width:100%;border-collapse:collapse;min-width:560px}
+thead th{
+  background:var(--surface2);
+  color:var(--text-faint);
+  font-size:11px;
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  padding:15px 10px;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+  font-weight:500;
+}
+thead th:first-child{text-align:left;padding-left:16px;min-width:88px}
+tbody tr:hover td:not(.brk-td){background:rgba(255,255,255,0.014)}
+td{
+  padding:0;
+  border-bottom:1px solid var(--border2);
+  border-right:1px solid var(--border2);
+  background:var(--surface);
+  vertical-align:middle;
+  text-align:center;
+  transition:background 0.12s;
+}
+td:last-child{border-right:none}
+tbody tr:last-child td{border-bottom:none}
+
+.ora-td{
+  text-align:left;padding:11px 14px;
+  min-width:86px;
+  background:var(--surface2)!important;
+  border-right:1px solid var(--border)!important;
+}
+.ora-nr{
+  font-size:22px;font-weight:800;color:var(--gold);line-height:1;
+}
+.ora-time{
+  font-size:10px;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--text-faint);
+  margin-top:4px;letter-spacing:0.3px;
+}
+
+.cell-inner{
+  padding:11px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  min-height:56px;justify-content:center;
+}
+.cell-subj{font-size:13px;font-weight:700;line-height:1.3;letter-spacing:0.1px}
+.cell-info{font-size:11px;font-weight:400;color:var(--text-dim);line-height:1.3;font-family:'JetBrains Mono',monospace}
+.cell-empty{color:var(--text-faint);font-size:20px;opacity:.2}
+
+/* Category */
+.cat-exact{background:var(--exact-bg)!important;border-left:2px solid var(--exact-border)!important}
+.cat-exact .cell-subj,.cat-exact .slot-subj{color:var(--exact)}
+.cat-lang{background:var(--lang-bg)!important;border-left:2px solid var(--lang-border)!important}
+.cat-lang .cell-subj,.cat-lang .slot-subj{color:var(--lang)}
+.cat-social{background:var(--social-bg)!important;border-left:2px solid var(--social-border)!important}
+.cat-social .cell-subj,.cat-social .slot-subj{color:var(--social)}
+.cat-other{background:var(--other-bg)!important;border-left:2px solid var(--other-border)!important}
+.cat-other .cell-subj,.cat-other .slot-subj{color:var(--other)}
+
+
+
+/* ── MOBILE CARDS ── */
+.mobile-days{display:none}
+
+@media(max-width:640px){
+  .tbl-wrap{display:none}
+  .mobile-days{display:block;animation:fadeUp 0.4s 0.12s ease both}
+
+  .day-nav{
+    display:flex;gap:7px;
+    overflow-x:auto;padding:0 0 12px;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    margin-bottom:6px;
+  }
+  .day-nav::-webkit-scrollbar{display:none}
+  .day-nav-btn{
+    flex:1 1 0;min-width:0;padding:10px 4px;text-align:center;
+    border-radius:24px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text-dim);
+    font-family:'Outfit',sans-serif;
+    font-size:14px;font-weight:600;
+    cursor:pointer;transition:all 0.2s;white-space:nowrap;
+  }
+  .day-nav-btn.active{
+    background:var(--gold-dim);
+    border-color:var(--gold-glow);
+    color:var(--gold);
+  }
+
+  .day-panel{display:none}
+  .day-panel.active{display:block}
+
+  .slot-row{
+    display:flex;align-items:stretch;
+    border-bottom:1px solid var(--border2);
+    min-height:60px;transition:background 0.12s;
+  }
+  .slot-row:last-child{border-bottom:none}
+  .slot-time{
+    width:72px;flex-shrink:0;
+    display:flex;flex-direction:column;
+    justify-content:center;align-items:center;
+    padding:8px 6px;
+    background:var(--surface2);
+    border-right:1px solid var(--border);
+  }
+  .slot-nr{
+    font-size:22px;font-weight:800;color:var(--gold);line-height:1;
+  }
+  .slot-t{
+    font-size:10px;
+    font-family:'JetBrains Mono',monospace;
+    color:var(--text-faint);
+    margin-top:4px;letter-spacing:0.2px;
+    text-align:center;line-height:1.3;
+  }
+  .slot-cell{
+    flex:1;display:flex;flex-direction:column;
+    justify-content:center;padding:14px 18px;gap:5px;
+    background:var(--surface);
+  }
+  .slot-cell.empty{opacity:0.3}
+  .slot-subj{font-size:17px;font-weight:700;line-height:1.2}
+  .slot-info{
+    font-size:13px;font-weight:400;color:var(--text-dim);
+    font-family:'JetBrains Mono',monospace;letter-spacing:0.2px;
+  }
+
+  .day-section-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--r);
+    overflow:hidden;margin-bottom:12px;
+  }
+
+  /* Mobile adjustments */
+  .page{padding:10px 10px 60px}
+
+  /* Header kompakt */
+  .header{margin-bottom:10px}
+  .header-top{gap:8px;flex-wrap:nowrap;align-items:center}
+  .brand-icon{width:34px;height:34px;font-size:16px;border-radius:9px}
+  .brand-year{font-size:8px;letter-spacing:1px;margin-bottom:2px}
+  .brand-title{font-size:15px}
+  .mode-switch{padding:3px;gap:2px}
+  .mode-btn{padding:7px 11px;font-size:12px;border-radius:7px}
+
+  /* Selector kompakt */
+  .selector-card{padding:9px 10px;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+  .selector-label{display:none}
+  .sel-wrap{max-width:100%;min-width:0;flex:1 1 120px}
+  .sel-wrap select{font-size:14px;padding:9px 32px 9px 11px}
+  .search-wrap{max-width:100%;flex:1 1 120px}
+  .search-wrap input{font-size:14px;padding:9px 11px 9px 34px}
+  .legend{gap:7px}
+  .leg-item{font-size:11px}
+  .leg-dot{width:7px;height:7px}
+
+  /* Schedule header kompakt */
+  .sch-header{margin-bottom:10px}
+  .sch-badge{width:38px;height:38px;font-size:15px;border-radius:10px}
+  .sch-name{font-size:16px}
+  .sch-sub{font-size:11px;margin-top:1px}
+
+  .slot-cell.cat-exact{background:var(--exact-bg);border-left:3px solid var(--exact-border)}
+  .slot-cell.cat-lang{background:var(--lang-bg);border-left:3px solid var(--lang-border)}
+  .slot-cell.cat-social{background:var(--social-bg);border-left:3px solid var(--social-border)}
+  .slot-cell.cat-other{background:var(--other-bg);border-left:3px solid var(--other-border)}
+}
+
+@media(min-width:641px){.mobile-days{display:none!important}}
+
+footer{
+  text-align:center;margin-top:48px;
+  color:var(--text-faint);font-size:10px;
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:1.5px;opacity:0.5;
+}
+
+@keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes tableIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.lock-card{background:var(--surface);border:1px solid rgba(56,217,208,0.3);border-radius:var(--r);padding:22px 18px;margin-bottom:18px;text-align:center;display:none;animation:fadeUp .3s ease both}
+.lock-card.show{display:block}
+.lock-ico{font-size:30px;margin-bottom:6px}
+.lock-name{font-size:18px;font-weight:700;margin-bottom:4px}
+.lock-sub{font-size:13px;color:var(--text-dim);margin-bottom:14px}
+.lock-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.lock-row input{background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:18px;letter-spacing:3px;text-transform:uppercase;text-align:center;padding:11px 14px;width:230px;outline:none}
+.lock-row input:focus{border-color:rgba(56,217,208,0.4)}
+.lock-row button{background:var(--teal-dim);border:1px solid rgba(56,217,208,.35);color:var(--teal);font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;padding:11px 22px;border-radius:var(--r-sm);cursor:pointer}
+.lock-row button:disabled{opacity:.5;cursor:wait}
+.lock-err{color:#f87171;font-size:13px;margin-top:10px;min-height:18px}
+.lock-hint{font-size:12px;color:var(--text-dim);margin-top:10px}
+.link-btn{background:none;border:none;color:var(--teal);font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-decoration:underline;padding:0}
+.cc-msg{font-size:13px;margin-top:10px;min-height:18px}
+.cc-msg.ok{color:#4ade80}.cc-msg.bad{color:#f87171}
+
+.dl-actions{display:flex;gap:8px;flex-wrap:wrap}
+.dl-actions button{background:var(--gold-dim);border:1px solid var(--gold-glow);color:var(--gold);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;padding:9px 16px;border-radius:var(--r-sm);cursor:pointer;transition:background .15s}
+.dl-actions .sm{display:none}
+@media(max-width:640px){
+  .brand-year{display:none}
+  .mode-btn .em{display:none}
+  .mode-switch{flex-shrink:0}
+  .header-brand{min-width:0;gap:8px}
+  .brand-title{white-space:nowrap}
+  .selector-card .legend{display:none}
+  #viewClass .sch-sub{display:none}
+  .sch-header{flex-wrap:nowrap;gap:8px}
+  .sch-identity{gap:10px;min-width:0;flex:1}
+  .sch-identity>div:last-child{min-width:0}
+  .sch-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dl-actions{flex-wrap:nowrap;gap:6px;flex-shrink:0}
+  .dl-actions button{font-size:12px;padding:8px 10px;white-space:nowrap}
+  .dl-actions .lg{display:none}
+  .dl-actions .sm{display:inline}
+}
+.dl-actions button:hover{background:rgba(240,180,41,.25)}
+.dl-actions button:disabled{opacity:.5;cursor:wait}
+.back-link{display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;padding:9px 16px;border-radius:10px;background:rgba(240,180,41,0.13);border:1px solid rgba(240,180,41,0.28);color:#f0b429;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;text-decoration:none;transition:background .15s}
+.back-link:hover{background:rgba(240,180,41,0.25)}
+
+/* Rregullim: lista e mësuesve mbi footer-in */
+.selector-card{position:relative;z-index:50}
+.teacher-dropdown{z-index:1000}
+footer{position:relative;z-index:0;pointer-events:none}
+
+.upd{text-align:center;margin:6px 0 4px;color:var(--text-dim);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.5px}
+.slot-row.dbl{min-height:124px}
+
+/* Kufij më të dukshëm mes lëndëve */
+td{border-bottom:1px solid rgba(255,255,255,0.20)!important;border-right:1px solid rgba(255,255,255,0.20)!important}
+.cat-exact{border-top:1px solid rgba(82,214,138,.65)!important;border-right:1px solid rgba(82,214,138,.65)!important;border-bottom:2px solid rgba(82,214,138,.65)!important}
+.cat-lang{border-top:1px solid rgba(112,181,255,.65)!important;border-right:1px solid rgba(112,181,255,.65)!important;border-bottom:2px solid rgba(112,181,255,.65)!important}
+.cat-social{border-top:1px solid rgba(255,144,102,.65)!important;border-right:1px solid rgba(255,144,102,.65)!important;border-bottom:2px solid rgba(255,144,102,.65)!important}
+.cat-other{border-top:1px solid rgba(201,126,255,.65)!important;border-right:1px solid rgba(201,126,255,.65)!important;border-bottom:2px solid rgba(201,126,255,.65)!important}
+.slot-row{border-bottom:1px solid rgba(255,255,255,0.20)!important}
+.slot-cell{margin:2px 0}
+
+/* Rreshta më të ngushtë në telefon */
+.slot-row{min-height:38px}
+.slot-row.dbl{min-height:84px}
+.slot-time.two{padding:0}
+.slot-time.two .sp{flex:1;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:4px}
+.slot-time.two .sp+.sp{border-top:1px solid rgba(255,255,255,0.22)}
+.slot-time{width:78px;padding:4px 4px}
+.slot-nr{font-size:18px}
+.slot-t{font-size:9px;letter-spacing:0;white-space:nowrap;margin-top:2px}
+.slot-cell{padding:7px 14px;gap:2px;margin:1px 0}
+.slot-cell.empty{padding:4px 14px}
+.slot-subj{font-size:15px;line-height:1.15}
+.slot-info{font-size:12px}
+#teacherMobile .slot-cell{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+#teacherMobile .slot-info{white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back-link" href="index.html">&larr; Kthehu te zgjedhja e orarit</a>
+
+  <div class="header">
+    <div class="header-top">
+      <div class="header-brand">
+        <div class="brand-icon">📋</div>
+        <div class="brand-text">
+          <div class="brand-year">◆ Viti Akademik 2026–2027 ◆</div>
+          <div class="brand-title">Orari Mësimor</div>
+        </div>
+      </div>
+      <div class="mode-switch">
+        <button class="mode-btn active" id="btnClass" onclick="switchMode('class')"><span class="em">📚 </span>Klasat</button>
+        <button class="mode-btn tmode" id="btnTeacher" onclick="switchMode('teacher')"><span class="em">👤 </span>Mësuesit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLASS VIEW -->
+  <div class="view active" id="viewClass">
+    <div class="selector-card">
+      <span class="selector-label">Klasa</span>
+      <div class="sel-wrap">
+        <select id="classSelect" onchange="selectClass(this.value)"><optgroup label="Klasa 10">
+            <option value="10-A">10-A</option>
+            <option value="10-B">10-B</option>
+            <option value="10-C">10-C</option>
+            <option value="10-D">10-D</option>
+            <option value="10-E">10-E</option>
+            <option value="10-F">10-F</option>
+            <option value="10-G">10-G</option>
+            <option value="10-H">10-H</option>
+          </optgroup>
+          <optgroup label="Klasa 11">
+            <option value="11-A">11-A</option>
+            <option value="11-B">11-B</option>
+            <option value="11-C">11-C</option>
+            <option value="11-D">11-D</option>
+            <option value="11-E">11-E</option>
+            <option value="11-F">11-F</option>
+            <option value="11-G">11-G</option>
+          </optgroup>
+          <optgroup label="Klasa 12">
+            <option value="12-A">12-A</option>
+            <option value="12-B">12-B</option>
+            <option value="12-C">12-C</option>
+            <option value="12-D">12-D</option>
+            <option value="12-E">12-E</option>
+            <option value="12-F">12-F</option>
+            <option value="12-G">12-G</option>
+          </optgroup></select>
+        <button type="button" class="cls-btn" id="classBtn" onclick="toggleClassPicker(event)"><span id="classBtnTxt">—</span></button>
+        <div class="cls-panel" id="classPanel"></div>
+      </div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:var(--exact)"></div>Ekzakte</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--lang)"></div>Gjuhët</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--social)"></div>Shoqërore</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--other)"></div>Të tjera</div>
+      </div>
+    </div>
+
+    <div class="sch-header">
+      <div class="sch-identity">
+        <div class="sch-badge gold" id="classNumber">10</div>
+        <div>
+          <div class="sch-name" id="className">Klasa 10-A</div>
+          <div class="sch-sub">Viti akademik 2026 – 2027</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap" id="classTableWrap">
+      <table>
+        <thead><tr id="classHead"></tr></thead>
+        <tbody id="classBody"></tbody>
+      </table>
+    </div>
+    <div class="mobile-days" id="classMobile"></div>
+  </div>
+
+  <!-- TEACHER VIEW -->
+  <div class="view" id="viewTeacher">
+    <div class="selector-card">
+      <span class="selector-label">Mësuesi/ja</span>
+      <div class="teacher-autocomplete" id="teacherAutocomplete">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="teacherSearch" placeholder="Zgjidhni mësuesin..." autocomplete="off"
+            oninput="filterTeacherSelect(this.value)"
+            onfocus="filterTeacherSelect(this.value)"
+            onkeydown="teacherSearchKey(event)">
+        </div>
+        <ul class="teacher-dropdown" id="teacherDropdown"></ul>
+      </div>
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:var(--exact)"></div>Ekzakte</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--lang)"></div>Gjuhët</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--social)"></div>Shoqërore</div>
+        <div class="leg-item"><div class="leg-dot" style="background:var(--other)"></div>Të tjera</div>
+      </div>
+    </div>
+
+    <div class="lock-card" id="teacherLock">
+      <div class="lock-ico">&#128274;</div>
+      <div class="lock-name" id="lockName"></div>
+      <div class="lock-sub">Shkruaj numrin personal të kartës së identitetit për të parë orarin tënd.</div>
+      <div class="lock-row">
+        <input type="text" id="lockCode" name="orari-kodi-mesuesit" maxlength="24" placeholder="KODI" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" data-lpignore="true" data-1p-ignore="true" style="-webkit-text-security:disc" onkeydown="if(event.key==='Enter')unlockTeacher()">
+        <button id="lockBtn" onclick="unlockTeacher()">Hap orarin</button>
+      </div>
+      <div class="lock-hint"><button type="button" class="link-btn" id="lockEye" onclick="togglePw()">Shfaq kodin</button></div>
+      <div class="lock-err" id="lockErr"></div>
+      <div class="lock-hint" id="lockHint" style="display:none">Në këtë pajisje e ke ndryshuar kodin. <button type="button" class="link-btn" onclick="resetCustom(pendingTeacher)">E kam harruar kodin</button></div>
+    </div>
+
+    <div id="teacherScheduleWrap" style="display:none">
+      <div class="sch-header">
+        <div class="sch-identity">
+          <div class="sch-badge teal" id="teacherInitial">AB</div>
+          <div>
+            <div class="sch-name" id="teacherName">—</div>
+            <div class="sch-sub" id="teacherSubjects">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="lock-card" id="codeChange">
+        <div class="lock-ico">&#128273;</div>
+        <div class="lock-name">Ndrysho kodin personal</div>
+        <div class="lock-sub">Vendos një kod të ri (të paktën 6 shkronja ose numra). Do ta përdorësh në këtë pajisje në vend të numrit të kartës.</div>
+        <div class="lock-row"><input type="text" id="ccNew" name="orari-kodi-ri" maxlength="24" placeholder="KODI I RI" autocomplete="off" autocapitalize="characters" spellcheck="false" data-lpignore="true" data-1p-ignore="true" style="-webkit-text-security:disc"></div>
+        <div class="lock-row" style="margin-top:8px"><input type="text" id="ccNew2" name="orari-kodi-ri2" maxlength="24" placeholder="PËRSËRIT KODIN" autocomplete="off" autocapitalize="characters" spellcheck="false" data-lpignore="true" data-1p-ignore="true" style="-webkit-text-security:disc" onkeydown="if(event.key==='Enter')saveNewCode()"><button id="ccSave" onclick="saveNewCode()">Ruaj</button></div>
+        <div class="cc-msg" id="ccMsg"></div>
+        <div class="lock-hint"><button type="button" class="link-btn" onclick="resetCustom(currentTeacher,true)">Rikthe numrin e kartës si kod</button></div>
+        <div class="lock-hint"><button type="button" class="link-btn" onclick="forgetDevice(currentTeacher)">Harro kodin në këtë pajisje</button></div>
+      </div>
+      <div class="tbl-wrap" id="teacherTableWrap">
+        <table>
+          <thead><tr id="teacherHead"></tr></thead>
+          <tbody id="teacherBody"></tbody>
+        </table>
+      </div>
+      <div class="mobile-days" id="teacherMobile"></div>
+      <div class="stats-bar" id="statsBar"></div>
+    </div>
+  </div>
+
+  <footer>◆ ORARI MËSIMOR 2026–2027 ◆</footer>
+  <div class="upd">Përditësuar: 8 nëntor 2026</div>
+</div>
+<script>
+const CLASS_DATA = {"10-A":{"1":{"1":{"s":"Gjuhë Shqipe","t":"MATILDA TAFA","c":"lang"},"2":{"s":"Gjuhë Shqipe","t":"MATILDA TAFA","c":"lang"},"3":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"4":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"5":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"6":{"s":"Të folurit publik","t":"EDLIRA KALOSHI","c":"lang"},"7":null},"2":{"1":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"2":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"3":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"4":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"5":{"s":"Qytetari","t":"DALLANDYSHE ZHUKA","c":"other"},"6":{"s":"Qytetari","t":"DALLANDYSHE ZHUKA","c":"other"},"7":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"}},"3":{"1":{"s":"Histori","t":"MIRANDA ÇIKU","c":"social"},"2":{"s":"Histori","t":"MIRANDA ÇIKU","c":"social"},"3":{"s":"Gjeografi","t":"DRINI GJECI","c":"social"},"4":{"s":"Gjeografi","t":"DRINI GJECI","c":"social"},"5":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"6":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"7":null},"4":{"1":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"2":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"3":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"4":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"5":{"s":"Letërsi","t":"RESMIJE BRAHIMI","c":"lang"},"6":{"s":"Letërsi","t":"RESMIJE BRAHIMI","c":"lang"},"7":{"s":"Guidë Turistike","t":"ELIDA ÇERA","c":"social"}},"5":{"1":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"2":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"3":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"4":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"5":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"6":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"7":null}},"10-B":{"1":{"1":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"2":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"3":{"s":"Gjeografi","t":"MARINGLENA SELAMI","c":"social"},"4":{"s":"Gjeografi","t":"MARINGLENA SELAMI","c":"social"},"5":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"6":{"s":"Anglisht","t":"MANUSHAQE BRUÇI","c":"lang"},"7":null},"2":{"1":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"2":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"3":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"4":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"5":{"s":"Qytetari","t":"VALBONA VRANEZI","c":"other"},"6":{"s":"Qytetari","t":"VALBONA VRANEZI","c":"other"},"7":{"s":"Të folurit publik","t":"EDLIRA KALOSHI","c":"lang"}},"3":{"1":{"s":"Letërsi","t":"TEFTA NUREDINI","c":"lang"},"2":{"s":"Letërsi","t":"TEFTA NUREDINI","c":"lang"},"3":{"s":"Anglisht","t":"MANUSHAQE BRUÇI","c":"lang"},"4":{"s":"Anglisht","t":"MANUSHAQE BRUÇI","c":"lang"},"5":{"s":"Histori","t":"MARJANA ZEBI","c":"social"},"6":{"s":"Histori","t":"MARJANA ZEBI","c":"social"},"7":null},"4":{"1":{"s":"Gjuhë Shqipe","t":"TEFTA NUREDINI","c":"lang"},"2":{"s":"Gjuhë Shqipe","t":"TEFTA NUREDINI","c":"lang"},"3":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"4":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"5":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"6":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"7":{"s":"Guidë Turistike","t":"ZAMIRA ELEZI","c":"social"}},"5":{"1":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"2":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"3":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"4":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"5":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"6":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"7":null}},"10-C":{"1":{"1":{"s":"Qytetari","t":"ZAMIRA ELEZI","c":"other"},"2":{"s":"Qytetari","t":"ZAMIRA ELEZI","c":"other"},"3":{"s":"Anglisht","t":"MANUSHAQE BRUÇI","c":"lang"},"4":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"5":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"6":{"s":"Guidë Turistike","t":"ZAMIRA ELEZI","c":"social"},"7":null},"2":{"1":{"s":"Letërsi","t":"TEFTA NUREDINI","c":"lang"},"2":{"s":"Letërsi","t":"TEFTA NUREDINI","c":"lang"},"3":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"4":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"5":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"6":{"s":"Anglisht","t":"MANUSHAQE BRUÇI","c":"lang"},"7":{"s":"Anglisht","t":"MANUSHAQE BRUÇI","c":"lang"}},"3":{"1":{"s":"Histori","t":"MARJANA ZEBI","c":"social"},"2":{"s":"Histori","t":"MARJANA ZEBI","c":"social"},"3":{"s":"Gjeografi","t":"ZAMIRA ELEZI","c":"social"},"4":{"s":"Gjeografi","t":"ZAMIRA ELEZI","c":"social"},"5":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"6":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"7":null},"4":{"1":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"2":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"3":{"s":"Gjuhë Shqipe","t":"TEFTA NUREDINI","c":"lang"},"4":{"s":"Gjuhë Shqipe","t":"TEFTA NUREDINI","c":"lang"},"5":{"s":"Të folurit publik","t":"EDLIRA KALOSHI","c":"lang"},"6":{"s":"Arte","t":"BUKURIE TUFA","c":"other"},"7":{"s":"Arte","t":"BUKURIE TUFA","c":"other"}},"5":{"1":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"2":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"3":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"4":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"5":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"6":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"7":null}},"10-D":{"1":{"1":{"s":"Histori","t":"MARJANA ZEBI","c":"social"},"2":{"s":"Histori","t":"MARJANA ZEBI","c":"social"},"3":{"s":"Gjeografi","t":"ZAMIRA ELEZI","c":"social"},"4":{"s":"Gjeografi","t":"ZAMIRA ELEZI","c":"social"},"5":{"s":"Anglisht","t":"MANUSHAQE BRUÇI","c":"lang"},"6":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"7":null},"2":{"1":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"2":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"3":{"s":"Matematikë","t":"ROALDA DOMAZETI","c":"exact"},"4":{"s":"Matematikë","t":"ROALDA DOMAZETI","c":"exact"},"5":{"s":"Gjuhë Shqipe","t":"JURIDA ZEBI","c":"lang"},"6":{"s":"Gjuhë Shqipe","t":"JURIDA ZEBI","c":"lang"},"7":{"s":"Guidë Turistike","t":"ELIDA ÇERA","c":"social"}},"3":{"1":{"s":"Qytetari","t":"ZAMIRA ELEZI","c":"other"},"2":{"s":"Qytetari","t":"ZAMIRA ELEZI","c":"other"},"3":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"4":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"5":{"s":"Anglisht","t":"MANUSHAQE BRUÇI","c":"lang"},"6":{"s":"Anglisht","t":"MANUSHAQE BRUÇI","c":"lang"},"7":null},"4":{"1":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"2":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"3":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"4":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"5":{"s":"Matematikë","t":"ROALDA DOMAZETI","c":"exact"},"6":{"s":"Matematikë","t":"ROALDA DOMAZETI","c":"exact"},"7":{"s":"Të folurit publik","t":"EDLIRA KALOSHI","c":"lang"}},"5":{"1":{"s":"Letërsi","t":"BUKURIE TUFA","c":"lang"},"2":{"s":"Letërsi","t":"BUKURIE TUFA","c":"lang"},"3":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"4":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"5":{"s":"TIK","t":"DORINA SELMANI","c":"exact"},"6":{"s":"TIK","t":"DORINA SELMANI","c":"exact"},"7":null}},"10-E":{"1":{"1":{"s":"Qytetari","t":"ESMERALDA LUSHA","c":"other"},"2":{"s":"Qytetari","t":"ESMERALDA LUSHA","c":"other"},"3":{"s":"Histori","t":"MARJANA ZEBI","c":"social"},"4":{"s":"Histori","t":"MARJANA ZEBI","c":"social"},"5":{"s":"Gjuhë Shqipe","t":"ERLIND KAMBERI","c":"lang"},"6":{"s":"Gjuhë Shqipe","t":"ERLIND KAMBERI","c":"lang"},"7":null},"2":{"1":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"2":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"3":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"4":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"5":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"6":{"s":"TIK","t":"DORINA SELMANI","c":"exact"},"7":{"s":"TIK","t":"DORINA SELMANI","c":"exact"}},"3":{"1":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"2":{"s":"Ed. Fizik","t":"BESJAN MUÇA / ETLEVA TAFA","c":"other"},"3":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"4":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"5":{"s":"Gjeografi","t":"ZAMIRA ELEZI","c":"social"},"6":{"s":"Gjeografi","t":"ZAMIRA ELEZI","c":"social"},"7":null},"4":{"1":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"2":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"3":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"4":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"5":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"6":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"7":{"s":"Të folurit publik","t":"ELIDA RUÇI","c":"lang"}},"5":{"1":{"s":"Letërsi","t":"ERLIND KAMBERI","c":"lang"},"2":{"s":"Letërsi","t":"ERLIND KAMBERI","c":"lang"},"3":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"4":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"5":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"6":{"s":"Guidë Turistike","t":"ELIDA ÇERA","c":"social"},"7":null}},"10-F":{"1":{"1":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"2":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"3":{"s":"Histori","t":"DALLANDYSHE ZHUKA","c":"social"},"4":{"s":"Histori","t":"DALLANDYSHE ZHUKA","c":"social"},"5":{"s":"Letërsi","t":"RESMIJE BRAHIMI","c":"lang"},"6":{"s":"Letërsi","t":"RESMIJE BRAHIMI","c":"lang"},"7":null},"2":{"1":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"2":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"3":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"4":{"s":"Qytetari","t":"ELIDA ÇERA","c":"other"},"5":{"s":"Qytetari","t":"ELIDA ÇERA","c":"other"},"6":{"s":"Guidë Turistike","t":"ELIDA ÇERA","c":"social"},"7":null},"3":{"1":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"2":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"3":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"4":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"5":{"s":"Ed. Fizik","t":"BESJAN MUÇA / YLBER MUÇA","c":"other"},"6":{"s":"Ed. Fizik","t":"BESJAN MUÇA / YLBER MUÇA","c":"other"},"7":{"s":"Të folurit publik","t":"ELIDA RUÇI","c":"lang"}},"4":{"1":{"s":"Kimi","t":"GJUZIANA HOXHA","c":"exact"},"2":{"s":"Kimi","t":"GJUZIANA HOXHA","c":"exact"},"3":{"s":"Gjeografi","t":"ZAMIRA ELEZI","c":"social"},"4":{"s":"Gjeografi","t":"ZAMIRA ELEZI","c":"social"},"5":{"s":"Ed. Fizik","t":"BESJAN MUÇA / YLBER MUÇA","c":"other"},"6":{"s":"TIK","t":"DORINA SELMANI","c":"exact"},"7":{"s":"TIK","t":"DORINA SELMANI","c":"exact"}},"5":{"1":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"2":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"3":{"s":"Gjuhë Shqipe","t":"RESMIJE BRAHIMI","c":"lang"},"4":{"s":"Gjuhë Shqipe","t":"RESMIJE BRAHIMI","c":"lang"},"5":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"6":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"7":null}},"10-G":{"1":{"1":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"2":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"3":{"s":"Ed. Fizik","t":"BESJAN MUÇA / YLBER MUÇA","c":"other"},"4":{"s":"Ed. Fizik","t":"BESJAN MUÇA / YLBER MUÇA","c":"other"},"5":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"6":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"7":null},"2":{"1":{"s":"Histori","t":"DALLANDYSHE ZHUKA","c":"social"},"2":{"s":"Histori","t":"DALLANDYSHE ZHUKA","c":"social"},"3":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"4":{"s":"Gjeografi","t":"MARINGLENA SELAMI","c":"social"},"5":{"s":"Gjeografi","t":"MARINGLENA SELAMI","c":"social"},"6":{"s":"Arte","t":"BUKURIE TUFA","c":"other"},"7":{"s":"Arte","t":"BUKURIE TUFA","c":"other"}},"3":{"1":{"s":"Letërsi","t":"ERLIND KAMBERI","c":"lang"},"2":{"s":"Letërsi","t":"ERLIND KAMBERI","c":"lang"},"3":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"4":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"5":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"6":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"7":null},"4":{"1":{"s":"Gjuhë Shqipe","t":"ERLIND KAMBERI","c":"lang"},"2":{"s":"Gjuhë Shqipe","t":"ERLIND KAMBERI","c":"lang"},"3":{"s":"Ed. Fizik","t":"BESJAN MUÇA / YLBER MUÇA","c":"other"},"4":{"s":"TIK","t":"DORINA SELMANI","c":"exact"},"5":{"s":"TIK","t":"DORINA SELMANI","c":"exact"},"6":{"s":"Guidë Turistike","t":"ZAMIRA ELEZI","c":"social"},"7":{"s":"Të folurit publik","t":"TENEDA TOÇI","c":"lang"}},"5":{"1":{"s":"Qytetari","t":"ESMERALDA LUSHA","c":"other"},"2":{"s":"Qytetari","t":"ESMERALDA LUSHA","c":"other"},"3":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"4":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"5":{"s":"Fizikë","t":"ROALDA DOMAZETI","c":"exact"},"6":{"s":"Fizikë","t":"ROALDA DOMAZETI","c":"exact"},"7":null}},"10-H":{"1":{"1":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"2":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"3":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"4":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"5":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"6":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"7":null},"2":{"1":{"s":"Ed. Fizik","t":"ARMEND MURRJA / YLBER MUÇA","c":"other"},"2":{"s":"Ed. Fizik","t":"ARMEND MURRJA / YLBER MUÇA","c":"other"},"3":{"s":"TIK","t":"DORINA SELMANI","c":"exact"},"4":{"s":"TIK","t":"DORINA SELMANI","c":"exact"},"5":{"s":"Letërsi","t":"ERLIND KAMBERI","c":"lang"},"6":{"s":"Letërsi","t":"ERLIND KAMBERI","c":"lang"},"7":null},"3":{"1":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"2":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"3":{"s":"Ed. Fizik","t":"ARMEND MURRJA / YLBER MUÇA","c":"other"},"4":{"s":"Fizikë","t":"ROALDA DOMAZETI","c":"exact"},"5":{"s":"Fizikë","t":"ROALDA DOMAZETI","c":"exact"},"6":{"s":"Të folurit publik","t":"TENEDA TOÇI","c":"lang"},"7":{"s":"Guidë Turistike","t":"ZAMIRA ELEZI","c":"social"}},"4":{"1":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"2":{"s":"Histori","t":"DALLANDYSHE ZHUKA","c":"social"},"3":{"s":"Histori","t":"DALLANDYSHE ZHUKA","c":"social"},"4":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"5":{"s":"Matematikë","t":"ERIOLA ÇELA","c":"exact"},"6":{"s":"Qytetari","t":"ESMERALDA LUSHA","c":"other"},"7":{"s":"Qytetari","t":"ESMERALDA LUSHA","c":"other"}},"5":{"1":{"s":"Gjeografi","t":"ZAMIRA ELEZI","c":"social"},"2":{"s":"Gjeografi","t":"ZAMIRA ELEZI","c":"social"},"3":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"4":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"5":{"s":"Gjuhë Shqipe","t":"ERLIND KAMBERI","c":"lang"},"6":{"s":"Gjuhë Shqipe","t":"ERLIND KAMBERI","c":"lang"},"7":null}},"11-A":{"1":{"1":{"s":"Gjuhë Shqipe","t":"FATMIR PACI","c":"lang"},"2":{"s":"Gjuhë Shqipe","t":"FATMIR PACI","c":"lang"},"3":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"4":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"5":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"},"6":{"s":"PPU","t":"NATASHA XHEMBULLA","c":"social"},"7":null},"2":{"1":{"s":"Arte","t":"BUKURIE TUFA","c":"other"},"2":{"s":"Arte","t":"BUKURIE TUFA","c":"other"},"3":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"4":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"5":{"s":"Filozofi","t":"ILDA GROSHA","c":"social"},"6":{"s":"Filozofi","t":"ILDA GROSHA","c":"social"},"7":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"}},"3":{"1":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"},"2":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"},"3":{"s":"Kimi","t":"GJUZIANA HOXHA","c":"exact"},"4":{"s":"Kimi","t":"GJUZIANA HOXHA","c":"exact"},"5":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"},"6":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"},"7":null},"4":{"1":{"s":"Letërsi","t":"FATMIR PACI","c":"lang"},"2":{"s":"Letërsi","t":"FATMIR PACI","c":"lang"},"3":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"4":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"5":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"},"6":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"},"7":null},"5":{"1":{"s":"Gjeografi","t":"ELIDA ÇERA","c":"social"},"2":{"s":"Gjeografi","t":"ELIDA ÇERA","c":"social"},"3":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"4":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"5":{"s":"TIK","t":"ERIOLA ÇELA","c":"exact"},"6":{"s":"TIK (zgj.)","t":"ERIOLA ÇELA","c":"exact"},"7":null}},"11-B":{"1":{"1":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"2":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"3":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"},"4":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"},"5":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"6":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"7":null},"2":{"1":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"2":{"s":"TIK (zgj.)","t":"XHOANA CERJANI","c":"exact"},"3":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"},"4":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"5":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"6":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"},"7":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"}},"3":{"1":{"s":"Letërsi","t":"FATMIR PACI","c":"lang"},"2":{"s":"Letërsi","t":"FATMIR PACI","c":"lang"},"3":{"s":"Ed. Fizik","t":"ERVIN LLESHI / KLODIANA JASHARI","c":"other"},"4":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"5":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"6":{"s":"PPU","t":"NATASHA XHEMBULLA","c":"social"},"7":null},"4":{"1":{"s":"Gjeografi","t":"ELIDA ÇERA","c":"social"},"2":{"s":"Gjeografi","t":"ELIDA ÇERA","c":"social"},"3":{"s":"Filozofi","t":"PREMTIM SHEHI","c":"social"},"4":{"s":"Filozofi","t":"PREMTIM SHEHI","c":"social"},"5":{"s":"Kimi","t":"GJUZIANA HOXHA","c":"exact"},"6":{"s":"Kimi","t":"GJUZIANA HOXHA","c":"exact"},"7":null},"5":{"1":{"s":"Gjuhë Shqipe","t":"FATMIR PACI","c":"lang"},"2":{"s":"Gjuhë Shqipe","t":"FATMIR PACI","c":"lang"},"3":{"s":"Ed. Fizik","t":"ERVIN LLESHI / KLODIANA JASHARI","c":"other"},"4":{"s":"Ed. Fizik","t":"ERVIN LLESHI / KLODIANA JASHARI","c":"other"},"5":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"6":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"7":null}},"11-C":{"1":{"1":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"2":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"3":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"},"4":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"},"5":{"s":"Gjeografi","t":"MARINGLENA SELAMI","c":"social"},"6":{"s":"Gjeografi","t":"MARINGLENA SELAMI","c":"social"},"7":null},"2":{"1":{"s":"Letërsi","t":"FATMIR PACI","c":"lang"},"2":{"s":"Letërsi","t":"FATMIR PACI","c":"lang"},"3":{"s":"Anglisht","t":"ERJOLA LATA","c":"lang"},"4":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"5":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"6":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"7":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"}},"3":{"1":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"2":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"3":{"s":"Histori","t":"MIRANDA ÇIKU","c":"social"},"4":{"s":"Histori","t":"MIRANDA ÇIKU","c":"social"},"5":{"s":"Filozofi","t":"PREMTIM SHEHI","c":"social"},"6":{"s":"Filozofi","t":"PREMTIM SHEHI","c":"social"},"7":null},"4":{"1":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"2":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"3":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"4":{"s":"TIK (zgj.)","t":"XHOANA CERJANI","c":"exact"},"5":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"6":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"7":null},"5":{"1":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"2":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"3":{"s":"Gjuhë Shqipe","t":"JURIDA ZEBI","c":"lang"},"4":{"s":"Gjuhë Shqipe","t":"JURIDA ZEBI","c":"lang"},"5":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"},"6":{"s":"PPU","t":"NATASHA XHEMBULLA","c":"social"},"7":null}},"11-D":{"1":{"1":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"2":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"3":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"4":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"5":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"6":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"7":null},"2":{"1":{"s":"Kimi","t":"GJUZIANA HOXHA","c":"exact"},"2":{"s":"Kimi","t":"GJUZIANA HOXHA","c":"exact"},"3":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"},"4":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"},"5":{"s":"Filozofi","t":"ENADA HODA","c":"social"},"6":{"s":"Filozofi","t":"ENADA HODA","c":"social"},"7":null},"3":{"1":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"2":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"3":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"4":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"5":{"s":"Gjuhë Shqipe","t":"MATILDA TAFA","c":"lang"},"6":{"s":"Gjuhë Shqipe","t":"MATILDA TAFA","c":"lang"},"7":null},"4":{"1":{"s":"TIK","t":"ERIOLA ÇELA","c":"exact"},"2":{"s":"TIK (zgj.)","t":"ERIOLA ÇELA","c":"exact"},"3":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"4":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"5":{"s":"Gjeografi","t":"MARINGLENA SELAMI","c":"social"},"6":{"s":"Gjeografi","t":"MARINGLENA SELAMI","c":"social"},"7":{"s":"PPU","t":"BELIZA TOMÇINI","c":"social"}},"5":{"1":{"s":"Letërsi","t":"MATILDA TAFA","c":"lang"},"2":{"s":"Letërsi","t":"MATILDA TAFA","c":"lang"},"3":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"4":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"},"5":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"},"6":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"},"7":null}},"11-E":{"1":{"1":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"2":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"3":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"4":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"5":{"s":"Gjuhë Shqipe","t":"MATILDA TAFA","c":"lang"},"6":{"s":"Gjuhë Shqipe","t":"MATILDA TAFA","c":"lang"},"7":null},"2":{"1":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"},"2":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"},"3":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"4":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"5":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"},"6":{"s":"PPU","t":"MIRJAN RAZA","c":"social"},"7":null},"3":{"1":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"2":{"s":"Matematikë","t":"ANILA DACI","c":"exact"},"3":{"s":"Letërsi","t":"RESMIJE BRAHIMI","c":"lang"},"4":{"s":"Letërsi","t":"RESMIJE BRAHIMI","c":"lang"},"5":{"s":"Filozofi","t":"ILDA GROSHA","c":"social"},"6":{"s":"Filozofi","t":"ILDA GROSHA","c":"social"},"7":null},"4":{"1":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"2":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"3":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"4":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"5":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"},"6":{"s":"Ed. Fizik","t":"ARMEND MURRJA / KLODIANA JASHARI","c":"other"},"7":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"}},"5":{"1":{"s":"TIK","t":"DORINA SELMANI","c":"exact"},"2":{"s":"TIK (zgj.)","t":"DORINA SELMANI","c":"exact"},"3":{"s":"Gjeografi","t":"ELIDA ÇERA","c":"social"},"4":{"s":"Gjeografi","t":"ELIDA ÇERA","c":"social"},"5":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"},"6":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"},"7":null}},"11-F":{"1":{"1":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"2":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"3":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"},"4":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"},"5":{"s":"TIK","t":"DORINA SELMANI","c":"exact"},"6":{"s":"TIK (zgj.)","t":"DORINA SELMANI","c":"exact"},"7":{"s":"PPU","t":"MIRJAN RAZA","c":"social"}},"2":{"1":{"s":"Letërsi","t":"MATILDA TAFA","c":"lang"},"2":{"s":"Letërsi","t":"MATILDA TAFA","c":"lang"},"3":{"s":"Filozofi","t":"ILDA GROSHA","c":"social"},"4":{"s":"Filozofi","t":"ILDA GROSHA","c":"social"},"5":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"},"6":{"s":"Ed. Fizik","t":"ERVIN LLESHI / KLODIANA JASHARI","c":"other"},"7":null},"3":{"1":{"s":"Gjeografi","t":"ELIDA ÇERA","c":"social"},"2":{"s":"Gjeografi","t":"ELIDA ÇERA","c":"social"},"3":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"4":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"5":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"},"6":{"s":"Anglisht","t":"ALBINA SHAHI","c":"lang"},"7":null},"4":{"1":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"2":{"s":"Gjermanisht","t":"OLIGERTA SULA","c":"other"},"3":{"s":"Ed. Fizik","t":"ERVIN LLESHI / KLODIANA JASHARI","c":"other"},"4":{"s":"Ed. Fizik","t":"ERVIN LLESHI / KLODIANA JASHARI","c":"other"},"5":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"6":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"7":null},"5":{"1":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"2":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"3":{"s":"Gjuhë Shqipe","t":"MATILDA TAFA","c":"lang"},"4":{"s":"Gjuhë Shqipe","t":"MATILDA TAFA","c":"lang"},"5":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"6":{"s":"Kimi","t":"EMANUELA HOXHA","c":"exact"},"7":null}},"11-G":{"1":{"1":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"2":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"3":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"4":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"5":{"s":"Gjuhë Shqipe","t":"BUKURIE TUFA","c":"lang"},"6":{"s":"Gjuhë Shqipe","t":"BUKURIE TUFA","c":"lang"},"7":null},"2":{"1":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"2":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"3":{"s":"Kimi","t":"GJUZIANA HOXHA","c":"exact"},"4":{"s":"Kimi","t":"GJUZIANA HOXHA","c":"exact"},"5":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"6":{"s":"PPU","t":"BELIZA TOMÇINI","c":"social"},"7":null},"3":{"1":{"s":"TIK","t":"DORINA SELMANI","c":"exact"},"2":{"s":"TIK (zgj.)","t":"DORINA SELMANI","c":"exact"},"3":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"},"4":{"s":"Histori","t":"ESMERALDA LUSHA","c":"social"},"5":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"6":{"s":"Fizikë","t":"ROVENA KIÇI","c":"exact"},"7":null},"4":{"1":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"2":{"s":"Matematikë","t":"RABAXHAN PILAFI","c":"exact"},"3":{"s":"Arte","t":"BUKURIE TUFA","c":"other"},"4":{"s":"Arte","t":"BUKURIE TUFA","c":"other"},"5":{"s":"Gjeografi","t":"ELIDA ÇERA","c":"social"},"6":{"s":"Gjeografi","t":"ELIDA ÇERA","c":"social"},"7":{"s":"Ed. Fizik","t":"ARMEND MURRJA / ERVIN LLESHI","c":"other"}},"5":{"1":{"s":"Ed. Fizik","t":"ARMEND MURRJA / ERVIN LLESHI","c":"other"},"2":{"s":"Ed. Fizik","t":"ARMEND MURRJA / ERVIN LLESHI","c":"other"},"3":{"s":"Letërsi","t":"BUKURIE TUFA","c":"lang"},"4":{"s":"Letërsi","t":"BUKURIE TUFA","c":"lang"},"5":{"s":"Filozofi","t":"ENADA HODA","c":"social"},"6":{"s":"Filozofi","t":"ENADA HODA","c":"social"},"7":null}},"12-A":{"1":{"1":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"},"2":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"},"3":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"4":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"5":{"s":"Psikologji","t":"ENADA HODA","c":"other"},"6":{"s":"Psikologji","t":"ENADA HODA","c":"other"},"7":null},"2":{"1":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"2":{"s":"Histori","t":"PREMTIM SHEHI","c":"social"},"3":{"s":"Histori","t":"PREMTIM SHEHI","c":"social"},"4":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"5":{"s":"Letërsi","t":"TENEDA TOÇI","c":"lang"},"6":{"s":"Letërsi","t":"TENEDA TOÇI","c":"lang"},"7":{"s":"Ed. Fizik","t":"MIRJAN RAZA / RIZA CIBAKU","c":"other"}},"3":{"1":{"s":"Sociologji","t":"ILDA GROSHA","c":"social"},"2":{"s":"Sociologji","t":"ILDA GROSHA","c":"social"},"3":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"4":{"s":"Matematikë","t":"DENIS LAMULLARI","c":"exact"},"5":{"s":"Ed. Fizik","t":"MIRJAN RAZA / RIZA CIBAKU","c":"other"},"6":{"s":"Ed. Fizik","t":"MIRJAN RAZA / RIZA CIBAKU","c":"other"},"7":null},"4":{"1":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"},"2":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"},"3":{"s":"Gjuhë Shqipe","t":"TENEDA TOÇI","c":"lang"},"4":{"s":"Gjuhë Shqipe","t":"TENEDA TOÇI","c":"lang"},"5":{"s":"Histori","t":"PREMTIM SHEHI","c":"social"},"6":{"s":"Histori","t":"PREMTIM SHEHI","c":"social"},"7":{"s":"Kompania e Nxënësve","t":"ILDA GROSHA","c":"other"}},"5":{"1":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"2":{"s":"Anglisht","t":"BELIZA TOMÇINI","c":"lang"},"3":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"4":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"5":{"s":"Letërsi (zgj.)","t":"JURIDA ZEBI","c":"lang"},"6":{"s":"Letërsi (zgj.)","t":"JURIDA ZEBI","c":"lang"},"7":null}},"12-B":{"1":{"1":{"s":"Histori","t":"DALLANDYSHE ZHUKA","c":"social"},"2":{"s":"Histori","t":"DALLANDYSHE ZHUKA","c":"social"},"3":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"},"4":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"},"5":{"s":"Letërsi","t":"TENEDA TOÇI","c":"lang"},"6":{"s":"Letërsi","t":"TENEDA TOÇI","c":"lang"},"7":null},"2":{"1":{"s":"Matematikë","t":"ROALDA DOMAZETI","c":"exact"},"2":{"s":"Matematikë","t":"ROALDA DOMAZETI","c":"exact"},"3":{"s":"Gjuhë Shqipe","t":"TENEDA TOÇI","c":"lang"},"4":{"s":"Gjuhë Shqipe","t":"TENEDA TOÇI","c":"lang"},"5":{"s":"Ed. Fizik","t":"MIRJAN RAZA / YLBER MUÇA","c":"other"},"6":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"7":{"s":"Kompania e Nxënësve","t":"ILDA GROSHA","c":"other"}},"3":{"1":{"s":"Matematikë","t":"ROALDA DOMAZETI","c":"exact"},"2":{"s":"Matematikë","t":"ROALDA DOMAZETI","c":"exact"},"3":{"s":"Histori","t":"DALLANDYSHE ZHUKA","c":"social"},"4":{"s":"Histori","t":"DALLANDYSHE ZHUKA","c":"social"},"5":{"s":"Letërsi (zgj.)","t":"JURIDA ZEBI","c":"lang"},"6":{"s":"Letërsi (zgj.)","t":"JURIDA ZEBI","c":"lang"},"7":null},"4":{"1":{"s":"Ed. Fizik","t":"MIRJAN RAZA / YLBER MUÇA","c":"other"},"2":{"s":"Ed. Fizik","t":"MIRJAN RAZA / YLBER MUÇA","c":"other"},"3":{"s":"Anglisht","t":"ARMELDA ISKURTI","c":"lang"},"4":{"s":"Sociologji","t":"ILDA GROSHA","c":"social"},"5":{"s":"Sociologji","t":"ILDA GROSHA","c":"social"},"6":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"},"7":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"}},"5":{"1":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"2":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"3":{"s":"Psikologji","t":"ENADA HODA","c":"other"},"4":{"s":"Psikologji","t":"ENADA HODA","c":"other"},"5":{"s":"Anglisht","t":"ARMELDA ISKURTI","c":"lang"},"6":{"s":"Anglisht","t":"ARMELDA ISKURTI","c":"lang"},"7":null}},"12-C":{"1":{"1":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"2":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"3":{"s":"Ed. Fizik","t":"BEXHET HYSA / ERVIN LLESHI","c":"other"},"4":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"5":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"6":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"7":null},"2":{"1":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"2":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"3":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"4":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"5":{"s":"Letërsi","t":"EDLIRA KALOSHI","c":"lang"},"6":{"s":"Letërsi","t":"EDLIRA KALOSHI","c":"lang"},"7":{"s":"Kompania e Nxënësve","t":"MARINGLENA SELAMI","c":"other"}},"3":{"1":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"2":{"s":"Biologji","t":"VALBONA MUÇA","c":"other"},"3":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"4":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"5":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"6":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"7":null},"4":{"1":{"s":"Matematikë","t":"SADIN TOLA","c":"exact"},"2":{"s":"Matematikë","t":"SADIN TOLA","c":"exact"},"3":{"s":"Gjuhë Shqipe","t":"EDLIRA KALOSHI","c":"lang"},"4":{"s":"Gjuhë Shqipe","t":"EDLIRA KALOSHI","c":"lang"},"5":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"6":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"7":{"s":"Anglisht","t":"NERTILA HYSA","c":"lang"}},"5":{"1":{"s":"Anglisht","t":"NERTILA HYSA","c":"lang"},"2":{"s":"Anglisht","t":"NERTILA HYSA","c":"lang"},"3":{"s":"Matematikë","t":"SADIN TOLA","c":"exact"},"4":{"s":"Matematikë","t":"SADIN TOLA","c":"exact"},"5":{"s":"Ed. Fizik","t":"BEXHET HYSA / ERVIN LLESHI","c":"other"},"6":{"s":"Ed. Fizik","t":"BEXHET HYSA / ERVIN LLESHI","c":"other"},"7":null}},"12-D":{"1":{"1":{"s":"Ed. Fizik","t":"ERVIN LLESHI / YLBER MUÇA","c":"other"},"2":{"s":"Ed. Fizik","t":"ERVIN LLESHI / YLBER MUÇA","c":"other"},"3":{"s":"Letërsi","t":"EDLIRA KALOSHI","c":"lang"},"4":{"s":"Letërsi","t":"EDLIRA KALOSHI","c":"lang"},"5":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"6":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"7":null},"2":{"1":{"s":"Matematikë","t":"SADIN TOLA","c":"exact"},"2":{"s":"Matematikë","t":"SADIN TOLA","c":"exact"},"3":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"4":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"5":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"6":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"7":{"s":"Ed. Fizik","t":"ERVIN LLESHI / YLBER MUÇA","c":"other"}},"3":{"1":{"s":"Anglisht","t":"NERTILA HYSA","c":"lang"},"2":{"s":"Anglisht","t":"NERTILA HYSA","c":"lang"},"3":{"s":"Gjuhë Shqipe","t":"EDLIRA KALOSHI","c":"lang"},"4":{"s":"Gjuhë Shqipe","t":"EDLIRA KALOSHI","c":"lang"},"5":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"6":{"s":"Biologji","t":"DIANA HOXHA","c":"other"},"7":null},"4":{"1":{"s":"Anglisht","t":"NERTILA HYSA","c":"lang"},"2":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"3":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"4":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"5":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"6":{"s":"Kompania e Nxënësve","t":"ILDA GROSHA","c":"other"},"7":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"}},"5":{"1":{"s":"Matematikë","t":"SADIN TOLA","c":"exact"},"2":{"s":"Matematikë","t":"SADIN TOLA","c":"exact"},"3":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"4":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"5":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"6":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"7":null}},"12-E":{"1":{"1":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"2":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"3":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"4":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"5":{"s":"Ekonomi","t":"ILDA GROSHA","c":"social"},"6":{"s":"Ekonomi","t":"ILDA GROSHA","c":"social"},"7":null},"2":{"1":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"2":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"3":{"s":"Ed. Fizik","t":"MIRJAN RAZA / YLBER MUÇA","c":"other"},"4":{"s":"Ed. Fizik","t":"MIRJAN RAZA / YLBER MUÇA","c":"other"},"5":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"6":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"7":null},"3":{"1":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"2":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"3":{"s":"Anglisht","t":"NERTILA HYSA","c":"lang"},"4":{"s":"Ekonomi","t":"ILDA GROSHA","c":"social"},"5":{"s":"Gjuhë Shqipe","t":"EDLIRA KALOSHI","c":"lang"},"6":{"s":"Gjuhë Shqipe","t":"EDLIRA KALOSHI","c":"lang"},"7":{"s":"Ed. Fizik","t":"MIRJAN RAZA / YLBER MUÇA","c":"other"}},"4":{"1":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"2":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"3":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"4":{"s":"Fizikë","t":"BLERIM LAZIMI","c":"exact"},"5":{"s":"Anglisht","t":"NERTILA HYSA","c":"lang"},"6":{"s":"Anglisht","t":"NERTILA HYSA","c":"lang"},"7":{"s":"Kompania e Nxënësve","t":"MARINGLENA SELAMI","c":"other"}},"5":{"1":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"2":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"3":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"4":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"5":{"s":"Letërsi","t":"EDLIRA KALOSHI","c":"lang"},"6":{"s":"Letërsi","t":"EDLIRA KALOSHI","c":"lang"},"7":null}},"12-F":{"1":{"1":{"s":"Letërsi (zgj.)","t":"JURIDA ZEBI","c":"lang"},"2":{"s":"Letërsi (zgj.)","t":"JURIDA ZEBI","c":"lang"},"3":{"s":"Histori","t":"PREMTIM SHEHI","c":"social"},"4":{"s":"Histori","t":"PREMTIM SHEHI","c":"social"},"5":{"s":"Anglisht","t":"ARMELDA ISKURTI","c":"lang"},"6":{"s":"Anglisht","t":"ARMELDA ISKURTI","c":"lang"},"7":null},"2":{"1":{"s":"Sociologji","t":"ILDA GROSHA","c":"social"},"2":{"s":"Sociologji","t":"ILDA GROSHA","c":"social"},"3":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"},"4":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"},"5":{"s":"Anglisht","t":"ARMELDA ISKURTI","c":"lang"},"6":{"s":"Histori","t":"PREMTIM SHEHI","c":"social"},"7":{"s":"Histori","t":"PREMTIM SHEHI","c":"social"}},"3":{"1":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"2":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"3":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"4":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"5":{"s":"Psikologji","t":"ENADA HODA","c":"other"},"6":{"s":"Psikologji","t":"ENADA HODA","c":"other"},"7":null},"4":{"1":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"2":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"3":{"s":"Ed. Fizik","t":"MIRJAN RAZA / RIZA CIBAKU","c":"other"},"4":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"5":{"s":"Letërsi","t":"ELIDA RUÇI","c":"lang"},"6":{"s":"Letërsi","t":"ELIDA RUÇI","c":"lang"},"7":{"s":"Kompania e Nxënësve","t":"ETLEVA TAFA","c":"other"}},"5":{"1":{"s":"Ed. Fizik","t":"MIRJAN RAZA / RIZA CIBAKU","c":"other"},"2":{"s":"Ed. Fizik","t":"MIRJAN RAZA / RIZA CIBAKU","c":"other"},"3":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"},"4":{"s":"Gjeografi","t":"VALBONA VRANEZI","c":"social"},"5":{"s":"Gjuhë Shqipe","t":"ELIDA RUÇI","c":"lang"},"6":{"s":"Gjuhë Shqipe","t":"ELIDA RUÇI","c":"lang"},"7":null}},"12-G":{"1":{"1":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"2":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"3":{"s":"Letërsi","t":"ELIDA RUÇI","c":"lang"},"4":{"s":"Letërsi","t":"ELIDA RUÇI","c":"lang"},"5":{"s":"Ed. Fizik","t":"MIRJAN RAZA / YLBER MUÇA","c":"other"},"6":{"s":"Kompania e Nxënësve","t":"DALLANDYSHE ZHUKA","c":"other"},"7":null},"2":{"1":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"2":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"3":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"4":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"5":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"6":{"s":"Anglisht","t":"ARMELDA ISKURTI","c":"lang"},"7":{"s":"Anglisht","t":"ARMELDA ISKURTI","c":"lang"}},"3":{"1":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"2":{"s":"Ekonomi","t":"LILJANA SADIKAJ","c":"social"},"3":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"4":{"s":"Biologji","t":"DONALDA VRANIÇI","c":"other"},"5":{"s":"Gjuhë Shqipe","t":"ELIDA RUÇI","c":"lang"},"6":{"s":"Gjuhë Shqipe","t":"ELIDA RUÇI","c":"lang"},"7":null},"4":{"1":{"s":"Anglisht","t":"ARMELDA ISKURTI","c":"lang"},"2":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"3":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"4":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"5":{"s":"Matematikë","t":"ALI NESIMI","c":"exact"},"6":{"s":"Ed. Fizik","t":"MIRJAN RAZA / YLBER MUÇA","c":"other"},"7":{"s":"Ed. Fizik","t":"MIRJAN RAZA / YLBER MUÇA","c":"other"}},"5":{"1":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"2":{"s":"TIK","t":"XHOANA CERJANI","c":"exact"},"3":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"4":{"s":"Fizikë","t":"RIFAN ZHUZHI","c":"exact"},"5":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"6":{"s":"Kimi","t":"LORENCA KARASANI","c":"exact"},"7":null}}};
+let TEACHER_DATA = {};
+const TEACHER_ENC = {"ALBINA SHAHI":{"s":"5+efejIdSwi17im2b+7h8w==","i":"ddrRt1Lc7CGMnHQ8","c":"4Zd7cUAiwF38Mkp49w5fwIH83rvFCfrQwzRFDdGKjmCLMq7IKSoRERB4j2e/qaI6lfSoTuD3vZPD7HUyOeejw6ob/vBQJX8ZYkn1YqMF7f+nszLh+ielLJ6/uA7JTBAgjPFuUKZ7FiqpYXUtCgJllNQyVtUvvoKgVaCn4ld1FFZQe3TEXFbXDzJfVSZSj0IeIkun1sIYsKFgE7jlknq7K/CPapPHYwmdThxquGWytq3K3BNbNIsQOCg4XraDJ3acjrEaCq+y8ITb74arppU65TSbE7pnkKDHL2+72AJfU/8R443ox21Jiz21SGvZXb1XuTuaxFgDylm1XOUlsoP12cYETY7VauPZFSUsAZon4NSKmnlb6yfpkUBY/VLFMZe46xo160uyKIQr/xn8MGjC9iGRcqqd+48FnYa5vIxQgsGGvOPA+S4JLgZVqzU2tQJpoFM0CQEbl7Gi5Mt6gpZGWwpAylBDGBP3pz7WUI2mOgRbyTZf9C1wmnxify6p+PQlWLT0suHWC1VpatRSzX8+2MkPEKAB5MuxcEYTJNrA+wLVgA4fynXUM9P9PvNV6hv1jkIvalfjBcdj6Uia1IRJnwNgWhPPGLQ65zSjnT8cCG3eYzLW2HKB2MZ0jPlkf9qLHMgMxNrsBh2QBLFH3l0k747K/6LtFihlC6g9MNbImsALEVMuhWlQpRIS+R/wD6FUfmfjB3e0zeT9c2VY0/hDf8BTvXh7ITjPnhFXEzfc943LyVteOWCB2evdC5oqjjvPcyl8ucP9o6YeujFKglYBBsoiupO0GjMDYVxKsfslEVDBw3FwXNsS1e4NgVmIJaDyXBnepVovqGUVzUjDm7toESbpsAIYeZwuSUxlBC5hthMqryN9wEoK6O6YOe4qPTFp2jkfKiEoHr8D+zdk4Sz36+SRjBo7YMgV5nWT8Zr2AOf5RzoC7LKpdEjHTf13FMAwFaIz03/z/KeYAD+RpBptjdLO82rYfady/gvH5YT8nyy1uFlUOHvFae8wiKcXhLo1HI8ZxN115RV8D2xLqj4="},"ALI NESIMI":{"s":"QOacy/UPck1QP432Aq4eJQ==","i":"EX/kmrQDO0Zyt706","c":"AYP8CikF44jdtbHR0zpxZ1Jb0uKTAO0ARNOoy+ed4A9ytCayQz8eZ4ZjFinSTZ7R7qhnhcvcXQkGMHSKvYVfcuVtPTPtVvrQPx7l7DE4NVgXF99Ey2VNlAEZ8zszXnLsF3801LTQN5PjaG1LxEwmOCxtOKFuXQB3WN/5AfeCNTXvK+LjGOYu/pZ64453fOmAEHPBKJXXHFhTGV5Ylhf5WeLl1BLWZcQIMBHBmlfg1uq6JpAmebs09FiwrM+HdQOlyJunn7F/lZ2HK3OK2hcs+jEuH1Y1jUnCg2CsFuvzl5vwYtFNCF4O1GsAb3Cw34i7Vu1y6wg+rW5L0ueZup03eveqNkiRBqvfyt5IIgGTNqV91JOoaS0XEUNZT3s0ecMk1ZD+mDAjGGDw5dQYvJNFVA+8/XMWZZJ61iPhIm9EKHQX9jOTFuZGhkO1yLqpHNLx/ljLxGNYjsZ2rtQ3z22j1ytOtGQLuEVhZD0I/Ywb+8pRwlHg+soE3R2d0UOQHGInNBTAPWKGlnqevIL7AqzMu2T0kBx1kA01RY54TblAkfSXuyOFfIVr2GPjUdj/5MHJ8CwXAcLJlwQjlXYHFwy6GjHCpAtT43McMEyKFD53dy8e9jAXGC5LdIIUq4+GJDiiBjvFaRhbuwuhCnHfE62unvHwItscIvZ4BGLMy5H+twXquyIKcrDbunDHGVuyu2HmE5OCHnZi/r//XyJlufpu/66ZFXUHdtI2Vw12ryuAyEnkgWHYEq+3NLlfk1SqgRo8e8Jf19bSxKJb5gyXDoDBqSqVCMHl9iDHXfCgRNcS0NnL3EKd6PvVx5ZIRWotInDrWoAy6U2Egq/TiB9NUhbR/rJOHMlOeVsBSEjDgB16bZii9TVAGP0c3nwgQDhQW5n0dCTp0IWuOxFMRanQ4Xoi9BsBVN4CxWNokWfo0OBhsz2mAtD6siht5/LubEkWXclxIzsjU+ZRuqsF63h3kGYY9FE923AkoN0jnide8hX/M5Mx+IjOR3SrsR3jinVdbTMqCUdG2DB3FIddqrcpFXqjQr7hfUi0aazJ6oYWS3kxSba5lS6wfjFwLobAd2uuapKY7KyV+RLLO0QaCQDEfh0="},"ANILA DACI":{"s":"AraA5+Q0q4rr95nAH8pqnw==","i":"PftUg+Gn5gDEuQ/U","c":"ozeeKtJQxe0u5ua4u7pd4L1Mois2AjBb/rpKfc79CzPqFIr8pB158tT+tmcbHrJMsa8W5yHirjA4KnmdeyKKFi2hcfKetVzL2eo6mg8UMR9LwcbZUQT4KaVl3lYad6CThjqT5GDlnZ73G6IbwHrdbkM2hiPvT8x7pCWY+nDDKylsimJQNDFgTcB8zXCQQdB0woZ9/ToAGlNbMX9tMP/GbTjrG8tYpMXwYM71wM6x96nPBcjJq4ggYbcNTW/HXaoZG2BK8qTbOiNkJ3kDVNWASd5lelg5RLry/aqa3d7Hv356zJ0ZMLdSJd/lfhajsBZc6tofUNnWfINgCuErHOUKAibXeVOOZkhNRnYbrjUOoRhoU1XIiK7N/kNSmcv9NX2Qt1IKP02gOdUPGaP/WmhpnnZSSWpewIai2F/rIDQ/N3b/8iFzcX4VTyK9ALz9RCCV1bzRs2WjsMmN4X71KbH84mZUXVqt/1NXk/TIMmuYnouZK5F+l4E0P2DD/ni+tVxDqzC4ZHfD1arHjavMku7dl6MSt3b5BpN1tabrQSQ86mAL2kUrBzc2ktZ/28Yy0KlDkd9dk0EJyCP4aAxBO4H+o8nj+WuqKX+gjg/erjwtOzKgD8+/sL99Jtk0wAzbSjuIcfdoBO48lhlOAy5zqrm55X+M0ZkL3dG8t/uk3c/3sWXx8e5cACUSKfjiOrFNOXnVFHOXJpxjSXBzDceqXAOFotVl/oYuwQw0J5+WIwgfhFS70HOBX/rRIXVrXnOTTVLYBi4+meQRvT7IyMEXenF1VCwcGzaGwqaTb1aEE3UwigH1PrNvuhZEJ31UUgg0GHd3iVnw45ngE2YBgd9ImiN6q473T17SyX0ZTf7hWlOvoVjQYzBZdrT247L32o4qZ7+WIR3M+W0zOjNmDP2MXuPrqJXUqsmXMNnRVdTz08EaZIhj5t/K82bnm3FH6PnDv/CYf/3YB7Esk5avX1/KaMw/++YIVN4ILY1LBQu7/un/i1h0z8v3wW10KYYMNYIvEGXOHd8DRKZUt4Zp3sGM0iQkLRtw7NEodg1WjSmMSJMvA0vvCE4ST2VleC1p/GT5U9EaI6FF8oaLx3lFQh0DOqhlKlytec7o4kXC87zioZIo4l0E1ximDsNA7YTdlOoj8kvQB7T23OBSVWSXUZsBibY7KAVUFq3TDhmmZcU9u/4nOqzavoYGYlcHbJPs7kQqC3XR0OMJWfDSpZjMU7n8cob7+SocsEVWhAzFigZ6xqneVdfCqjiO5tRIy1MS87JDrKxVQOZYWCiK6EEqFl8qVy6mTgP8+ZWFE7JEzh8TMLknG1hek/LLpyrlFljY+GYTu4fT7T/pE//0ugUwNQ/OvCfhrCgaPYminuwJafThwzlE8uGt+iTrqzg0pQ9Sy1z0dkXjQrTTIHf04ywfQQQMrGoSPyoxqRTQGG0e/osE8BqYymOIMS70ZBRO+EvJ/e3S/olOL6qXHSgjzqbAudiTfGLewB4TcbLExHCGOhw88vB5d9CcdMK3o30="},"ARMELDA ISKURTI":{"s":"1zR9NwxzIb6GY0A5++2mgQ==","i":"sXKIwh79/CYFlrnD","c":"N3BF7agbYG3hHKHHbF3V85BO4CfkPty4CLaGxtQ1Qspk/Q3ozrLTEHLreHXxK9GnAzAXCCVC89Da8K3baUcWi1i8eEjfE1peP2Pqh8W9tEuRMOXY3urvhgM0xuyQxaf0YAQRev815FdpDSO4Zhs39/OHydXseowQEqxtkkdDqCrjeZg5KzsYOreIpPfyJUU7g+NCKTOjUZcMCakHMy+bkuhFMXCJ4gXTPdzyzKF1pMOk/RUzqwsDWG+pODsC8z/UuyjnUEc7mZ4fVke9Ohm8QSRS656sIFOEM/S7pF1wvwwYnaKY4OdvjzjWG72ilBytUoUQCFy4zSeUJdDtes+3PF2QiGg6gt57wKCZb0dCG5rUSGO3AtOj5YFThENb3mzhTHAbrERhVEUOT3i/wUk/fTpjEsFLRtqwxZWwyQughj5JUk1Ok1tVZgu1fg6/9f80iAKmcurtLV2RCEubu9RPWvikytj3ozxqiaXRwi5rTI4CCWo/C08nlabUXWb85EhnFPEsSAG2XffjJzV20cLqd8Bfxpp8pf0glefwJbokD2hpATBBNCG+rofnQO9ckLE7ZPZAgHWDWAt3SueVlzLlMajL4Db+7Xa1SHakEQgrY5xZ0srkdyGQcq72U6Ndq7LkaK01E37g2/Fw4xtcMo7sqK1KMzkpHv8mDJiFFk0MU8mhym4tAJqOc5mTfrD0Uk1VECH6EhayKp7N7Yhf3BnJLr7zm8LZFi7Oub/uGNfto6hqTy3EaZbsJ0WYt0k2Jprl13jp+4IY5ay/mIm87Eh/OGVCSR5ETuqQSDh/QNPgFK0CqOPIXtdBx9bMGN+S2U+G4LJUZq2WIOWnIelKmQ7VgEFUHNsR/lYbD2om3TV9L+QCiDdAGohpRLxj4ElX1dkhhSdD8C0="},"ARMEND MURRJA":{"s":"CcI5mNe+sTSt9IZ2Az9NZg==","i":"iP9E8jpa8gfTcxRj","c":"A64xcvxwHBYqiS8/dPuWHqNzoBXvcJ0ITGoeM1lIS4mrC3TdOa0PkSgSg8DqYjoRRH9CgLe1PT672dgqFmaX+majMKf5DnIRBmlFnQp7mwT0vhEKB2LRJi4BeTxL3a3sIGV5fAUFUAfq2OgY7gjM7oR+u8kEWXMk+WgvBsQxUOquJlZr9nM5XK1fttaN0gqE46X0HPTNCpVnDpUdlJ2k8Fbd8NCEWGUMgQN54TKCVq6rHvZhRZKL7GENFFfgq+JVIFgt2pim+pyx84LBa9bMajVJ6IbSWftWDunZXa2lmISurgUWvPuBWkx7iLIJiwSUDohKrjfg/Rg9MZuXohxC6iRj+eUjPuHtroLPoWpM7eY3UhQiqliav/+IjJ8mIVRO/vjZDm0uf84XynZCKO5iqfrqp8cSDMymVCF8FotAKHtvKXi0qVN/yTYeajGR9n6QPYa6jGQgRL81jPCXA9MtFu0gpc0ggV5W1J9s0MVGAOT8Y6X/AEURIvqLMfn4SjQSl5J2LMx0w6g8i5l1UVYidUBhu3BGojO3Own8sAJEr5msYllLQmyVANMvK+SwYJkEt0vNt2NMB0CQEy2BzoYROdNWfXRncVdDHQcKJ5QpZKbYCtH+8wstAPSLh/H2y3fEDNTb+XZL1rJ66zQHlhhlcU1xqD4kDScp6PO9VZFmsQ1ltixvairzaAvQCFtLIxiAl+IhnJN7z8pHXg48X5yk1DA2GeR7Z6hegC0lcKRqvfl6Vu0HonSpFZoW5Ah0Coopu+iIuu50vcBPIFI+LUAShetMJNNQtYjhG+l43989QTc5IKo+WHxQj/XFUXKvRibPYuJc6ik2SRCGdpssWk9x4mwdHodMutgYY4P7cOMaeobs0HAb6kn0L1N8ArgzCwDOiiSvh84WrSKqDY55TeS9yMPse1g824T8Y22J9wPF2FjdJ89KUfDQ2wnua7RaV5PXpmQOtUaBOXhOyqCxjMtacHWHOXyT5P4kJ05OCD408XQuF6M7/XnkhHJ01067TJ2mjYYboE1GpMqpYxVti4ScHk8g1v9Ll/o2C8qWg5u7hbb4QxZRF4fg4kyEpnaDXea5xPS9544IAIuPSez2M091DMON7HcfFWbuKl4LhPDQ3YJB/9ZtBVHHtTDvMb0LKUGpion7ATzplDUf5Eekxhjc12uyN4Y1Mv5/J7btks04a4AvtSwEgEOJzrcArS9aA9PKF5v7aIobh/Bj30Wuiza6TKHafnCzmML+Cb91frDCd7h/U2tHsNtRmRd5H8TrZgHGDq9VlsLpflzC0q4QujoWxEk2aDnML0SgztKA2rAOwDtwd+B6JLlJW4r+GZY4Yi/rHhF35tg6Iy4z0xTClN0JZcq//Zw="},"BELIZA TOMÇINI":{"s":"io27RFtmvZJ5uBhkj2P9Mg==","i":"6FzsDau5LtnKUp4N","c":"AjyX7peSNzSsp6pJ51P0aijQFvfJ0C5orYrRrZ75xV4bo+6Zg36Jnq7A1CNOPzOCibz1CefxiV9wU6sy1JYVOufCbC0GzVhQRXjf9IasW/AhphSiqqV6bVeHpIMyoO/7LFwJLCljFsZ9jv56+RPNYCoLEblHltQs1oj7ogO6u1g/tJ7nbq0npzt1Sff1AnYXMfVLlH7+OuKMyixulzVlQx6kJOGOnh8b7xKJ8pHnU0Rod3VgdRo8Onc42t7DH5cF3AO7sDSKaCocOE/+uEoYm+tH9eyOVEyVfPfEpUy0o5zCu++oS4iB9Nsrg/1jz11wwghhzFXC1WcYhSiPn5ZN/jbrHvri2e7L6qHNLnzNqEfUZ1yi4jFZeJJ1J0CfnYxQh16zPNKZPF7KlFFSk0SCqRqfm1DPp1BpyzG5ExwnQBu9OQy5smvN5EUTosDSOjtwZDixgY0OnKhwyYYGSRd+c+91EArXWFf/Spc8zUfNz1VuWqTQakMSeoDeHdn3vHiMhQqCrOhogj9UyGkWe5tATD8+PNveVp0K2XnD3wROso27lk8VvyBv8v3lZGfm+g5RJwPNPLApshb+kuNv3VLRVSkcQnwt2ddpMJx1f+6oTyIEWdX7r1mp79Tczq0vW1DvLSxz8lRQJsx+emSfNoyfKQFQWqtHl23JFutO4Fm1HXCi/1m2ycfmbclzKyIuzZndDf5t453foG8ecJMkFYfB42TMhCFq4EdgSdsySXy5EAqpsSG9tHMC9zemWqIEOXfB05ngEmjccyVohEChW+c5/yhJR+Bdy696PwjxVC5poIdoGUhpWSKT6x3qmoALlG+TokT/9btwiNdf2Bsx1qY9BhO4sdRCzC2v8lIF0lCn4GQRLhyoyP/Fi9GzwRo9dwsrOZVTW30xpVAIkMi/JMl7ko06zDNw04Jn+w2kKIowciaJBLF8vTQBMNIlmfC22ODre38sNW0onQI3ZVKxpc2KAcr0/YSZqvT5gzbQyHgZpS4xqzMPbl/SWP18vpeIeMi7NY1qhcUAGQSCANX94MG16DDrXbM1CSrE0+XFkS9nPO1GABBElarW7eDCmBuBWRfJ6p0NfqHbIbLBbtJ2h9NZWjuL3b//TjmX85umfmPoj7VakFOIrzElWFVPrGsLB0QhX2pYya/0PGbwfGuIJj9FdIYYulssemxnLLpULZWSoqoazla2b4mpp305hPm0Xw+C0zGr2kw14wTUF+PJCAmVG+z6+aZNl3/XpJQwEn9pUZa/PWzilITT"},"BESJAN MUÇA":{"s":"6DwOZPalgf8tpUVS+aOALg==","i":"8kGADWNx0Nwz3LzU","c":"cH3ZOgV9unZ23/DZNeziTKgKnOsso3NMo5vaFPchh20whyi3BwRF/ZcnBYBxuEc1UipSPKAC9wYl9xmNGWsvuwlgps9QckK65hNQgX9ytZQ9B8oYbMTwbke08vjLM6lyrRS19G96wcXRaXiZxmabB0S4+RA2gMcV6Jq75wkQVllA3So77BUFXoaf/vcvOJVj8Rx02dn8LTxwYZt9OJhuhbYcRnlwfb8L6TQhRgCEkjhcMit6RoOu3LnlzzJ/deQNJLLeM7IsXxasoIsEMgePD6xBsznyk9IZYzwUt+NhyH6WR5Wmm4xgzzLmqtRmpPV2NclvMktV0UFvcyoQ6Wr0kxKARn8Y/vbJp6MNq6FaD/E5YQk3/ewk85wX8HJI7c5msDC8cVRKGpjvW5BUB9BADrxeuUfZkQLBqbCNouQX3BOY0ZxBKskhMN7ZuIrBkzrWvoW4SURZkuMrPJWS2SIcpEjggAv6CzY5PWscMvBLsA1IAF6FXY2strfG8nrzqtUT/oIy/uRLT9PeSsSO0+8vaZIX2JGLtNIH6Ximt/z0JmxEWoCUrx8/rrhXlwRcaG5mwFtjcYKqt/RPXVbVHhXToZg51VDXRrkK09zaaEyZrgaIa8JTvuUrv7kQjWnYHR5NKcW/+6ORV7NRjkyEMmKpK9XO4DzUUQQEVRFgbolGY/Ff3OBLseVNlO2Nge0hDcQnAUYcRtTTwMyQE3j8S65CWqs3doPZ3c5wJAnCvxeorWIQ9ENWzs/FylG9ODT6hZ54FVTOyyHht4oZPvMqmd8Jsv6uS+pS3CVxVgcPCUSSvfIIZWwyBQUDiiEjs2cm3BvJ/1DYavn7GsJPseTIGk5On3SRTtZMDonUg4Nfb5KBsruWjJCvSqTf55Xg+7gWfgLcMCQNcIjAeL6S58bOG79PvYJQ5/QRene1pl/VgiC+yEB837z4wsmWDDuPehPo2LycQX7OVXiXyQFRPDD/miByZZ4UrJxc2kpQHmWBwll6UvYHhVUw8fAHAwCZkLmdqaZ52iwDzNU215liF8mhzqHEuWNsIckb4b/0dnuSQPSEaT74YoHq0bRG57HoBz6piTYzfSLOONcSuDa9TMv8PVuLh8fhHbp0pDTrzTnN/toaNWnUOM73GkzoWv8qFAiW5Qbet5T5cjWBEQeaJTKUW1cR6vlrCbm4v/WmQlQCg0jvtXPAgheUrle6+sShvZUYdvJKHmICtSf1ohqXnATo2ObZPVAAgfDSzEBZroBzTI5UdVwHmV+JdIz69afdotcv1WHV0jQb8M4xYAz8yW7HbdKwSmH/DyXIA2dM/RulA3H1SwIDrkuz8dp1MWd1aMlh1J+RXnMnxxmxtQafKo463Ge0IW5YchcUGOzacvWUnTajYH33EriBK5n5JwvtilrP1PdNCEJaVYOrP5eXA7iGsdMQAMdbhyvKrYGz7eKQtA35xdw/HKcSOko6u/0XrdSzY6xI7cMbwgpEgFmM+/VE7xe2bt6iW2bC4RyNzKwA1xPQaU2kOYY="},"BEXHET HYSA":{"s":"T6udQESeeFAjnLu4euIqPw==","i":"P6iS0BmHymK46zbc","c":"pkxpG/aeme88vpCHIgYfC7KmnkT1J4G657+mfO0eP0S1PPpEny0fVvJRfZ9IvcVhS+i5tPhKL38q01gjK/ad3Q+ivxyOXk1EY1WbP9WLJfhaXcVrfUywRjzxjSSxrgIKtRg8qVOaT6/Yshviezp1zSJWf5WEtfWo23eWTd/B1N+Ja3pgcfwcctcMsnuUdNmc4clcrvwvLkrcUr7rcPQZ4clGIuW+EGRJCaetyGc4VOGQDJ/8mAwB9nt2DcEQMorqQh0cT9Gkg4CoB4dfP7qMM2Sc5hqlIKlJKb0t86/OUWCBIddwhxYrWWPHci6XZCqKOZJ4/pbIvzTrN4eXvDEqoDYoIrNMJbntIgtzVTfWBUXhhFLzVsXECsgCOVoOwF0f6YCdtl1mkaaQvzJaN/IEIn5bvVnndEG5XxNybTsyqXefD4mKj//yPzKUfOVSBIuL0dAX2l0nBE5kc47YY0mSHOlduVXikRTeyB+W274f5iIFJehFiHhCfFIrmRDdbrHUsBMzv0o8dIMYhYnOYYH5+LtAb3bmS2/jyVLm9fgA7z3cAev2O7HunhmP+3bCF8EJDsPhD1YHiF3J/X34qU05bUPPAVA0M6YkvacLQAihNMY0I+kK5MafTP8="},"BLERIM LAZIMI":{"s":"66wKs35sRgo4WqqvWwxoFQ==","i":"jsnkf48J3Y9EF4Ji","c":"FvvVq225IFD1YJjnmTL4ZeZnFZXS9mXY0rHYj7538oH+bIybzhDO3LVXg6VTA40vymliyEQC9i58IpEURG89V5QLBUrxK1QVRp7x9qDyxFmap0AclYjlX6gy2cgMXLKR+boVtcgy9Duo5JON7NK50cg0WiFwh/8rRezD3A6uv3HkB7td82dzDTJHubREdaamogVWAIwX51JOiJab6qAr9/oL5jXUjET0UDTcDi/qXQ7B0LCbvC2wtZDMLrSLMYDqQ7J95doGoZYrLAdPdd6yKKqa06etmgQD6lmyUadD4B3XuvB1+fDJLdMq4jd5aCVwR4p3T/FH8NRqwkUh0j2CGY6PfIW1voInBR8JbQ/IuC6ctpm9v+VgMTPiCnb9J0f21TpOzOYNlFf5EjLeIBXyEeB1IFkeKR7gvQQSybScweT8/CR9PnP2fgBdMGHV5J3WdTLsyEM5Je5fIJrbIcT79kC8t/TePgtB9i5o/QeVXXbUE4/dLJZY8tlGj5QA+tRLbDQ5ePyI3r+V5d28hj+bNCY+oKRoMraaOXOmL/tCIqV0jZln0fg3qvXCrqGc+SrzwNGxA99rXRRLx2CZYwIleQdxIKLZVhWJXd0qqYD0EScLLMpK1ct5/gnyKLOUvSCUQlFlB6weWuU6FrEiJQQVa3Sp5ZnDuMNgek9nK397sWaBbj6WNhpGZW58YgHPn47vYbBZaLL15B0V9AeZf3VFzpQa4YRVpXGBnDpGfkP4gbnkL8QQuQu51+tJdoZEoyECTLGsqzLYOekOxuVnZMQyKmDR02eUk+5NT9zflIMdyh7I+8rc04RTOX780xOrk3+6lG3F1fCzLYnnnGN0uej4wIWglCdqmXdKLzivx8VSk0LxAeV+ZQAZW6VSnYZbc+FgOXG/Ei48KeHDZ8S2GmP6hWegz2E7oq/6btKdIz/attuFiEtj4nUR8XCpb+t0bg8lanOhKH2ZZdhYmJnAJb/V5tT3ESosx73XaIQZtr7BU5QaqBXJ3zjODH/BPaeV0+GoEOC9kE8BWgWPNOuX5a398oLESk2T0xAfZ07mLYOJb67fDF5rDWtDw8tgW2r5P8mCo7nkC/PRWNoW3vqBx+y+fF2gkut39Oz7zfc332XLmovinbiPGj8PrF8KPvHCInoaBKasIIuJucX3h1FS3KBlZqT9Cf7oLcqXHeT8IZRcL5TnyFnwDCNZRykcrtFYjBGLIEUpQjaFQhPf0A=="},"BUKURIE TUFA":{"s":"CdA3bgx2V8pZS0Lr3jbxhQ==","i":"jp/83lZJ1yKUlAMM","c":"gadBn+qZaqqidQgMvdNZ3r0lmZiV0oN+vg/jIki6gTGECTq6n5Ih58DrdpL5QqIt0P/fAVt13jZmZDoyJ82xno3hXdQ8lorAucPp2QEhlkk/VnLlYA9lInzYqf3GES5dDK4QBdNf9lIlE2G3PrXM4i2JN8M0M7SSpxH4SG8GjR/W9XvrAPqcW9QYoZzCeCoEQzXC2xJfihT3AkWOXTbwjUd6jmv6bg6QRbTt2t7zsjGIZ0cHS8F5DbagWSDrreQ0sUCC+6KQMytQm7ndrk+/bBywJxzIuVmn2DMGqAevW0TupwVeFib+/3hZqtrC9/5Io/ktKL86wZltmvS1tIs7Ib6FpFVr2NTnFNxZlxyMV9xX408/rtHsm0BSBa1RP2BbuCFbMfRLPLh2Qza6B8wELXjbwTZ8BXArNeN/0KA4IeIsIWe1ENkuvM2XQnh5WfPCSKGKTeMYy9RyN0XYtTOZQF6/ulqEEqcXcJe7t277qau4udq6V28jtgIRJuB9CXvDkm5IyzOPO7ZhmOC3ysetEKVUTQklKGeI+boryeS/kyt7OBSE+JWomMhMZ75ntG1cKyJ3tTgc2S8u8PG7n4sxj2hxr7xLKOPtT9NWrbO+8Q8uDN8SORKYklUzinE1CuDKWTwPoR9yRXzH4MGo49w4HLhY091wf0Dkji0fOzQKWs77qsUp9HI4FzOpIwnkd7v2IbWrNhasCus2GRsF5neevoL8cP7ESwxmsxYa9bS8wKMUnmCfH28dNWVY5bLDF2Z/TNMDEFXHSoCDrfYfLZ/0VijXGVlTNbYevehl/Vi0kmyLav5QPHI8lFsxOxeGqvARm64L+c9qCK/rvb24LuUrEIrFrxKhwIizf1F9gWW5jpaP/uS5NOyAxVbbBko0coWY1S5I6XPog2Qk//Ob6F8OoLu3oI9oLz6twc7ssgmwPawjTDycMffQE1ZvnkcaU4nIO1gpypG9uVpo9OGocIW+zD4o3mqkGDOQKwzSxTNChltwPMiqAmK0AfUMPQJTN/S/a+sReFze/lRk4FkQBqAkeUsmdRTZJYHfptqGZ8be2kIrnbGJ1aEZzKFA9Nb9OXwfWCCp3GomlVi2maH7AHhnSfYTE2eF/g=="},"DALLANDYSHE ZHUKA":{"s":"omwag+hszCBUYVaFNF8k8Q==","i":"PmK1tcgSR+o/l5Px","c":"c0mcQ88X0h542AVc77Oki3kZPpnowy99WpcL0IKNWxvf3YFwc9bdtUV4VlXWlftnnf7Mnh546lcd8uWv4StyKyWh4K+E2YQsEgYc8cDtck3Dp9p3qYF6xVkjIWKiUS5IRZ3vcYdOccR+FupeLsbQQCOcH27sEG0rFQiuulunqg5IEMiay3yyI+5jvCxUWHE9X+2MJqQh7Va4ztFL8scSeOPyySBAgRCmackw8612GgD9yuWOhf+VzWcmlE8EVJDd8x749nCi4diY2caSHVAIYJqG72b3hxEFRXfFNdBmItboUlhY6a1LGlj/89bRKi8dIIIDBvEK6pXTkZ7DWsQa/nxvcXmuyaZ4kSbVDNNhel5ML5j1C/A0yEIh/LtMOnVZesNYgnjsEVp7ZzT9MHngIEM8WZWtx05Ppp9vDY4k1XhRiDOnE5YFFm3YoLF4D3CZwTq4IxEsOJy/KbqTsWT8nc1Y423f0PhVyEtHds10XOEj7VAjuK6zJb6/W1bo34zfS3eQ6/D5LCqJXGVrY2kh6NngiRNRN75/v4BxIuApxF/i9AEjYTz3cywWlTCLJ4xMLur9Mc4RT5JY8MSyrRloLcxMuxchac0IzxsnMdCzptK8KFv61EZlSfieY8kYnttQmGutTk/xAJWZp9cEYlh9pSj0crm1nUPfhC9o520G4OULQSpKt+ZPtCfi+RM0r4petfcm2SL/d87qDiJRGPNVmxoTQdPn8+bpi8gpAfTINls4b2qyripTI1CZb/IwEQbwdUl3sd8gO5WNDmu6+GPc8JRoDuDQQezMXMTfYL/C6NorfgEnvSYU5jlg1xtVWqF5YD1oq5/Vp44m2IoQ3fxWc5lmNssp/ZBMLfujZJPXYFJDv8nj3q82j0fL4b9k9GugAWrMv6ozf20dgCJxTim01EY+tnR8egNXwQrQYCVmrv+uNRxgt7hGmSEGlxUe8j7D2XWt2f/tRnW8ufoZWNXliaOVDTI3mSKFdbgSF4eA5HrpDGyIROZoYJswUu8ebaug3itP0ywCx1OKrg2lPwRP/iCxWmHhOQHcIdNUdsFCdQQE00QvkyJ+2xokhPZmoX5YFgYgzfZ864xpvsLApRxCNGb30pCOsitDYzy7"},"DENIS LAMULLARI":{"s":"ooy4SfADvpP5ecTyCucqHg==","i":"JeYsOxJd7QrBPiEW","c":"AKEfoveVUpB/m7XulhDpdwUa3AIUPtlVgrI7QAttltnfW4cjwkujDjqpW9mhWWbM7t0lJy1S2vsPY/5pWpTxCZVe8JzW1nHkUFV7k2nFLIntdZXhsuAZQ6SBFfr0WF1HmSpdGVZbcIZZ0gb8j5PB5NrGEcNjjNIw+N9lTqgoXEt5UrOfoU6mN82IOd3ah5JWueHdITLL6Mi2fl89kubgvakL6MyYtBJbhhOPhaa2wJKZBqMd8C/etrkorg+VhpxOC1kdOYMjX2RaNIb1LpDL1rztbvWp6b9XlBKdLLJnSCPM1pajWRu0mpW7Ahkz1rvJCwXj2/cQNlSZimECRs1kVhvzQtkazNpYJH81fMbVuK5p82xjJSJDfTP82gEYWOlIt+LFrbngXOb1e2g3Mk7RE8P6H8+l9xaraBV0AZI/6rYr9b7eN2vO/SVW1SaANv19JCLH6dnicOCRZc5QNaHMZmEi1MAnFJuQ9fGjm8NppP26/qkGsadfKLFb/asJM5RFCANcevrJfd7ymVbsQuJ4fcsyMxdPY9hkC+LcoiJ5upfjL6Qg1j97MNa+Kd7xdt5MLptAXJsBAMtAAdrCSA4Fv8KOj7byibC+ZZEZWPZEuGW7o1rV/AUPIh+d9CBMWwT/9bY66ZxkOvA1pNrpvzL1Ycau7+Qveu291Uud3w1G8TZt9C6dnls/HTCwB18YZd7uvrtHeNy7Yh9C+0XzBXWBdwSwCxtrpwoqoKdLl6hzB6R+hnVr27BZmKmqOczCPawbyu5N+AFl6TsnOyRoGXK3vT8U9ZsaWiAJnbBhDIQVOLScBOKSTu5mAMbhZUcTpbX0rbXZ445SQngznV6XJgHEAnrRYzo6oEKAbs3v/oP7tTaC7fIhCpm2EaTDSo8PamV5+ZxwiCm6BsGGdCM/ZLeSOwOyUB8ta05LB83k/ywIDj0wOY5POqLjZcufapHES0qMqzS7ueutx0Izgj2M8g4PiVv498/p0m0/Qwgqv4mXf8cYXM5DslOX2MfLQjynhoB6hTNtfacsi72E5RBC0LhonSA+EBJ7m0YReJdixFk4AvQ6eiEysNNM1SBCQxph5VO7I9e41SC7QZFsANAvX3k49XajRKDhq69XtiJYqffqiQD1I3cJxYoQaQeg8lub2kwetqHei5pY+h9NB2sBf3axg1PTWD5nnDwBXJpH5pVCgGpPL76xH2lsVrfNmapPMDr+AWTYOVKT0QlSS7otb5sMkg7EO4FeEKfrWeKFgN0NQ4BT18X28t5WH4qm1wyG4BBLAzqQDpZg25FL4iZ4q0juC8q/n79Pd/UVRP0="},"DIANA HOXHA":{"s":"KLU1M/pOHuUbJ5mZ/Kl2vA==","i":"B9IeQjfDbd5UBNQj","c":"4WGF6yHotoN20+cfzmjqpJsaVdmpP9vcE+PV0L7aGPQ6wSKPp5vEW8kiGefk3Cd/cpcJ0NITsvdFrimPHJvESMAPrL8fpPKyNcFDPC0FV+n6o4PfBIvak2ekfrC4Gh6SVm7Fx112ayX7cvNd54HNQR2KQUfrwbzOYhP+QwiAo/P2kUtCTnYSJiOfhXa/WctiEZUNtsKZPQ/Ucckf3ThL2LarHWpLgDoA4PSoPBrzF8vOL/xgiI17AcU674FMRMAC7Aq4N6Gd/95cvU4Go6Plc5eCrZzb9loCRXs1ZQlkcU0casU9IwCSDfuBlQMJXZjOYmmU+ILIKlPM4DWSOs7dxEOReNIq8yEXc8Wcthz3we6uD92SThF0axgmC0SPtOiFI5D3sUS4tGcQktc49z/yb37jcXAaktA2HISvFmPzZhzasrBhL7WTREVQgHM0udZVHCgZniWL3CP88lrGU9O6GzjcFuO8CQZHfD7DS/4UlIn/g0VEopi3Sd2/BaRMj0avk4k4Sad/vhYGwuLaYrN8Za2zrIZxV7y7bqm/hqw8hneLEUe8ErqezeA/KeZZs673Wo6TEtJsaVspatTBh1mzWeluXP9l0QWRzBaQS1TOnm2hlhnTqAr80tuNgGVErgASQtX5462QfNCamw3+XghQU3sSjLTt4nflSIEXofbyIzLIhbAWdQcLEJYBq0a+2IsC9Ra31BFtbehL2hwWis772waz8CFEnd2Q5x8ezIbalz1WiP1tGlHD/Ae+NPIG7Xp4C4xaVFh9wWLndsvjIJ8qQF7sO4LrPpI6gFWIaH768jwB2oM545aqoydh/38Zf697RHA1BLNYcz1hVT/joLMQOjLehFt7zB04/E41fBLrBgY2MX+CgFbv+ZsrvRAxsb8qHDOOqxQ8H7QmSd1+OwN4XDn+8QC6S+lXANGmtCxLK5u8TL7hlDe2L9xqM5+vrMV/0bCvUoPKAoCYSdswX1gdcZSzY87prOUK53hY0gHYhiyCfyhQuiXqdDNfq5qEro/3Yy/eTRksCd7ARBkPrvUQa/Q9HBMS0J5iRyxFA9ZBOZaTcK/ccJsSfR6MpJPYDoLGKKkiL0lzt4yImeofsxAuC2t7kwmeMegtgcLs2p9cKnnDO6efl9SpthoqKzGVm5BLAX8imwlaKEp2CRegaRWHjFM4EZIiUuif3jyiIgG/RIUniK7EZFo7XTs8x4xrsOrw9eEnaRsD8pA1CUxgM2W9bKXlvmc39jLRNDg="},"DONALDA VRANIÇI":{"s":"cXMs4PHLLawNGNplNP+HVA==","i":"TG7rcsmAlSLG+21R","c":"QTfjofvfR8KLiylalh5IMQ46Qq+Ox5SFkZ3hGqwZlaCc4HsqXNoDvZO5vTclerxBgx/F0/0BchWEQrDWarCWNY92FEs7iD/CfrQ8uS3PtcwAm84pCtVTuoXCEFNezFee5s+HU6ZGpI8i1Vv4cgSwuxddxHKQ1OU96nE7WY37XmaJRyIl2cPKy+59uXgfTuvOJJmH+GMlQy8ZqQtF3SuPjx/HPUru8bjvzSBwn2OyBLzb/2ATT3rpBLkKxxRulEXkg3ZEd3uVwL6rbol7G9hdINEZN78b8goIZUfIB6gqJhv1E+6ZwWds+xtNXQi31+aROxH/asqzPdPrx3UPKzyzHZAweNFGHD7girbVSFKO2RkMjcbFX6sCkjvTscuAR5Edht2/5r65FO493Gtcs/pWjpTBiq/sm4aUhoqLbpS3mgcWHE3wcPoL/Syq0MoY2YYlZ4v5Tt5TRB1q15awofWSWKI7n0HmLyOR36GV884iZwm+3RI7ixJuNSyxXoqqnH5nE7pRFACZ38GDHy4Jbm0DnMSsXguSvpdCQFgHOoCG0TyAkyRAOwJVAt27ffQJnj71hcWuM0GvTbrydJ7N1bxcubx5XchpQnuzywjhNxHXCs0wxE1P54C44MN4MLu+UpKKmG6Rox8EVL6Grgn4wL7E2U5uDxpelE5R1mzV14GSMqMG6n+rSsyMLnlqZ6KLSiH7UesrvvqYBOsJ4VqRdUKaf70VVYwQgHSCxDPjcJNn+mHbQ7/69C/qx9Ow+H6qrkiGkhDHJuQN7AjIQY5fAAM8Sbozf0Z0nKat2b/Ugol4bGqZGVxnwU5ayyEPVYXKF2GOSOwmfHbK8AQHz2CH7PBHJMAzl5Y7ET+qqwnruXnVVli2b9mkufBk46Hpw4dSrcxNT/3p51mIV9phLTgBje4Cmi1D5g5D/N7O50Jls0BZIsNCv/1SHqXbJ+W0qxt6IZtadEEu3sRqsTm88jpWdfBEJnJYdNZ5660EsUIyK9clknItVjTm7dOVvOv1ARLc3osLzwva+dpPmV8gbWC9YRNk77EGE49KKQrE4QuTmp8+PWwG3O4zZ2MasI72jYELXLC/4gCKc+wJKOU7u5AWkuODaCLj0jokia92emUdnsu/awifa+lhdo6+XgcMhpcUIXvd9iDYEyhCarnwNMwcFcoDDJ1nAJhF+xy4DH2Q5hZFsVqdXybrXqKkVxfqe0sCUXnai5KsRWSNwrwUrFksRG7LukbtwgJI7BjLl/9KE2T3qPfSBwPQRr0RGSD7RAAaJcSUCTisw8tcTDh8wlgOHjjpxQutvmCu7p0RNcLLT7vzeCKqIgVU+kQaoXuNoz2w8CJwHg8="},"DORINA SELMANI":{"s":"6JDE33ucHdp1W4uGGhco0Q==","i":"yyvfRwru/Ocmpcxu","c":"s/Cp/qbpeAjZOiKRrPrnTYmPf/fNTk0+fSU4rKpdSz2Vm9SmwcECheUJgZRj23njk3zmhXO2rHN+Vy9FW2K/GKnQ3OMAR2oZ2SGLm6UXOYBnuaR0unBhUsGgJx8IjDRc6joD28ZsQCCeP8NEL3AhFQfK+SCGdk62W/m4bKNEoSM8WkLOgQzo8KzbYyNjC04WrVCxfgnzBcjiHP8vbeK4/+TpJebJ98oVknj/OhovhBAWiYr3KyWJVXCzOkaJ8lrq5OP8Qkf3JRYh6NuavyeVtgjXCor69jAdJRIxBcmRO75Hg4cuSqcPo99L4mAgGME1/vHhF1clvMdthpuRIRGoypvMxY6x4YJuKUHh1yluvGTYypaSMv0Y/Y/5o1ADYkz7nT8Do2T9/ngQshXn/4kxXEHvVYskjJVJuexJxIxUjsIyrdIVtsLKjAbxChtrWWlAM2s7ZYW/+hUwdVT6cCHA8sPH6/tlUlnAL/6vYA4R2FkKQzh0WwbwuyHmRQIiV2mH6xGdOHo8w0N6prbC0ozdcHl+r6+3kLaVSlj58f/XBbWqfYc9/BckZtTYxsU/Y+clbLIcUM9fHCmvMH6anIhk6BaPm0BYSJrtBXOCxj7to4hdHk6D+QO7gg5oPocmUycAJ1ra2pnW9i10qX1JNa/nmK7svI4IDxDleXMXfkFwIhn5LPFXoc5AvnGuQZqiiFkiuOyfJNJ+hN6S0mieZIDTYjg+JlhZWI0KiMEwbF+fxTrNmuM9WxnsooqGnCZofTtAIy3ZaXWl7qePU56JEEK9tSJqnsYtzAJ2ahRaCSyeqnggW8oc9sONyOmGkJiHut8jjCNAbH7WhZRNPcHaCGv1iwXSOH00PNKYVXmzH0zqyePCEOgK6AferirLdwuTF8ehuBnPhmTFTvlif/bPfZiX1U1a7yCAaaDBvEzELbrAOJD1EMun5B0MtgTg9XDFaFoNwYc0jMe4UYnLt95Eb24kDc8xWY14zYLPNDjJojW3UtoATUkDai9lb7Ohgp1ApNfIlR+vDkke7RqObIdjxMKcDtzgB4UwYh7uku/tXPnZ8kekhjTOJsosJjDZsitKouTeiiRsFJu5AEa7gai2VDd3eg/Bsprf+famWMZBkZVnnSjJCUJURhBhivvj9BswXRcbGX/7I62tR8kyavBs0VRZ"},"DRINI GJECI":{"s":"nSKew4pza+nDmags0cIy1g==","i":"001wbkjtvR3waMbc","c":"o4RZxFOc8Q/hTMPLv7flz7VmAJjwlwj/TF6IJIgnBbBG+h0OvXGnfI763RPl97i7o/d1Hz/nUKVR1oHpSrhaNf6zd2y6VieXYwUp5/D5cW+u+lEmryf4xD6GyhwBw6s5a9semP87S87gcTH7NaIlSx/uZnO2RYFxsECuYsCVAWU03Gg3xcRtx8QEy1biBqIxuRJ+1huIF74dccuYmzo5enljZ7bFivOt/Nq74CsPJUFhndaNUg741u90p4u4w1cCi8QUDcIwxeIOdGWihm2qpnJiBGI3Ayu5FVbfUABXFLNUJgjhnDKPBku90MLU4po4/IJr3C22jWad4jAes/dh20NnISDYdHNGesLGbxVxINHeQOiYXHvZFD1pOOq0q2dyoQZ9I1KyVySnAod5Uem27D4WtE/NmAwF4csDn/v6jihWs4N8xh/5CPW+gPuDnOOl6Y44e7y10Ot304NINgFeBgXk+WorRAKuh59uAteF9NiazCYM8l79FKqrqYSccXbf2Jc77HQFkCI1WVCRhzLJ4oyZgHPmpVIH/o/yAJT97H8SvNHJQY0prr1KsQB7YtbhyUS0FFmG"},"EDLIRA KALOSHI":{"s":"omFX7dYDNwkT2XAHnmtgMw==","i":"/wAldK0xfmaqosbK","c":"nCpB5QRaPTmApytATkhW1SLH6FjQCWXsplek2tg3c8CLnzKB9T1aVinYLAlgDyeYhLzy9l1WPNGwJyDOYkt9fnP2IodQs/VMo+QutKJoPKV8A2Z5xy8LAn4sC5H97OuL1NCrNMJ7lv2hSc5iJ3lpTJ+02qS+oXqyqyR8frJxm1ng+LVL4gZSa+UCCeR+hIWXxHsTtDv1Eahh6x38JKgxuuxx2OFQHM7pns4QF5qTP+O2cxGN0jhEZGqy1z65bGqlpO0pfxVKDTOkKb6ta7K38EKghhS3dCpcxlreYvoeZzkIdVD8eqy3kfqa2rSyWdiZtQSK1AvCnvv+at0bD3QL8YkQOZde6RE+a+aqQLE5T1tJ7o7B9Ww1TMeZx51+w3t1WFmc5IkPCSbZNcSRnkuFTtTbH1d5dEoRGEWvvNznRSdGTyLjmL9FoPjXGSk1A+1XmaufD7n7fxmZQAIEyJMfX/UZs/3UvCJy+Z/wJKzH6BLcNHQuAdaqJ3pGKF7UMLMAg+uJtp3uY3kcEfNmTdduwUtE0By7aeP0N3eyOoHH7HbZ+kKwrREouExEtHOgtNJ6Pbta3VbjCy6WWRCdcW6oWivHrqysBt8EsjIDSvZaEQyb4rTKleFCyH0bwHlzd2eClP7AFfWar36cAWjvgw5kYUz5fhrHkHcx0uWJycqJ+yTU+KCCKgelYMVduZYhH5PzlEDsaZoXZuP94P+WAuXl2uUS6eWDO4+zAkbUWPk+P2PpoK3f2jPO7XN+0+Z1DW6SowLxBurJU4L4aMoTa7tYXuvjZYE3+rsOyq2myluPRZ6hXQI03l2OfG36C9VyqbOk8qfntkSvHzt3QyWo1YueVd7QJ9Nfzc1xynCBlHXOPc9BkIpTX7CaD+9eis2bqqvgpTtDqLWkwCqXJVzaU3N/MzuzdKyzv4FvEesoN5EaVkof4kcbTMJLACaX97oOGkdHiX7PUTdwX24eGcDrHeyDlQH8MMNWC+q3B24DGcj16BTBKYm2vaorEUP6Ux4m/pGxg1G5sj1rtXlR+zpML7z1GCOJ59ktduXv/SpjnQ5VWEx3kglyV1UnK6EOna1+zYq5K7qvR4Pz+Bu396hq8f311gRgYZ0wkXA/p8azvX49jq4WEdK/UxeyxQtt83TSfUyDMOpuRcCsRPGyH4GmYMrJ+GaaCDw5S+b1TRq3P7fmQo4xE82NIGhBHantlVF3m2d2e7m1kxDn8TiLmWTgi2hrZEMei3QaVuLITptEJ37t3Z31RlOIIF36zIc3al+J51X030EFe/Ahv4JXxe7UbPHq3CKCG/itTgXEgyuC4mQYsEQ="},"ELIDA RUÇI":{"s":"DBBS4fj2xci3P13e1G2Rxw==","i":"o24uLb0RwXHL44f+","c":"ru0q0BKBh+TVG8pp89C3GM7y7Y2TCuFy/MaRkd+XDpTQJd90eeDY95jWMCprkJ+feFI0gw3ljC8cpBqq3uOs9L9rMBuUQlfEG+2Qx8+M4f28p3QjhyKthhDaiRM+Ew9Dao+TgV+R3wBc63H+N7y33pCm1rNorUM9VBjG+pLrQ9njiUZzULETj4ynPmei70p/rdmPAEaau2aUCBlkC7Kh2Q21KCcnnTn5MXshLGxK7k+lLM8Tmzn73jKRpNVFB0kO0GNEZ9d3ruK2/A0CqxronMUNcxavsj2F6OqqAhYRAb0BED7soKb4/PhcgQxcqo+/PESbaLJGnFa3xbdSwAykNk67obvNJg0Lq12rtxApa28kQcucGWTBqp3XiTlv/P4Equk5mW6sdVukzzwK2SMcbrWjgZq14b6lXdZk6uqjNfXKWZmCWEyzXz4eDdGw1ySnFbhO+WXKRHUR3GuThLLvx/PXQHX5MvYy/rYH151JoCFkIrcsnB8WuNu5dcgZedAcP+rzPckCSD/QNs8vUc1ZQDXOHq9/SODgigj9meJnz7Iz2ifO3tBtXnydedxpPgMDHHKXGeGMQwU8/MO40xqma5UCmpRKm36Vv/twu22iAztEbH7qjzwnGuUbDThv5blFDIWCmM/C4nigF7LHUE0+O/G6QUIOiMAa4fJkLYtr6gM18h+tE9X6wRxMfri1PAl8ycQrx0+wdcTT3CpeO73UNTS/3dz5HbjAQDFZeugsqHss+WsHJ0SfdxLjio1Dg6guZttcO22/wdJK6VVT3A5CeVJ5uWwfzfDtknMwsT1SUqj3SWTOeV1E70yT/m+5pEcrvHiHWy8lJWWUsMgXlrAQWlZBs8J5XJvIUjF5UQ3dgqtykyhKDJSN3YxB9HLnG3cW3rhZXSNBcch94UEna1uIcr/Qfq23ZXIHYid4CsWi4/exD65erYqUmME0QsA70fRgEf/ZqrfbmBO32wHeZq9o6wZo1Vi2iofjCmvt1HR7fpA="},"ELIDA ÇERA":{"s":"LSjZ0e3epi/0XhmtWeVkoQ==","i":"01pUgfJxsQvAx2Ab","c":"jHcGmnvb/qaNQjyyHpyd7BnTQbSAnANUQTkYDuuq5Huw3kha9SEcT+eYFJp5BxM88AOiDhjxY/GRZKmL+OtB76v4I2yGKHPU4IDtQNhzmeUqezdSvZPilNJ5KNefc3nHnbSp+bfFHIvCCOUr0Chejbi1uIhdS6P6fKgpO9IEnPCdE6nMqkDLqMsPx6lh3fvuNwyUE8m9yxxa3FmrsPN2ugyvAR9kzzAtZkSN7pW9G/eZa5gvhDrieJPfdqADziQCaNBauh7Vwny/cVj9UFEQs4W//WYBTrJJlOK+nQRz8z3g1bZ5sUQNT1S3V8+AmGkD/3wcw9CxkVmJNX6EJnPtj+ZtLyiD1BsOj4dGpdqWlDxA+qLNUuQ0Bs/0BmdYe7MZw4OhluCyrq+yX/NDulbE+i/xQAsEvVzDTiMmT9p82OP6zZ9DhHvseGSblYc9J4G7HxnexnZwJrgRqjaMOP5eRWspBsqkUfYXPvs4tINgF0ykXmiGZfzifLraPl28AOsBMPInN3YwPRAByDyNMRMGRnMO162m7EjL4Y+Nl/JI+n4KjxFDBt9fL8s8W+F3fLh5kc94ClK1Qdg8CIJ6etFeG81GzmEnp83h1aWrLB3P9ggiBHpNQ+tgANKwX26MNSsBGNFUEaPL5+ifyCXYpW1EZD3l0qVOMxc3CaNWew4RGkNhkMLazixusgqHk1y+NWqBEJifZDKNzYW1U/Cd58R4VpzzhaFnErO+wuPFXv6zAcGKPECIuB/X2fG7cDzluiyRxxY6sNUyuYRtdmAMI23wBu4IjXdWcUKdMiAZdwvKCrjohNvbN9fhpiGFxxKoj/EKL/xRniVSfkdCVHukGfsZXNfpahzrHKk0UDEl4bK1QdfsYYF71mop1crMS5+My09FC29JFjhh1gaJtAmRue1CU31i/YqITjLZUta80KR5QUUy/3kE38ZZUIP3vsPtTjHlxFJpT33VFOf8sb6naIvqOoiIpvkDNoco16/gW2rweYHuEDZrlr1Z3qNmbRFCAVeVtZ/6LhfRCqnxGkh//YPY0CYy4VJfUPMbdEZ9E6l8EeFnW+aU3W52EOhPvRCWEWrQ/ZS3ZEUL6U2FNwVLtBG/sB/3o3IVh9/GHWgAVeTEBDT1vy0TkfAjPv39Hxs2cO3LWJL8XJ1YMI1Qqjq5acP+UDxZsDxYSL7FHOY0SDzZBOAhInJlf7rpdmvb1CarLCyPqpOt7H5MPUIeSWbcEkWeaEBRGoXJTFPEcQ6+9hBN8WyOSuX1feJpOY3g5omJYrWKCh2blCMS8CEWfLObgbQFED3asfvKGVifYVFVJKF0z/StwQ=="},"EMANUELA HOXHA":{"s":"aeBIktkQyzKAbCt9LhWRhg==","i":"fwX2EX3tTuSOMpX6","c":"Ao/TJa7aw2MNv+n/quqxW0isjElkJzv1igTXtCLO5+0rGgmv4Z7NBLGDD8kdmD42Lxh1NTpovaAChUv1RVReNnMcSr9xECqyWAwJ2v6NUKlVJWwSffykNQzDT5aGY5u4VKPucYAox45A7HIMnErIda7JmhuvIqik0mkei7hpQDUCziE/JNiiJB89Ur9b64efut8bYUVUoTZQxUapV2zGjyinlbuGAlV8Y52HHRrIB5mmfwh1xgCPQxCibaur7C2DYj7MC2xTLs1RMCMQ87xjghNUCJ5Yd7lhEWpUtSMMWbbwvVong+VkqIOWSbG7X7rAbVh9DptWt5Z+PGY38MAQDe7JtmCRv/vB16oJ5KvAY90toNsZviRCaVFG7Ocp6I8ShLx0MsyFrNGkxgaS1y5WEW8eEepLKr8g9jgovxM0tUt64U8Mp35flVmsXBX60zFwJJKpCXR+HUNIFv00VMDkeCwr15SIhVXR0gsYvBhkifOH9+bvST7+gfgt3HsykOrdixMKXojLcFzlksyR8lbbEQvn3jFmly1JIyDmA7UTsS+baQ/FwHHl2uvQX8FEJdmmmdxnHIMoBiDwhta0mrdufCgs0IM9C4RoES8+nM5vxrXTwEMUXEMAo8qJmPajDM5vzTd+9Kl8Jxkju9xdCpXzBX5f6Psf/GaxMagV12pt+bLU1qwjuJhCIP2Ym/snTJFN15yJug2wpCpfKx2pDIJkyvWdXFruuZDLsixin2gf/jgtj9vdcLnyqlp0D9Jw4hbjaEWigMvqt0NP6qwJ/bemIQzHJyn3papk714k1EmRv24YUvZQ90Cvu0fWv/1mgcN0VerEL+d/CpTLx1MXup2XrdvV6NSWWRuy8Pyk0COmi35cGAhaFHQazn8k7KkCndtbDSjVvOr7pnakxDwklWcMrR8w7rZnDqS2sTuD2qx1Hjj4EC//3qvLZQXBnuOkeAa2+CAVmiv90p96KkvvGAQFdjysLMvH5q52E+29xIt/ltG2/VNSGOgStt5K8jhmH/gzfZwzSGW5bhH4oFnjdJ3thNU/03QcnJH+UaZTfeSLvN8HoJfmnk/zKIZiLN+UMKGd/Iq+PKnQhzD/jjMnAlQBVywV3YLkw8Jj4C04uSULD/83GX9atumsnxx0kYKOCNjPmJxJBZYlToIKU9roOktZ/Fu6jNnYkt3bLNyqfGCqZtwm9JeYYabXJYM1GtvIQ/Mp1+oiTRC5TghSLO3xJ3/vo0/NeZx2pNM4Fk0="},"ENADA HODA":{"s":"xWNMLsHCMZns9Pn68XfjLQ==","i":"np+C7O/uSC9hez7n","c":"1mJRqln94Z1e5gEAuTVeVdxb81QWNlkDdoeFsLTEVj9scgoC41rBB0s7lYgrd5/XNzIiFx2iAMZDaEEQmuHjv8yDdAH83Z/yDYQ/c8X00bbq9ormKC286Sz9g9Yeha/LBaZLnt5Hi4TAmnPW3EEq2GVwHh9fFeF7bmlywcuO4wab6MdKq9YU2dz9XkLmNxxterCF3ga6UvMJRgzvjeoEFSI8vTqNvP4yg/xcHt5TRnokA61PYAPXaQPt5VivXlWhjWgWQgqmkMYInEVKCB0KF33FKXMmyzwh04Qe16H9JFu0HfEukNNf+/tMLf4SgBQ7eZxzngDktJ4BULjETFDUQ//66Tr/O1aFutgJ55qArg1HoIZBxgxc93FijCGdSUVVaFzXukckKfyASvw+fBuzlCxE3bOnwfaY9tVNmecr0+CMIrAaC0mS94ohpsRL3wc+qwIsCOKepg2xM7j+JOzA5va3P6XCBD/xNzg/x0lS1h9h6ZR8ZvXDC8MYbsndYM99T7sBsK7u4yiU87aFUN3NghCaS1aA+tfX/wk6rGfszxKu8CI69sPZyWJgkWvjhFJS1A0q8X6ElfHN+43Wv37DGYsqj/zhjKQzh/1CSdmNP0rkzDeRx7yKqvQdcD2k8b1v9uGl4E0JP085hOnauUDXN0HxTenTBPmKmPseWWAQMHrRlUrXaixCxyJ7HyHRNLIuK1KsvTQlD+qtnJx7nEalkBh/ENufU3mFIqqZIzMygyXDWdsl1zVv4Bu1BHBjnyEJU3mS2DwoAaGmB+rgZgdevSnd9b+bW08xlc+O5TdEYCo1gAOsD+8lOcUsCvVRUh1oBV+olItREtle8MSHsAgBezYWCkQr1vFdem88tKNoDTG7mMCuGSltMQiH2jCm2VyEPvQFJ+MJwy8r0IYBh7lqVxJVy4AMDTMuGXoaxBoaLi87i1uJaV1ED1UMZiODEp7NnQfb6imn4PJfxRRJY5CTAuew"},"ERIOLA ÇELA":{"s":"YYYBESRuW1zIa7VGv+MpqA==","i":"oPY6539sHrOa/S4Y","c":"xzA2QAEhJKesGDTsYtD3XQQ4pAu14p21poxFJxv1tIj/GOd99+PK0NA1IR3zkXf6ENpmwACc4XBYYMAp2mWmMSD0xKhvG6knsRPdkwodOqLOwfGL1A83ScVlWIaG+3zR1tdUhG2VFxdzl07YHRKdCAwXCnEkvJDORAk55vhYEukjddzFmgVS7Wvfk02natnBPgLsZLq6uYOZZ6fbK/jxNuBcyXiGkerdsZMxnjAybAXZUAKpUh8YQWEKpzJCayRDhmUT5mD8Wk+c0pCvXtXv5d7JnjInumHaLckAm17li54NEuIaZqrZZlDsk5txl82A80QbeK4zPhCbWO4UhkQb/FL6veUkgmtdNtOfCZSDf9Ld5ClZ5RTY1LG8XbuumCFH9J2XJPIoSB8wz5f1aNy4xhrwmcFbfUQhE+ynJ81RvMIIU+19mx/A68okgB43F3awj+8kwznsHu1mllgl0r2m3ajgeG+QirLGOiRDMT12yQ/fXPsLqJYXfQvw3gjVw5AyP4SzGooJulpUqyFA8gp0ggv3gz/VJuxx6N7Nh13avwE8FxapOquojv8mlDCji/TI2fX3aEnJ1tWl6Pb9fGL6E84opYbY6FListJIvd/ZpHoOYwVnhiIMIljgSwfhD065Ygv1bwoWcZ2lXpsuZHs1+Tc66GHdBdYcIeQfyT+P+1DYRx4J5EAff+BziZrNT29sXW6wm5o2piUPPscvxeVsQOV87Py4iYBccULC0tw4PYItbDYNlbt9I2MXfZSOPdHsHnfd7KULCMSIEip99wnaUM9UBQQJEUBTVPi9ypsIaGf2p1TPp6Y2eW0vLFXACB0uricR4QE8MHUlgKnqeTg9wnjaP+nyX0ReUgSX7M1pDuu8cNxzCYyz3KPgal4eHtLWTtx0ifFpsKvBeGqOifoxOPb199wtYIeO6m4G6oZU3cG2y0gjo21tFNiwossRqWtcsPi1AC97cB2n53suZBAvAGNMNmmNqWltoT1j+g5WlvHGnDPsKhBb7/4ti+4FpT8BtRuySh2Vc9r0WiM/drFxnOpDjIG1mQtVg51OFpC4ZSytkN4kA8CSZ2yMQ81ZtuNGeF4f9POffQ8BLO8gmuR2hIjU394APO+M6lyPrJzesNYhsj4NGH1ST/APtsSG8PO41h925Bv/rPKBz7ofejPTxSvLb2QlpN2Yu6nGEcePR3Sm7jaT6JaX6b4QtjVKxQ1QkQCSRu2gI8JTHfpWqe2jqeoV2rox2jO+CxdkIgZ/myluuAR/Sn97C0Ujwc3OXTJbAY+VWF2liR4="},"ERJOLA LATA":{"s":"IO/hBrY5CLabAxX+M0ElPw==","i":"9HGjw6z65mabkgnp","c":"D3I2U2IMm/JH3/wRPKlyjIFZpP7dS1Z+GWkPQ8W4qmUOLv7i6oa5l7PiA2rNmb1+EMWtdDFlGpzGZaIhqiVVCGD2eqL03x/wbLWdYcj1oC99X8LDyBcEcEWwInrGIBT5ZfKIx2QDH0yYeUS2kyzmr8ArKz3yVC/CVBalEDh1ZQ7ey5Gz+1m6VMSJ9W8mZ54zI6aYdGwLAHU+sUKG/2uwHGCWbFjKATKgtAVCIlPCJf12359RFZAILDZUBxIdaEAGIlZK1+B4iO+uxXXea7PtxE1zORI5EmP3+vBC4zIwXYxKR8qLguJ3lcv+LqNq1/pLrz1bXjZ9hLIAriQSl3P2iwEOZrQpI5aeVdXAv7KBC9fr6bACUS5VFpQVDxUKwuj69ZGSg9XKKswsE81k73Htx3yS7APvGVQO6osbwKIRKvy1HrWhjCGQwmRAl8OqyI4MokIWpgvsg10Iw4MJbdf7snYJDXvLZcOySZoOcikv2tno70UCO3HJqoYWJG5817KiwBCcG5KylxrTb4Ocaj7rdUgV2wqEgA/Jm6rmMa/ecjjAjKCvqEAZSRA0atf6Y44nS6Crq5/7j2VizGCGfmsNpMVcVUmKYxRxFp4cjkagl7AfaEeu64QB2+ea/EUf4JejniJ97VKFtOQxiLLtlk8PN5EPNxQrsUjR7JlR6GCo2tDH/C8c1gzk+siIfFXZQ0hb3Ex8Hyv3DAShb9cQBwOttoQwpYYM2JTk2ybX/n/WKAaZ8U43z86hvvzin+H3Dsc2l9PeU/BhCPUlzDS1lPP/KPp2gCQF1hT8rDO48dV70hMReAs2kmegUerqfqMRH3wxfQwBR7nH1t9cuhiclNRovdJ7WojmD5PYyAeSyBSJxKC7Hhgf6WoKhAk5pCKSa1Oajw38zFmBD2DnzHewrh94fopy5We+Rsxm5fmwwpJDz46JRd/rFSqxqq+ia13hE7R5NPTNBhMxFKtOC0+ZwtdyC9k0LM6qRGds4k4ZRKXYTS4jhBpIbanBRZRRXP7T/Wf0RKHD+5Id1GRbefSIIxE="},"ERLIND KAMBERI":{"s":"otTX7FfHpK1oF5yKpsXSug==","i":"Yu44trZmz9VFXn16","c":"smmXNWrbvyp++1dBHJrUiBtfDbvjt08NIcFgH1kZY7t4vxYq8+LpWs8w2gjCk4yD8Lux6ATXEO32RI/DjuM6R7pMHQE9GANF3nIRbnX5q+tgNxMJstUa3sLAk8KkcoWsVWr365hp86npeypwEwa4tqnOnW4l5JfiMINEEjwUXzjZ8AsQmpiMHTex9V3U7RRBb74PzrCXla0mhXe9Rfwpv6dAYZ57nFc+X49drLlaLI5HxUVYllrpewUcMG7m1ZDWOKQhJvYkBiOnoAi4D7qM9QLhJN2pXCWUEeBBPcHYWaEEWerhbJidVvGClNwkZHlKsc3dbpy4VY154fPpar3bK0wp0aIpLIOjkoqOMHpAOtBuSNxN/UNzKzMiX3WTHWAAM40kRTq/bLg8xMoJxY4hqbXNZQfxBcPxzklHj2dEPZdnRgjJiJeS8aC4/hSzfMS2vQgp8iSYQiUrGMhsGOUA/HTlWxKDwHx+vnYr9aAvOK9q9ob98CQCi0h2ZiUTH492wcJblAK5NyHIddCQczCmdwxDNHtOcZIs6olXIlJS6c0/sstSbE5FWG4035Dmfrx3PubryAl+pCzYo4g36PJEBmuGbvW4m6kFpGA9m4ga3kPWtlWadC9+SGrMsd4ww/1x+JD+rZEKednSKMCvUmucO/pA0ClkJt1bsknVga3jjzFeOxtmixfNs9YWqCWS4ci5IfGcYkrxqV1ZUmQws4E6d2l4ANYAfZQpHfBO2sIRaWsyi1RkIN1WEl9gDZZpAadaikFnQNyjMKa1mgfGyLBqwrtrBUz4YDYEc3pLbJ+vqz7qHw8UngcWEWH9PLIZcvaCPMa1QTky7p43KYwRi+bNb6FhtGBMaVOCVZIHQ5alMnmm8p0r2QBRBvAJ/dJFXh4k56rYSH4lgdUGGUMe4FiT2GQzdZcDRWcVXpArTGskcCBYDEeKGGGR07p0zm//EPE60E9X+NbK/g0zshGH1mHHVUbX1pa4Gnipnp3+u4V18J54vt6I9kjaD28+dcRBgC4HwhWez9TvDbXqBJHaI5B6sNEof3lkDTiL8xpQf0GNaZ6ww+90h+ILRq0VfMM="},"ERVIN LLESHI":{"s":"vaBDVjPUJCm72W9C1V1Tug==","i":"9/Mzv/SgNQETUirP","c":"X09Q8P/mR7tLutlaLJBL0pPsE4zO3HuJ4XBJou1NIlxzZyhsGFrOuinZQek0nYqozsPIH5krOzDXuJuBnr7h2A7oL4HeKoTg9v3F8jkuwbWl2DuwC6eTCM/ctii8Iau106EqfVdJokFOZbqdbnVbq+dSCTDPwVLJ5WdkKqipXuUNang5v04B9wibVVEqg3Z7GfcN0hKT7nOaPyycR4A/Q4rpPe/74R9TgAGFy9PM8lBPU7oGNT471/q4bBIZ8C5wuBMuTqhc1fknJZT9BZE4PtEN44ommzC8Kz00aqx4yAbBGdzIW3EoFGygxj8pSbYEDQGgHi0IFUoKCJ4XPPlu6upJdrn4xuGSgwT66TYQ4saNIQLO2el10zsDdFdvOlyg7sG6U0a5oA/XQhEyUF2KTU1w9Um2N9zOfKKSE+neWV9Tsi93Ict+N4nWoMkpK+Sr8vVn7jRQLN34u/WMGwxBmjTuw3LQVs6mRqLY3pIvhJ5kZJj+UudHNJh7XSEKleDJ6Y+pziqLftzh5wFvo3mUG1208ZpF30cyhlYu1PIdxH1ZjEpSBOtY6R+RShuj3fkSj9VNn1sFCmEhpHwTLA28BgkmXx+T2CxJZYitlAmF02UymjZWM+tRFOB6Hc36zafLnF6RLe/Uir6QXUH8TTNoaOribP21ee5IWCYgw78vlpJxYkdAF7rzCEthmyRV3h1Nsfwin9mBghemmKNKkDi0ZCavv5dtoRqEJ1arOUvUjObZQ1ID8fpCaZvxrmJ+40xO9NNn+KrOPdU6hcJmRlQMAwgu5bxFwIkoQ2SZP48Sf5//82aCD4argE4c7Gnbn5Em0LrVIwHbjj0nTZMv516ZvZbGO5OqKhu9m5FkZZqHnE9lMvCXKgb53xRohvMTkebTFcG9jL1vNt8hxrenutJDvJOa0FTkYPh6ElWSW6yd6n911thofTbaUCZIyy9PlpIsYayLQrzZRe94EdBtGkLVjPfHxmYmyB5P3J+ZXfFVu5otWYAkFTRLfpNhwoQCGxhBbCP6ZtAClejpZuwnON5HnqghKUiV2Z4cdPDNv9brVOK438HfZU6KEnb5mwDhYaYOvJPyb8iNgzSEtxBSr0ERoQPbPeHzqGua3KCdEWwI8VLusH49xiz+NGibu7L3d50E8QTEUuyukvLEzE2TAdgBghkpndMLQbqExs7X0GqhUGMr0rBCXnarQ2/+16EWoe0ATkA38+U="},"ESMERALDA LUSHA":{"s":"Op69MEOCZQSw0NTWApdfZA==","i":"I1YUG2+1EP0bCS6v","c":"TumMf4Cs0mtiHOa9MP6O22b34NgdcNtnctxuIXuLoMhWoJcDzpNbecR0NGt4ddbCSsqMlLPZCr28JlghHwUUr6MmZRxMSVulKvDqskB+ERr2JhfiKGuv39tkgrqwlWVUfHiTnQEj1xGPmCeZrwI+qqiYQT/JV0PRQRvW1wgsmMzbkXBxLCaC0TSOH98XXE93YQlABah9A54JFcr3PLmye4nby+Dkn4TdLrExLNaafqZwBkxhysJKcQzDy0Qd4nwYKXb4u0rSgDFvnB0iVJjMywAkOsgnV6+F+ub0g9SsluiLu5rV8IvzxkSeUzTRGNDGQRBOCPl9R9kAjS0BoMLeysiUnZVe/Xss1Wa7hZ/TTV1dVivkWZ/pgZ22779QHlpDzAUysUEGcDa6KyLuLbC+5P27ceSJhNb/m6/k3gbCN2slE0fBgKZjs+0oAfnQMuFOCYZKBzbxLe5+vbkJdZr3ifTarXLWti180f/18guSQ8plmJCHGhY0ou1X6J0KAFXjIEip38ZQAKX8yE08BE71XMyi5uF9KOe3x1jijW2nIWAYPG4gRpGFsWI+xmbdwTZiKfsx/UAgW1yKQ8vkhdyRgvGoM9U9ztQxLjQc+GHc7aMwPQ0ZUp3BL04R6qkqS0I4+Sf3FpTxBji566Tnjrx6KKM2Kz/KxJXmFRUCDCHuCP7Qzm56MuNcydm8iDp1qIz2CphmhOTlKl/c6xc01UTCVfhoNFJ13C7fb8pzegkCNDn07+yKwzUHV3c5FaiUVhSEEt4ZhuogajNeZhp5tyETdJaTH9eP1A90+VrpQBe0amGVn/es1pdqkWtZ+1P+YTvwxyQMzcGkh98trq5kVyJ2axFIYghjtJEn1n4EQVagG85GopTO0BGGCkTX39AKLUte6iWxAoxrOamyguSAnbYRHSFmMwQulHLzhT5iJtam7W3pYdhxwzMmKfrqyI6IUaE0ZPeh8blnDESJppqXds7qsDEICJiBZWP+unjZJ/77sXEZoKZE4pmyvLoEOKTaMQ3a9Ln0Svy+twwjZUJuuuGfVDybb4/L2TijCRe69wmKdQj2Lq2E9kSTfk7tz0BUsl+/FIloHuXdckXPBUwVPzSZ2rtXNjEByLjVCuXMvR7vJNZX9HR5K10ZZAW/QI6Hyl1qNh/A0WQB6hmcLoeicajj5TajHW/Ltv5LO8jvC2yshFPTcYhGJVNZoI/aey+Oc2Gz9wnpFhWKJOKp7pbxCKJSZBH8ftFGkjAuvv/bARNJ3BOmT4Zvf3+f399/QCQ37jmpc0E169V2ZgDtTMB8w+JQro3splvGy6dw2JuwhbY2TIssiU/OafZOoGhUFH+XOpvfKNo="},"ETLEVA TAFA":{"s":"wb5DajTwGE7iqh3ysmF93w==","i":"53ewo/q+FSSVKE6r","c":"PgDFS8QpNTDKrJ3EC4lKZ8LDLY6OdtE3nB83/U3jBcCQbJRtRfUT6/aDgos+6mbIrSxAa1zG7HZm7PQPUK8QkuJEBw7Ohky3X0LaRtmDAe9Tl0nlFPJUcl+0/PU1PwILJqzqxdEBHSNFh/5cmyKv1yqJnl+RwioR/0pGrbNuXjXWwds6nEW95bJKGQAdayPZrHlzcbNmnVYgrMFEeF+/h8v5aV5cqaGjnobQyJ5xD0eiwXiFZZraxTUSXy+gxq+6/2CbEqR+7p2BDaM6F5AqoSdAGfbAH3s7P4biKZ9kxMgG2grhs+/YMp5Rj/cZFfa6m1Ttb5PjdMT0v86IdHIktTeOpGJ855snO5h2hYpH+bm15DvJkY3fQBmYdvGYOUt3gsly9eTndDdp1YI7lYmkwB8vLyymjG4km973hrPR5sAQC0dBDV8AEvh4iyK1cjDoqvh1y8L8Z3hdoantKp2uZO9JSngiMPtOySIhljHnsXmdlfu/GEcfw0Pn6KMPZryHb6BOz9ZFTnbELpQ0wEhP0FM7Le1zy/9Dzt4GM2Mbe8CBt468xzWL7ASEznZf1nBs/W3CUDWkouZhAGLYapy4SjG64nfvf3g5zqAxJbqKYPR4LcrfePwfred+RXJOxj8D/mivpzWYG+k8OhDN+m9vlgOrzwBC0msVCVOXiLxUvJKYaCSuKWk0bDySAa9wCu/1ECINbb67BIDMHRpmuA2bWRbkimoMKVe72zaRkTzhBYzAXKsK6uzGhg9NjeikRTo2w4Z5tEiaVy8kHa2jNGX2aO1W4hdzsDpR8GwZ8EwvUKruft1FOoyls1Wne/zSxlBciASnFNnoSbybdd+uIA1O5XatLSw7yBOBmYHucWlSCX81q4k12DLp1Irv96caYfeSyj+jIhOrl1NV3+fUlw7unk/Ol7oTRrNYetpAjfx8G6CRqwhREX1r1/eEu22hlSz+MZzgh0hSz0ElRiETPcW7HZMdhVT4KtVvpHx942YfAKbxEDBisqcLxz9s1PBfeUEp+0RfgKdSz1ZjxEt3+JpTkkBiQtfVAK3YgmRrAoWE5qEtzvkNqFoiuGVr1C3CS6xz7m2nL3GDyCKgG0OKgkmtpra+SOUkluoib1UKyOp2hraRsbBpWNBVKRQUyvrTWyALyre2ut1lW0u+h8yU2TO7nTW3tZWdU/lsBWM5+HF6XVyRLxsRKk1cg5aYb4y1r10k89lnkezFrN8b4leGIZO1fOUq9qEwsxU0afjtCWLaRH64VljHxTouHPSgSopyGYoNMSKK5Ufr"},"FATMIR PACI":{"s":"vzEh/5WdC8/s5rcVY/cqzg==","i":"OEg3wJyQWiW5upox","c":"ZXYszrUemEcezYvyyZ3j1xCK9thuq5p8Xg5l480kmWYLszc5WGC8FQ2QQCW57wZCxaAzT16rbniOBBZ4deacd/8pHDhTnDJAxTOCf/afBmAasdbiTacgzVI1GiInDOIXTJbck9PAIZeAsmA1Pn2Ls6/NtPLrMwE/8D7DkMLq5eiSlMHouoleJ7pPc4/EmLCPIacgZfIWRHoRiKz3QWI/FAaRES4p4pqHS/IBXf/rGbymXNMkvUvqeOMhe3tP33w7B++ETYRuEFBWD6HGa5a4sjobrXCk9UmXz5WV6+Vhpl8tZA/ELxT5DeXEjlmBe0mIflsDjW27DAWqqWZURVT/d7muAo3sk1lAeTBp/kww3ctyadN6lvlvtHupnMMqkqw2cn9Io/Oi3Fcix9msNqtgm4o/bnMpKGoSiOjy/68ywMRO9KtugcPoraPudAMYwmCTmEvbQeFiVGnEBipJZraATkfu2/FLaLRMNQo9DyCCmwui1ScmV5JZG98zaxmz3YIPU37+c6dozZqU102xg25MuRP1MwIH3bjt00A4zA2kb981BmRqBbpLjZj6e8zMGCtxCl7kZRFMe4Z/QxmvR4NfzcxhrKinWBVEzV6oJidZlT2WwmXsS2aYVdlQwEa87AF8UL+uCKAiZ1Hjgm0Z7G6Bjrvkb/xiJ5qYcLvXCRX/4J85eXzs/6C/JzYch9uIvZWiUCvUqlmZHAIxw+Domd4E59XfXKgJt5YvPsExJzik5BRNUW0TLp93LlFPNleJLG6VIEwhkTq13UnVaproFewOTY40/RXNysODm16EVGYcf1zEbVUJWJlnJB3i/Uc5r3x1By43xZpUvLuI5DeiW5r2r10HJyRV7pGzyrjzJBhiMFWU+WhsCj5sxuY5eUwIikdjOcGtwJ2LNQcnnCykfeQPcWvQgcHMveT3hD82HdS3tQv/T/K65zCmhKrYHn0kCtelhO5XLpCD5jCLVlLE"},"GJUZIANA HOXHA":{"s":"t99TQx2GvlzSVAYNiFZffw==","i":"N6DP7ViAufyLu2aH","c":"0ag8RmR8VOc0R0v0yl3Zn+6n975GB3PHS2/YTuaT6V2qjN/HcCfKh3M5Nz8QZW88JXTqz07FB+MWRn/yyTyXi7ACqRAcL/k2ZzNs0iEXooOojBvdmIe0OF6EAjvhKMt53Mi24mn5hexV+SLXfV0iPKPPli0QOUEAT3Ohek4g/3hqpKpoLn4HmKuUVw00zklrscRwlt+gWvnj5703eB0zOkwRo3aCMbG96pPo2DveGauu5eWusBdhtZf2uo37MMorYWFallIPSbfEJJvzBPvFcXTRaytoLdLvpdlt+iJmyfTKJpZ8y+G1XZYpJUwx5yjyrEYN3rEkBiRs4G/XizTQPceePhqdGt/1XJXAANZUBFSYErB0v4tQUOx7NhKE/TPRy9V8j3/tpbQudH5o2RiVDHaZ78VSgx34zyLJLGEaZhe6WaeYPAGWScUmrTu48yAkm9WWjTxDW1Gbpulm8Vjg/ixS+FzAMRKtXPsq15ihCRt+sjmY1DSu1CWy3p58JCJEaVW+SG1jDgKECwnqsVExy10vtbSkX6Zz7Kxj/fSsgahJHMoiNVtpkVkUlnKNFy+OuZx1Wox0u0uV+Uqz5bPvevHfPp6aoJsYr6mqhFgokg7nnhqb9mvEP3SDwv95p4+z78e3YnHm6Gy/I8u2Wj/2YSj20C7QvQKsvKpby2VelmLSCRqwP+HEPXqVbmXBXKVh/gRkU6woC+zohHa+fSbNx0jW/v2kEtcgy0GHSQw82wxQ8erJg2ySPWM50VZVwlSvK+yBIlT7P8uSZh+YZ2Lqd0RlAR2IA/BrqCLvFmh5OqZMPXmuysd3tzePoA5/WuQFa3fNyxddjHJ7i5vFrNNJgQHQp5dhsaMkRWZkwLpyBI5wuC5Lon6bClu5yj3pMcZszyaVGZ7H861Djg=="},"ILDA GROSHA":{"s":"phUkvKtlvBlpbItLqz/MLg==","i":"nCx1fiLo1zW5YHpW","c":"2wb1+iBLcbY+1nOyrrWW1CXRhr0EKst4aMw4JutpP52ewtSZFygA1uuXOfONySN3uCLwvo0qUykxgHCbM2JGEW69Iamvtq97jKf/Lm9zxtuO4ud+LGbXLT2KNbRyh8KGbRdWHZvzfj4LZHj3WaTwG5AcwUaJuT1/2R/5Gt7PFq7Fl34VoUIgS/Z3J67IZ3x2o/ZgwTy4Og9HIwJihF5Bvfmt/1MtgCAGwlEEW9OikxpNiIic0kJ2iyli1cTroWn6sNDzY1BkyFSNEWl+4LKClDsihCU2cHSUHDz+umGMG+82b5YIdUUilxvG0fZYZOF6ZAebCbfoIbAXuWQI8ZsmOmFk36kQHTt1Xf1Zz974nUfY1ErlzZD8QuzMKyL8q9xlDFtujCTFZ/m8vD6ulQhemGaMXPu8v1QTYno3bMEFotNW+Q5FIsWR0oxLQ2v3UOYUmybyCE+9krxmTVhjJYlK2q18YJn0sqP/Ei6ypuAM0SvfE7EwQhkmqMm/PraW0oOYk1Ul/RfThq5IClNMjt5xU+lHQeXNYHJFGdOmgLqLjWq6FxTDqtNcpO9JilBWdwn++8YGzM0lbbijb71xSx3edTyG+53zaagy8GzsFE8VSN3Ss6gBfeR81TyJQzkn5zkgZ9jrH6uXIKhimqWBrD9uEzVeVa6MIdvC7gtvhCYeEk0zJI14F7UNsI0h6ASPCNEmxmkzQ6eybAd+ncfArDgy17E1gtSmljGGC/HD0IB/+Jx055u1J/L8XowrHDDzvTIMRLkyfJ6Tn7wHKtxJI66WHMWrvLyUdFiuGbdrDVKaxYNh05wNm+FUqD9GWeWJ08IKJu/Uogt/sHBKS1LOLlbgs1CNhGA0MeLVI0o6+2eY7ypsj9fsoihAr/8nU9Yb751s4q+Oye7Y+4mHZGgYhOQzEbppOC7MiaEAcEtj+8mcp8zHIymj+jGS71Xsuh4SUNQSj/6C7se9xPj+2jBh+Im8mo5nm+1E3nCc8LxnZk3RD/DhhhDrkqCm21V0N+xZT4A6qPl6/LkL7ZmbznB6POtyvMCZKWRC7wL9LVgJcFDNduTM0+8tVmU5qaoYMg+X2UUM7zJ0P5hdqCBk+dc1PVX8QTFF/FKM4mHjVM6q8vDolnyq4EM+byZ3gN6KvFDWw7Q2ODwhDU3g3KCKJd6vVj24wYs44wHHILBBwk8sVdXis9JnsNzqQf2PZiUnAA+UkKb0frWU+zFLD33mr5ZAec4Q7ny/SA2k2Z5dzMa6IZ4SZrWPNaM3GF+8pN3KPyCfam7cHqIgLA/WZGn3PsGSl/yBrFm0PW6IY1hDrsZ+8azDeepxHQTsHz9cb4Gzx1q4/ShueObysECmyiIGYoUOaoJims1dPE3JLJmqa6XV5FZo1e5YXHErDIiIN+4YfMLmesDMlW6COm9Fbh47PmfLQDs3gwg="},"JURIDA ZEBI":{"s":"g0wzCQSe48AkT+1vYyYNVw==","i":"/ADLTQs4045EEyT1","c":"9edID3GQmzpK2bT5DfGVHpGovwRb4fhnOg20uSBSMoWRY6Z0l5j+D9cPknlGlcVlvM/3so3ipEBWkvMM9JAkJQ75nwb2hrNoUm9KA7y5FxgbmrOFhPKluBWRUSdYGN+l6G0HG/LainonbzIBQFZiPSE2vl0DzzZMyDauRiNm1gBZmZIxw5zZtnHWyNd70zEAvHgsWNOKyXePh+09tEf7gW3jDIhMWtqVVLiHAE7wfyF64S2ct+J1t6Fenf+L3rIAw2h//jhDj9KS1Vju+HYztM1pVer88fhADzLwtYHkc1YE9geKA1q7bsFRegrx78u27eRETjltUn8PR8qdwCUIpu6BuBbPpLVOr9M13qCKEiYpfd4g9q3sQcx05iu0Hgij/n3lTSDZV5lL+NYgRDcfXd+VVLDwtn5sA3DFOrH0ynrn86MRBb0xIe5cLJDKvJw9mcWu0CTNWZnFfd/SDW8BRdtF5wYjP/EvF6eKbou0isI+PeebjbP7SWI406lcYfYC2pvR4s2DsESkxprO9GrxyF/XAjJKQlN9yCGlegk1TeiBoPatWizWYTTFSYgixnJX7u7t42zcmX0/R872iNsEaAQ2QtkFoix5e+hHly/uzmivh7cvUwJo9FaieW2h7kvxGCy7R2V3cLGUR5mmQUY82Fs1nxb7CFXod6sV4II71FCxR6tej9CMq8f8l/wKFneSEhkPK2yhr0kCmBm1hL45rPg0ql7KfnegS6+KPIcYhHLGf81XqEoSEIz5PTJI5D8e9ba12flyi0flxXzLudglANaSRKSe/tZx3mctSZPY/P7hIJk/h+coRHp+RN101ohonEnakghO3iiyQbfn/6iO5pkx0KAEMreWyEH6677qfNrhZ6SUMN9RlLq3NMSnU6Bwkl0qpX7iXu/th5o1k6tGBShTzPdjnF5Cj9YDwzXWN3hvm/WMz/zQ/LJg1WHq9lRrNIFZkh2YvCbbr25gB4eIXWwbLGzd3ezeDqpnR3YsdeW4qYJCtevRksmfvoxLAa7RtomTMupy"},"KLODIANA JASHARI":{"s":"iOzXw47AKSjw4OedOrg6kw==","i":"712keOoyIWUYl+nf","c":"i8mAn4XACYQt2gotD4amXiAIAxyU+BrYq8683EGGjipocPE6ivfN1cmkn8AGAdkp8jrHFEnBuXHjgRGBs7aIYYdU9NtKpkmGywFQrdJafsi+UD8hXftC41aypiMMx+Y+4KpOYdMsQltIyg2lYDsHyodeuMgJWUHs7/QadMhFEe5UHnn2JZMNmxl112KZi00JRst0Malilh/uvonl7aOSHjYcQ0Uf9LHW+PUUb606HAn3hj3tJjdQj8O2LKsbZ7AeWBhSwLThMOZq1+36PWk+beKq90ZgbFIM+K3Vcyfu+ppfrTwu9VQ0fnUpxZDmmJlfSgJnl9M+nXdas2ckWAjo8s46g1t+70nsTL/+WzOVPdgHRNtwXiRLWmQ75LHUj5shB4iGFJmGBmkizSvEpBO6ojOXFR7WR+MiLlQ4f7Na1oIKZYBK0slK5BjVVBiu08b4m088bnqgnwvJSbj0i68LQ64Nrsqb03bdZOjmWKqFBjo5tmf147XSVun0SGJuQVFLoBB1L3f2vPWoRXSCn2s8lK2VsnZ7VGdDQ+DzeD/cU1B2UIi6u3M+AXfeWcnoQSskLxEpRIPs9SbxIBSCv4AaJ9jzbfeqK7VsfRkiFFC7Nd5K7ww7YupCpa6Jbt8cqC3RgGpXdNSkss0ymOoJoiAr3J8GvunHBLuDd7VO07kX4M01X/ukw69CsRt+wlnNIpd043HmP0dCCubZg42VtEJ62PBFOWQCDYWjBXcWIHxt7BarGpb0bKmPgp3o92FxGMVIasjT0njf0vD53yqC90a/BjEk3qomBIqAdYn3Fwk9C7SpJs9u5EQQXp45LZ8mfncm1NyK1q8wRRazWE7Ea4rIVFgjtUV5lyyFq+6rlI1ywTPParxfqN8nbmpO/tQJA8eO/dt+cjbrnrST/bG7ebP8iXhs4J0XhqXDC9EzXsDoJZwZ6v5TyNTNIR98Wc8uFseppalllbgawEDTjyCrEflH3QddZ8l6K6DuczifqWkVoJ5RGgVCh/vLWDtN+CWG9Nmql7Y1PI3Ty497gw8sh2iJf4ORWb82opo6tXKs1acMbyrUpJcvsGjJPmslhfFO0iv+VlgGPwLH2LbBpJDt1yfj7oNC9oBlLPKGp6nqf7Br3lQoTDDp7FGNdpjA9ce4Kvaggb+i+GhQcFPZgZAu7TtVoHGrcoqYzWw+2PXKbc2Kgf84f7lOVXv6lUdrXnfamwrGfyjnL3mqoi3NXSKXBxTIqQW+TOuYThcAyghQjN1nAS9kjVQ88QgO7ri/n+PFagILzSuYYRwrDLuuX7AyKJiXvthtzjX0ZaVeM9ijEX+LfSpFbjlTA97aZYuycpXpcHlqk0kwnAoZOMxynhUO21wmesjzye8="},"LILJANA SADIKAJ":{"s":"+4zdxMa3270quwMchzR3Qw==","i":"xRp8txWAmpwbEWZ+","c":"pQ/YyljUb6cvVzu+35x9rM7VDQf7wdl9VoOZTObu3hIuF79Gv0QrWcuE4bz4jp8XM/6sEX6FVdHzMxUxehlzAEietg7yPYUEdq6nWKazRoVAGNGc+m6aOkPxlubH/cDGzIkeUssB3eSaEIa39cc/OisReINJDVULBwAThG/rPtiBkVN24Bbi69di0HKnwsJeQyWb1AsJR6vRrxiR0Tp0YYrlK410B1g4fhVVs2XhytP8A3dP7oPZ7kLlcsj9vbt93hqT1hdjZ840NhAni1mXFzFOHj+4usDD20YXSoUs7cUth8eI0v2f4fLpYzfTlsSMurI6b0a99oCKArCWXG8I3QhM15wY0FLKcan9z/mSsBIc5pjV/P1aC7xX6pgXifRpCJXTmEeJ1b+UFCrztxymH1QtVbBjbuQHPGBIKffbUqyC2ImNfNe3e0wmQnPRayWvY7lYsSEbatBPhnEn4WbgxL1wtm4ch/ZgqZ36ExljoFd0sg+aiMirpBJEG1C1ZFeBqDaQctPsXMqY6m+mfveWFVFTIKuVZ9yq/gn8wVgc+DmnBLqoFDU2MK0XXQhqmKnzdLhPLGvBF3B4yNpwKzMwPMJcwQOLvi7tujeCMdhXjC2IRK9Do2QWBYbgEIQ8WaCaxjkCP8TKg9ajyfRK83JX/xCTxmw8J1KIpAvY+OWJgmGvNRM/dHFgkgpaqf+iZcID+0/q/6m6bE3pKoUkg1TocRjUc8clSDcerR5mjFQHP/gJRGzD0VjHby+INuxszpstBHUQQe/Yg/LusrEnd0gXdfYon3TKxodoUXMvL2f6/vvV+xJmXiy1GW80tGQlImn1L/yjIDernmEU1nO72FfzzY7xQUvV6yo1iZHnBPTQT8Q1yMrN8wYJISPzueY/JiK+I+6TyRse+LQRsmD0dWgH4WJ7EQP49KJL2rymJ7OITIW4lWwkV3t9raj0/I9a3FgTA4alnmGIasU4obwmLNjpES3NRDIfQnVbL2RsZgF5MJnY5isaiXwHQQhgzUqxoZ6pDv7VE9vU68Udw+1o4ymXn7eBe2+7ljPBigI7V26HzB45trLUvfxadTDNkZxYzwFHOucI9WcHF2w7HOFQzze6WbL9YBKxgvdjoociN6i2mRQupdGhmZ4ssxWh5R/oDLmavtPKrM5W/yMBmiTPxF71uhaePW+Tgk+sdGazAbsKnW1jm+Iyy55WcUgvIqF6GYq5Horb5jmV5rTjUvDWIHs9prSQHIJ2CdMHTOUqSuQEF0/hgccmsKb+E9KSRviktsJWUOi35JJrNpwB3y/fGVv9s277Zq601/mkhxFVLP5Fx6CH1pabxZjLAhbTB2s9HvaMpWc="},"LORENCA KARASANI":{"s":"WDbxBhflGyC7yLtbATtvHw==","i":"Q4guahhzM3qRHmM1","c":"v/+Yre5JyIPhNCjch5SSk/hYpRy4d6prx62PUCUGK1weSTr2fb2nQ3nbge+rksEJlm8pOqgr+Wwbz66QVeeQR+g8B1pmeZRjxDscZX2l+THZIYilfV+4t11Wl+JTEUjOodJJW1ucPnMpbYUYhNazxpInNM3BZNtNxxa4n5wzB6hjdb3Z3YzF6mGipx/rYm703CaBCyH/fIHUMsmx47MUHcKgYh34Y2LnpH+nMmXZ8i4hSuI+OTJl0tF7Djw0XP9sCLakUys3Yl4l6e+5lxFXQzDbtlQts0fZAWkXXs5iYH+EEmNadr63uZK9jAJosyOa1MjyuEFREI3L5UkdpQhIFdNGhJowzJs5yq+ehfIjJRMV5F3HTdL/q+fNi2vuVCBsFE3YVJXTUZeUZFlVYDsxLaQB9Cst41zozttFBAO/pvCQtMCiPgX+nfgVE6jUvkKB6PaAIJbSMyOwIabNvJgC2uUb7UGrm9EfpZaDuoaa0Vz2ptbe87iFI255zklzkw3eFasYZZZuf8v8M1+WM0er3IvevPNVKD8uqUV8x7WlSAJlUSIpO+Plj8BiSJzYvOhTP9SjM3BhSk1YjDV9ev9QTL5qY6P5toMoApHC2eKHixLET9mX+JQCag472051Sc62TZv3vb8QDWzAyLNJhLALq5ZTt7utZvqYWn4t5SPVQTTpJ6ZKulJNbStAED7pAZVM6IH5XMo2JZRMkNIKxZoJbUK3o6GQSFVHwojjU5Ex7mYYPP6RIl8h868JnDh3bQhr4oTOjZLKwLVdCdnQTcSt+AgxU7elsksUfDrynG+UZHwItQ+iOLefPtWfSjtHaZUgciwC98EokYlnNPDBFczPEK0TYR74xUgiDN8UhE49Ijvke0SZKhHLhcR2tkLewBjOKxkACRVtT/n7qTe9UxkUPJhHJNrFuVIvrbxez3Dt55uLw9P/Wt6ZXEU/RW7eQLhOboBtYC1Z7dkDAtSR5ySwT4OstfEIANEOp+HkmWXOlLaXxqnr4jkGVFKM6xVIevu4c8vHHTaMT4rGzduAAs7Ln4jm2adYTS62mvN2WAGlggLhWjRdS0OzdhvRn4h+b2H0Fqpzl+oL1F0TkW5OD5qNZMSQwVC6OE3TAsLr5bTVGPX+x5u+VoeEz5eCQ0iJUSzLeZmxpIcCVusQlVdnb2wKy+a4DcOJ9+U2vUuo5as5+EtFyljSZ6p7kSHg51lxGSOIdG1eIeWjkKE1pxmQUjnlCJyBbFma9zLfhXo="},"MANUSHAQE BRUÇI":{"s":"w23LiEttzetjuxzT4NV7Ig==","i":"GFdiyjL9TWmVik/b","c":"VSpm3HsWELJv2s6knlGWlFT804qPEG4ZmHvvnIp6x0vSuIykhCkmS/TsYHiLN+QaQrxGk0PJ6PFJ2RcdQTIVonPf0UYczHXWHDIFh6VIvYhtSZPCCVSKQbfeZ1Q4j4boBiKgo6oSipvE8qVixIL9gLF3Iq8Esal6dO6z26olC/7c1beTok7dH7ygRJWTfLqG7YblB8bl1sRkqzSpe2ze0936iw/ZRID74XjBVm1PqVR/+AfZ9wOTDnc5dRJC80oxk0c9FgsJbkCIp92nvb43nYylbz4n8hfrwqxgi4LrLhvTpDsiPfr3f6VDpY/0ym3famQmrktgT5VPDBqdC0m4kS7ldnNpnNkExdi8OsNAvvv9KJkkMGjk9Ffqq6DnXjjq4vM2khba5ye6qzE69eZHlX/daLKYJrRi36czYdDk+Fzq0vl2eN1oXzIobNpVNLaZz/TDb1WlRIrSGuplH6Hl0YuHxZXALHrocWRoBI+57zKqDaCK1C1f+PULvgOZgYNBb/mxlF8Pg2nEVQoqChLHC74uRMuWoPdPx42Q+/8Kw8EqToIV5t7uKQ9Xu/FJo3kdEJ7ipNHLygVmlRm2UytSNRPRZG5Bt+WUcKInLKahFi/m/TR96cuXmv/seB/RlgCGWgunEe5f9X000bRNfj84tTJXjc4aud1h72ysmqNvESHpSW09nS/uyTCieEPVRt4SFJcNXcw8oh2O3J9RsvkbrldLUnHBopqtviJzxwhDGDd8Uw4haSHVsi+bXFjlJhjM4Rz5fsKzNJQbZkac6PuxgkPQ9Rf42BGF0qBaJ34kYMMGagclwWgOaw4YrQaCOiOta4+oLF8TYkG96xuKB5ahp9b6TTRb2IK/UiOF4s5jHsoy9fDOlcIBOp4iwi7JGzO4YCAZmYA="},"MARINGLENA SELAMI":{"s":"K+PMMajPBh/rZjvFg3eJhg==","i":"xftnjAMeoGgkPZHU","c":"mMpX6LxsXf/x1uPA0nHij6MaAX70KbDaProby0rQR0JdY9tSlE/U+DTY584FBMUK8poWL7FUmu0yHeZXJ83aYr4i6PHTfd14HMid/wdue4Ahc/FPanvDiVlGF5J2aFQGh0SpkjQpA342fkbwOWE/1yMh2guOIal4XJu2sNUe5qcz2qAniBE8XRPr24KwRipt1khAtncGAYcA4Eiu7aqFeSZiyEE/JSC0a+SdMPoeJ38SahojIV0QJEnq32gwZga9yppYN2wvmEXMKM4AaKckK5HsxaV/IAvFUQ0BxfbQxAdWfogUSPOq7OrhxQ1162I9oClIDGMNQgcOP7WflH34XYyswOFSXtA7KwABcp9CHbzEaGdCByJ37ThDDBbamMOE+EGKXW02Gd7nTgVjtjdyYWXDqW+WlaH53n72R9jcXt2NBGNM7+3RW0KqTRO6sVw9WkdSqYkA6HffuxXj5d1YUJrJGYKrYjkHg4XHBFyrsgpG2Le8YgRvInHk9iw5WWRC0feYs9XhB1jtx6vsObyX0NKBS47BxNNhpgpMRe/OuTOA+NIQSp5E8E3C0+s5MGJjlYs5iG08XNOW1+FIXNZQA9W1Gwyg8TtyE/pujJlF6kiwdEBINXJm3onK1+oNxqUrfDXTC3KZ1kRUr4anvZz78Ezjq81tkWXAuO6PHMJdDnfYuPEdB7OrSaiiilH1At+I+WMflxFJO0efgGEmmkV52CcaTn0BZ19R7dgZg37NYNeC43hpEz1MdfSnJa5+BVKMzAa/zmiYZcAO/3O6CUao6Vs53XpAEs883NjNNUSGIETQO+3hPhFNCvuxbfYrklOCKkBkbs/GRMRw6bk0tfj8snRJBcbmuSIXmdQX8MeiR0Fw3kkii4kPti7XbfyxSrobpXdk+WQqGHMqprODwp9acvH5u0VOeDJ9/JobuQBPNZC+8V7fMp51OG66YQtqmgV0Uq+80ikWy4EqzhVkeSsl82u+a227nDRC3X1XaGul6uk9UuMRLN/F40jq1+Q="},"MARJANA ZEBI":{"s":"q7VKgy4tz2Hu06xmbm2AWQ==","i":"yAAjzBemj73aPlYl","c":"ZiGOFdaK16lHNXDQVS5W77x8TCEY3G7r3Grulp+x4c7nzdc+GiBmJYm271rC7sKFUtCrVeUq/z9HdqV2khL++GEtBjWgCgDarWUasIxmNsGa/3/056KySt7fgKvyflS5ljVo9KbF/67aGZOypFuynnoeahC0pf6b7NRI5w9PQ9oXFkxfEXY/fwNlCN8VSwjR91/+5EIWJPapm1iPnEs3x4z79jIxGYatDtXPZ1L3wgnkE3DOscXidHqjTeau68ZGTYTD8NSCD/LvN0e4nmNYljaKcvhas9tMHmaGUcUfoly42VSnQjCwKZ4WaAlkNyYhU38+VNuNp2HFSOgmSNeSlpu2ueZZ144lx1WOBV0j35Jxe2mgeqcrRDfvdHgmj9wy9JSpGJpuDg+nmTJlNebH1A3klbyB7ew1I9fnuD7EtejQfPn3gqLnox+fJibg13TlnsEz9Uk7yenZIgT/6HUKJ0pmYtFvKrOqL/yAQUstSXsqJ0Umc9eHlMUmNlh9j89twYUHrDQNRmQ3kSYClSCXnr0uSxiOEWJaW1NPJv+TxvAUX7FdZRu7JBryOhzIoqnDLPRi5NcMOVcDgoiSd3LIyXyec7j0otgCgQJRq0HiAw7xVAaDBOC6J1mbu5EYcysfeGm/yTrnUkuYYHVyQ9jAQ9UghKtazDCDYXl997sOWs6qq+aIREk7wJJ1dL+b1KhSwn9W4wijzYebnZTImVxP9a3qp8mprw8rjxo+NiiIUQJEuztXryEKqUbmXL+RogSchsq6x90kB1djAgV5nWE0KvEWxyADZUBGsS+YSzwHm2Mcrz2JK+RcJ/OmT4A5EUgfgun6bc/GMYey4lCgzPFjk4ixSuDmtBhiKVc="},"MATILDA TAFA":{"s":"F1pcl1Dp87LXBYQckjfbeg==","i":"R6vDxCVvW5Wgwnrz","c":"1RsQcofS3oo6vEVbAZ/qKr+Q4SLWR7Rh/KyCr2F5pucdTcrrvBYvfVaoTHT44N/ib7649Nu/akoctwqVM5f2PQRmgGVdiOXYfEFZpbwX9i9MuIoXEOfoxomViE+PeWNrbZkTdgPynQz8F+8kpir4/50wW+A+wHPfnL4dtPE/twPOoYSF6epn0V+7Zxpc+u+agqHJjvLvvavkpJPw8BHENLrSO9rI6kt0dvJyx2BSSr2k4v96kHW/ucO8LLksKhIqC4+Swo0QgvjWUwZWGWb/bBgAfB8oSICDCGjeXmyIyPNlhDeLr2rav9xLK7SPH2ZHsHrYxqkR2bvUmczorZZKCaLFGX3XSMSehM6QwI/+BqXfKu/6bVuJ2Uf0v+T5mAFyUBMbcHamwF7UBY2uva8d+nOR1Pz2B5IMe9ql8qvY852tnV9EfQjvl8o5Vj6T77vH5Pslb7WaH5iBVv/kZzALT1Mp2IooG6OJd9RCySkn87frmahzcLOyOMKQvLPM5GpW2zgBqZbjdaKx6vXfbkMcNb+DBOT/I2x7ohyKuVs9+VWb1sKeO0YrSgeMe7iteIcHjKZ4x2R3JfdGVhL/Ih0S8nKy0IvXg3iEswhrNk3jvu8c25mwIDg8dYLnCSoFADZXcoRsrRl3XNovheTO2AeyhduW3v/0xnFnK2uqoVtnwpZDfqfWSRsbOUNw7ivC18akvXJsg6aGvCtYpSAGvWK97uPTEXBBZkBUzXEsNvutqWJgQfDzDdOD0y2iLddAsPlfvXO5jjnjIi4iHudOW5aDgkzi8DIJvjJhayxmg1oZgHkIzrAf1m42q2fIvr+acoYrUth43gNXKKYTzAqzssPagY6y/jOjTxRcs7wOeAX0bYB2AGNseLejV8KmrFTdTeJ4seVroIJ+iiQTaKa5u/rdhzENxYa6icXB4bd609XTbfsBtjWJhknJXiWgU1t/AnX2Na373vMOOoWgpQbQkCx9kXH6P7I/yalmxr8XovtXjHhDw89SYkC22pc+IR7Cu0TbnWTjEwK6yeQNUcnwe4KuAuS3pbISKT2vYj8dXKpcg17Jat0eY56rzD+NklANWV+lDeGeVPHm"},"MENDIM MERA":{"s":"uIOzvhgrBHnlxGVvMlosUQ==","i":"4TZKkzNFIy5phICK","c":"n0u3+GoAl/CGI/lJKwxdnnh5oDWtHjmhReU2rW4B09UT/sKqEwYzxVJNMK6yQ/Fg32oC4XReEvTeL7DzXCmDCUCd9roGrxeRCQLxt0wO0KUYNKt5e6H8wc3WDj3Vpj/K+MVj3E/l0bbIm+FBXK8VQ1eHNRBYfMk7rnuhqQDD4wrnSjlvXAa7U8LANidTxebSqoDvUS5K+0QTNojybmkDm4X86Nil/+DEu0SjSRui0d9zh5L+za4shCaLleIq7795zEtIHUwO7+uUzfFSWHS8KDimu535TbTEijmrGwTUqOt2JSRIbujudWfl5JObxO7Eco8aua7pjAyHAtTnB2o/zeSL1z+KiFyRJdZcZ/6cSQH56MakUU0JJAud3iT2oglzhgk/ciXn4wLn/AW2qI3B2FnBPgW1S8zPz8QTT2swT19QVHVMbEPddMzx82laoSZ3IIvtc7xN7DZvW433sC+Ax+DmOKayYKYm/2A="},"MIRANDA ÇIKU":{"s":"W+LL+XE0AZpdaDEGYJKJ1w==","i":"GALVA6gD/hDIQFCA","c":"tXgBko1TLyJEuiu12g65xa6tyMTDvzwsnFdysAL8q78Mi2ajaUDg6t7Y5sauWCAkAIjl4qp/9ImxHemjbSGwQiY7buQQ0g+unoDFcLiyllI6DYRXRdl2SJVO3VAF8wu2OmfTNcfaKkQz3QORD9YVgwKveLZJxGXobs2aw1n+TKEgvhHZp33YI3oVageKs1/D4+UJIVYRfxMJnHlIVCOqQ1UfRt66jzQf0sUV7WtJNhRd1wyRSroMWG2x7j3qJTTuyChs/DjGgEwtA+S5bCxekYE0P6dSZnZ0lGo46iKlYhveIcN7yKYPbl9vP8x/iX/3pAZoAsR9SayfjfCkmAc1QOMjtgW2QCOUPQ+X6xl7ZYTspuCc2Us/1G+3gyot3m3F/AEZ6SnfakaWI3mVwZc06EqXVBaDvPgzB4g8pobK0UII3T4onnJs4JJfYEgsBHicyUt+Y+DMmF/kX8AzeT3hJw7LHTf8O4eQl3QamTfH53HfJLE9LDEHOlKCE3cOCQKC9O7TmE+Hhte+/uYbiSXsqNbL7MYi8BujNX/p85lyPfO8f8brIuHcBgKu1aOb/fjaPCiNBBiCiOZNe08Whr6OqRwQdKjS8hdbQPDfjrGeSF1fvD615nTemsY1cwCG3Nbwb/O1I6+ZTjn/ITH3FbgTCZaDjmpWI3sl/94="},"MIRJAN RAZA":{"s":"dRean1m0eYvKt1kBuiQykA==","i":"vI47vARzjowSAWD9","c":"W2BzeI0mrBYFTeuGo9R2Fq1VBAQyJ+OgulLRH6vwce1p1a8qBHiQqaK9JFxw84tSck4hy0C1NOg8ehchZVp8ygIGk0hfRmLhQxlmFW3SMFDsI/i5MZB9hAT0LEhIJN4KBwh6ViLOcdBYIU1nDQx3Vg0rZ6Gsg8JCsg3Knjdp61G+9Q8kZjWANOA7Srgb41lcVbcBTKS6HxSM4CkkbhkdUjIjbnUNbGboUQz11r9fMtY7sO8J4tK3trTzTxxasY62F2/rGVDc4khlsVf42T3Q27/tAvk9RBkZ6uzsKkMASQS2AFAuAfNBPj0gUmUkqznI9NVLQ5MRFjoYy/SyiEkdhpyOSqUEoWLOrAWZaiof87phE0xQT3c/dSseP5vtlIRZL6KLutF+G3gk86FOQHhRSpXjXtgLt+VbC3cPjehsdKZty4vs9gOL7hi0bc6uHEAEQupH8kBriFLNrd4ri71IZ+WVgxup2t6CbfQgj9YZIculKt4RzB8CqS7qMkkCrx1JLFUJVN69tLxe/uVv1nCKLnSTMzOfChvSWkmANYXI78ihYsAg844tDet7EEx7Q2YLJkItW/w5Wcrzia5Sx+JL7bq+cGAKxb0Ff33beTehPEdOyt48vqBu07clhzdugVZ2mlekJOm7baLloVKAEXeTSKlYtHkq63JYwOJMe0Ujoi0ihpQD8y38d2d2bYf49GXL5dPMTXaoCTwvup7El3TQZrquZJGk+yiQrJK8wy0RUDfaFZ8u3mQwXB7g+vke4PE3mJhbVx75iZQukkBxyt4bHsjFZAxdSa/agIB7UEk1R1gfkBqw2aiShpWHE2vIcADxiMwz93aITMi8bq6WKb+ExM7kbyFAd9rVagm3E0CmCuiSirqt6NQZtz9wJXVzLMOP6MEplRo3p2cs9xlzSLas71jrKPZz6fGWOhMCgF1QreX0XzAvuHEWPyRj61HPWqmnJfCMwnkEaZtIElxeFAgRAn5zgbin7+If/7jYsQjZrzed3CeMIUQ1R5KrQytwzsb7lMuS+23Alppyj+nNYgMPPi9idZkAFRJCwVX08EAg4ZJGftU5Bh2cQ/wJ3OkN+rvQV/pAuKXkZU7zQrR/aijyXVTZ/wdqC8eRC6OysBWHmnTRShXrOrU0vmZje8rP+iDxQrqdN1aco5sCDXN2n22BeRAvco/ayyCWWqSc9RMoCJO0kyXM/eqNR6Fk1cVMyS4AofbpjuSqkF4tq3Fa3t11TgWyHPODmVKj4hCXkDNZtBYAk6LmZ/9mX7cc/Wd6j6JaDJF9t2PGMSQEd0MW3xuhBpldGFwg"},"NATASHA XHEMBULLA":{"s":"je44k/mjAt/XfOdOAbGxdA==","i":"HbagFgdSxCXNLjFw","c":"V/PRI1kG0JddQY5pb3SYMnu9qB+2SdHHOpYGp5z0uktKEJPprya7j0QlJlCsLdS32nZGuPUfxKas0Etruasc6+0nmikCsRt1fPAT7niJpCYoXe24jTTGfWfxVJcj1NwdrBvIhrrqAqsvI2n+Q/tTTxKsuJcHq9AzcNLyAl+WD9LCEn6YkAXY5IEUMd+WGyTf0UNXO4NC9QUlE0TMDXpU5NJIahMLNPgkbYWPFu+3DJqtwpdj4P44/YllCLErtO4p8FyR/SB38WauxciiiY/T8YxZBzghCHsPKOVMfWzxjrwA9COtqG8NGfBMzCvxlsB+NpVru1AMnU6msjDtZ9pzKlNgHUWnCSVgHTtsrph/0BuFFH1IVyByyYg6FG+t5hLht0runnni29JrVZxe/uOqP8Q34Qc8LWEZIEPMudxCKn0fSBxVGO/gLwBYCe81HNeaDh8ZctgDEAW6PAL2KSGy9GI/OZ0FdFLHwie6ldlIM7O7YbTAYSZ1mHSKGRk0EV+8Km01eKetauZWpzl3imV//WlCL4qRr6Sc6l2XPQg7sdTg5lfBYwHwAMnBOlXAC3570pAJWMoMbRy7kJIXbgkRgzOUBykcACC+dKI="},"NERTILA HYSA":{"s":"ZPU+ukD35bpJovpaKya7nQ==","i":"lYQshfA87NgUOU4P","c":"2+l33LkX1C+szxOwthpHHABCyqQkVMI37SwOtAGOSElX3i2yMxD/VRPnJx+c8DRTrAxORcSWBlLOXzB6sHZsZ+SFCG7ZUFpzs5LAylsv0gUVfeRqGr/rLliyf5OD2qrXub0LtvQeNwc9p1HGFQnXrCahD6VS9LHAMGxm8ue7Su43H6hyJtiEVL1Lbxbrmlk6TMsjXcZtXS6qmcB9AMwvKp/MHXsRwJzehY6IKU1JPDLfL+AT3QfoKme8+YBcNFO9iwIA4MRjCImFx+wxODrvRx7XLedhUX3Wl54oMPQgqTvSo4Nimn5afYLtc4cQOOM/cWlO4JaXvp3cJIfBuNXUYNVAj7Ej70VDJn0ftXuQrjLikLlKcgkdED8B2MlgScSZyZUtKOS3J+XtEAcHJEn0XAIXdwN0bgOl5TKOdJkmcXAESRK0YA8A4t3tUtI6sTtWxA4UJSQF8Zk2/4OPF8o9n+X8Mp9IyE+FJe4lSOmL2i1vLy7rYPw0JFmpcJsE5ZzHNi//2zc1uJRxWg0U3RdOEYehls5VsN5CZm/E4NS0IDvR/gQM65WpOUHsB/O3jaeHvNUj4sU8BQDLAtn1NZwhwQccNAtcGnHQ51Yhlp3Bo+OSE/W2emgUAsWOSUwsmaTF0IAp5cH1SgYIm0fvErXFQTgtnHKRThyYIPvgUT22CmugRzD1kOLiUmOz6WXuWSSPF/na1aUZV7sHXIZaQilAk4M4tsrh0hHwbSNBCAKXfMTcpkTpH7mrDYuwcSTXfSARHmjT22o2gtDWQaanEj226tRO32N82WmwNZLyTXAQtMVCb5lkpiZCj9Rn/h1lK+T+555BtRDG9klTN0m0WQXgTaJmYUpp/rFEX1DaykcGcvat5dHFXAz8yh7BSsQdAo3FIzlboUo="},"OLIGERTA SULA":{"s":"SjNPbO/aM1BnD2ZXpVZtyQ==","i":"Ax/muRSCY1A4z7eU","c":"t0cgv5ximSwuskMOTSH1jhG/qeaEG02oP0Bqw840+F1HCfYfKf+tfo3Hs9Q5VJbx0dLxH2RGtc8zvZrOvqaIv+bsrZIxtQ0PM0qiFi2Zy7aYLT2rPkOdm2NcYP+mWyBKO7J3OfNdCJJBALLOILVLWDLFapwggDxEStsVOC3IP1d2YjgB9Xn31iVwsFhJkjf2VRHvk8idZVdNUKBTQh4ebNdoHpo31u8vCOnMPCvWzHc2Gh3U27i5DBpK5fUu86ao0Vdw56N66lvXBEd2F2wqRTw6PFxnQfHjzVLaWJCxD4jM29ieozb5Iz6BHUKnZATdUuC2QoK401wlrvg7+vHc+6l06liOPpiotjxA0AKUa99i4QldAj0sMC8ELHVAJGn4UM099rs7WAYtKiD8QThz97dCImLmspBbFid1dGdDT7sk3zdLDjXSmokSrgnhGQUmLqNP5uPMjsUevwbiBroE56UayhF/n1jKbc5NTL02S/6OQ0taVk656mc6q7kJCqKdx7x1mTHtIPY9j7bp6xsCTR8/J7p3Au6OxVILqLS//jb9QldB/SKy9fLVCqpBMphF47mOvLt+e5QmK4ujacFNFeOyo01e44FNaK5hsu+QfM5YjzMhDvKjaHwwzRZNeBC8miRkz7lyjyVlY8auSF0fPPLRbq+bTUx3ISHd64/ODfGJBQ9STdv3OfwlAvDKouLeqPTRvhVqI2m1v8PCtuV5zK1lKPTb/MSGucgcEnb5wyLLeRJM+0qoidque/9+ajj/2ANDT9qhdZkGg0z2nAFD3eBpP6RW1fQkm22Av8dCV2B4Xbw6fUKRxkNymCQXCxc40Ei+VFnifs+w3TB9hWecYkCQV0BCuICjz+Q7Sgt++cs6lkRP9ItsHnWxmGNUsreQuY3RNLSv+CpkNpJTfyFWAkfNAXl8Kjfm4yB9uGxR7C6qC21rdh4u9nTK81dlZp8jBRa9TWon8Q/5pWCruPbKJXiAdITMlWIuPGdoy1rhUNTHxX5e8L+cM/guI2Ry1MtoR0E5XBGTNo4ZULiyzBbYtoxq5apDHiUNgCgLrsJEO7jvUR0bpQUgdY/2n6fNEVcpesS4RN7JpMe/SYuv3JCBxZlmhVZ3rX5tVdYqP/BWCExzJbXB8Cbx1tn2c3WiDyevRVB4l6hG0ZLl8zyu5k9e/oG8Xs56xbAa2ybj+jnzbv6aN+VS7tqn3P6KH+ornYx222+MEefq5P8KlDNawKcu/rtEA+2j1HFsRnvxZeVnXFQV+uVCEtxQqPoBFFF6VkTkhME7cGQStcH4Vt84h7X0W3EkLPwKMb9ZTxkE7IhE26g4hjTsGRgghvJdqVO7L8w6jJfflEWXSJDkND+W0JuiRQ0+kGzgX/8krIuDYhbyk1z65z2WENiOQNevN+NRsO7j6XwPZdbPzlvUPCbMxU2Da1wRRLVTeNRDhnodQOIZAGNvMcSUVYciWhNEIq9Z89CEKiroWVemWdT1FTX7pf/W6nMOL2GL7Vj2ecG89TMj8waJ9LgkOxfQcnbNMp3Hvt6MUTML/D6h2TCQGq/x7UlgM3muCfHS7KwIPpjqElQTAao/INIOFfm7djxVXzbw11SRN/7tVAzkuaT47U6lZMDL3W+5+18="},"PREMTIM SHEHI":{"s":"JLYNAplMMVgAn9SdUtgTRg==","i":"v88CsYPeg3onXy6x","c":"x0yp5iusvSaTCdfpTXWjQcJRlnT/gDIC3kFCxrXlOOjp1HeLNYfBe/v3lsvTyGjZgiHMfirFAyr7m4ZIHFzMe10CiFfs1H+gWgTP6AnKjIvN6Qoq5jOYFNMYpzfrfjp6fvdjreQ3Ag0wx6wvo3kwYnHVDkcCLJ85IxB4BYAZoJyTGTslm4Sb7bWV96NWW9tH6qa2etKik2oeyWlsTZysd/lz8LjVLy+POIUmCLIl2Bc1Xt+mHfaqFj08sJoSW5xFgMfZpoSdQPzytP1cg+DzA/JW22BxFLSDbTFNooFl9LJuWPigJpCv/n7f9XK+Xo1/cPJd325q2e49qVc0QD1uxfsKLCn+HOfwiUhkVRRE/Gm6dM/X6wIIz+qeIouVRkToWznK8rKePs1EkIwG9cy+pRANCWgGhSrozro8rPdQZvVxXZWFNbTdz73LqjJlP1ywN4OuDgEeI5ay1i4U7ArAw8GYTAjMm81buT+A68Ddm+f9KFP9CuTK/1haLH7PAJpBC1K+qaOAJSZn32LQ7PxNjIe3t2A+L6ykTqzv0yt+glVXUc55qlOGnjDmXPmO9sh9oDVxyhlSlCQX3tNeYtZEIcEE82bdZsW3pAtTHJ4pXyzobks4km5x0D6UO7jjF5V09GkODv1o2/ZAlxcVcl+hF8doXzMdQK/a8TwYKxqjJKd/Nq4Oe3zOmGJwJu4D++5wKJuRgM/hByccgFf7WXCF5XIDHZ+8QVXP08bXrUsT3agZtpmxWCUHgwWb2Dvpytt4hkkQeD3yBQ3D2+7RnCl2+PMNpcIrUZLjbNgjU7P2TL0rLXrLplsy4d2JdWMbYYk79sZ+GYB27r1pbtaEJdk9EY3+YeboFKHeP4IAw+GdQrwxG3fjk7nhaVZhIXC8uucbwALZNrVEEpLZhdO3SpLpEj9sAhN2m1hp+24ENy2ND5zFk2hI3fCeCWqsHdWkfSfG3vAnSzQWBOFY+kj4DbCBmHJ1Sd1RLRN1abamD8aYQkHqcVP6dEoOU3ASvvCD7KCyFtnU8JNORU2xhSPoMF2Ua7vTwImhkoovnCM8KBN3"},"RABAXHAN PILAFI":{"s":"3uGLARawH+8hs+zKQCzW1g==","i":"Z8cxv1JJE1LCF40x","c":"z9rwBfXFUkVISBykFP9zIQRvOCVHPofsbgYulnM73IGIRo7dGviwaWvVWA19BSxXB8L92geYHdspEAtUrg2j2bXBcvdxo9/bpMh11Jq1Ulf665AhgcDioK8PRz++WJ7uPhZs0m0XCnFNiWQeN3OGvvcuMLf3D6Jf/CpL8bcviNRsYb2tM+WUpfaol7CwnRRpMEtbX8i61rVuEAWjg4yjtEVEMWUBjSwtnXQjnsdfW928CamzhWS4FQ6sLaCjNaKMqC/4Ug4deEqRof0x3D2/mPfD3pgxwVnH8eiUMEIHcUpqN3+0ldyq74L2rzcZuj7VWXoqw2YwqtvOdNQCW+bARQNPH5U/qEdLNDKYIjgUF9nyYpnWA74Xm8oiLRKgTZjJtFgZSvJ/bhW3S659UBsoZv9Lt0TlDdWNm6tqAJCmyZD0fg3cQq+zCC/HjbmK9eC8D6HlJJ6BkuBSposOtGHhXAQB1hqEJnZVs5hqbWnhHdKWwefGCC1Y600IOSnueeVAO10zN2Rt9f3+Nmy7o4oceXqCN/CYiQGMwYn1Tkel8EK3JLZp72WGxavSlwMMU4E5yrZ5lxSfIjETo17CdzeDNG5G93iSYsoRl4R2BiZanS27m921eLLa/ufwZ9MSMTYTHl92axnjADDAB4WIXDjN+Itas8kw5ZGVtPM7YniKquR6LC8cU0YwX5q/MnJfmPesgRLxymh9A5o+Lqw1kS3ziPk8lrY3EWSzhvZTwwxobmVmtIfgYMXXheK0ye/DJqW1HBmiix7Tj/dY+b1ErJXBWiPdOsIXU9eE9QdWuocr5+3H3gvr68XciHKMrQ1B/R/CnAVjslzGWi2SuAYMymOWR46DtIVG4IEESD4RaEUIvoa7xfhNCYu42W7x+0Y4GjkVQlxyiw0VqaYzPV75i03+8u7C/z/yJTBDT6FLz5ZVGcBLIqcq/Ya8JjZrt0O4j+IezyTcV3GK9G4V3HWq5eLu4mN7jjO8l6CfdGsmA7jp/3RYndoBMjjZzqrd/8VhQSbV9oDXOyaEsZpCLUBK1HLQrf5J4ld+4jdm/9JmQQ6g8231X5IJ1xmYNpSHZ5NXdW0DFCWG7u3gjG1EyLlUrZc="},"RESMIJE BRAHIMI":{"s":"bq87efzBr3HUouJGPy6i1g==","i":"d8SjKRzxVY252Ol7","c":"RCWguC2NrJ8mhEQ5JYJgAIa13JEOqlvj5BuKNCgR82r6qpOig+/k6tCAFCm18pDgPqzHys8N01boUByPC+1PDvWBVJ+3RwDCbs43SNi4NsjX3ARJiDCvj0iIvbY9Bxabg3Vems6jKHQcAlOSTuv7MbHAi2uJLWZFZO7WEbaVv7tXTEvyT70rBTsv8B+3SCUlYAfSD1Nqh2XfdPtMlRkCnAGQhOBRF+wcR+W/FP+deHysPj045Qdq3WUY6aoJhqZ3k7Dv3T9SL1VQH1mHAurLOD9dwfOgm03AiDiPVvAPdN7sKgUL+oxh0XILy/hhcetc/fXRa/zQX7bIshv9ZHx7Unt75mVMM1jImO4CNduyT/khg1gAZS686IeWRcVuXn2tO7xgn0RsA83zZxSJxuWy38FAmlu52CuXsJZM+MqRP2bmkrgDmWOVBdMZIzs5MrWULUtvaZ13viKNPNypOZcP1vQ4R9e0fW9OHTZF8wwHLLYXSDSeL0T1nTfIrbR9t1nhWJHVGn6hIj6XuRzqoYc6KsWy0a7pLGhoiDuvTZaumuQ4Av2O5sZrFc5hXqV1A2AUp9e/zMPt1W2jhhXsiIzvm5fItHgI+6PSPgXi1I6siZMtsBF1dT7Q1Vu3QjoB7ffYvqmXHpIMo34X5OslQrvZ4hWF/vZTinSV2p8T07o/bCUC3KIHo1IuUX4NoVFmfiOEiSCfoSceDsdFsmYxjU7A5k0aW7GXACMmcKkoeY747RD07kbOSd6IRvA9iYEro5+S5sNWuDyQjLQzXbYZOdsxWUSJ5Sacwtn7RL+KFtEyG58t6Q37NMDFRGaIBU9ZId62F8LYkOQpgkVIj9XF/s0QFUbyR5aL8R4dO2o7jw=="},"RIFAN ZHUZHI":{"s":"xVoTytQ1PMfn8bLWOH2d5Q==","i":"mkQMvQGy9zVAeE68","c":"TADAR3dLXjPzvC2wqXXCVEav2LXVIWx4Vsj4tcw6Q+/dYru4i9n/pUBkAg2b/Z34rX8qUGTtXdKfmtaefyiXKYRfTPfbXkDVpaRR+++xjXYOfrrXxg3qw2B/JNTtm8uzuE9VooJRm3Yxd8nKSmhNHhvrEbnD30PJUQUf9kXTuiykfOE89CIZksL3Pqkk136qmIJSA/sDrJyvrVjwNFwil+gh+VGFgppuFaxe7qTPJfV5gJnUME4u3O7w9S5Avq70L2r+n/kt8lhdllaKss3RWRTO7oRkF/WPWg0WwHJkJa1calNu1qlxUG8ijJ99KoEZjApNW2I6jfytGrNOoX2AIt2URGqis267RAJF9edPhh4uX7UG+jAwMWbj2+KmmFoy9c2SiXRze4VyJouam2fUUkSFtIq76KZPgikp+jMVUjusQb9LdibNHhpDl0VStTYR8elXdzjvigjKEkP4grajTALuFkuKsagPJQF+2WNNpChJ2u3xfjNU6/bwjNacgEfyP/RpJ1qaHBtdjxGsnurkEvxhK3w1prFfIgSOl6oLJwC2iTlikAMY9Wa5/WclJK//dhYuEFZ8kuthjLNLhTzTNYDjsyBBEdcT5sNy5LrY4WgR5ukhmgNLFdd2rrXE+tO99imAGtK7JP8KNz0sBQ7E+wKY6h7XgfbdPlZcJBsqbcF/Yojnpt7EX9Qu9rIh8pdLgyXIbe34px/cNxIwbw0SarUIA2hcK8ygiBD7tJcgNp9PAKGAIOFjSXHGkgfAIuSYZl0q3Cx4yOInmGP93ax+gDf8ED5ZWVOPAOJ16RHWPePOj5c4fQ1P5UXW5AyOOIqlWceEwPvrM3gfTE0NVhQemqWNqlE38Z2lCRLy1vYuMVluqKI/ySvWHCpj5jrKN+9sMGZMp/99kxQ6Hexh6Z9pK/wEjzwR683a6VZeSQVqovS+IV36RKoabBaLuGiC3rHXR91Pq+Y83LZAYnuXbWY2C+Anva19MCmJvKB5ArDO4xeVm1YzNzYPX55XbSQDTm0+Xc+rr1QYsSshEK/613c="},"RIZA CIBAKU":{"s":"dctQbVsBkuj5hU+r2UAfog==","i":"SeIvkV0poOMZsw0x","c":"MkYOgvD5g37wCavkRDfQ6Ko73ukQdeGjohkdILE7krxogLMvtb7Sge+NMiOtSzoc2ql3gTfnnwSXYxFvBkeh3dQeVRpEctcqQo5QJPsdGPmY6s+sF82vHG2NqKQ5HWY/ys1PihKV0RTUYnpSuGZEU8zpUVMX0b5Lzp6n/FRrlFbuvtfSXkgx3kq3vpim11cIkedYQt/wlNEMxBxP7fwk+FBr6dH9nuI74rDXdyeAXQ+CxhosS07lDuHYKTh0MdikGmsErBd3ienZB3NZy30joV604xNYloHHoUbad+zAPtYHe6eyNY9Pj1H585fFdRMNy8x7iY6tH5TiKEKp0COYruZbw0RBABqvsvcJTE81HoFrQq2qiE3Zreq8UFtUamJPp5TOyH/uFRJeHyoTWoLDhcrF84IUCSUJFIl7nuVolkKx4Og6xahERElMIKa5omC+f92jYAvtIo1AiqJm7VfylrFRV/U2DXAr1Ebn+yjFj1iUaxSm7YN4UAzSxAGFZ0QT35Zax1EdlXkvd5A03O05z7TrkiwNgIgEmDDl7EtrL7o3Hp5F6xbq4BY4StjW7q4dgTPMJyYiHUUQKER7qJWgYWMJBAyNsM5RaVja9EVzo10Hlq/zbatC4Kwong+mlhTqkGxJTk3PO2wgIjcRy85IHPHHnV+aKQpEVTiw7+PasczugOClubLf2iweNhlOhz7i5QycB32CgoGYibTYzuXL8Siu4wMgKP0zOqyWFKBUM5dcTtLRzBfwCshXMBDdY2YqHY00vwhtipc="},"ROALDA DOMAZETI":{"s":"udCZqVZddS4SXsAbTSZNRQ==","i":"HT2AYimpD/ZSoh+f","c":"3vgMuFsLKC/OXg24acyrPaTXNjvd3+LD5lP7hoi/4pXEi6BSOZqOcSyqsrj8Vc/d+4ZATyI8lscQG9W1twuydNUD0BFyECXSGkXLDwXMAHD5PdVymoeTmGkTBv3SMtp48eols57d/dXzFKNnX8+w2KA8xTWeUjLnxnnsrbzjbNC7aE3Mjif68CoTPFuEYHZ+yBbd7qisScYhJ8rBGNj3B8DghqwdxsHw16YZvDCCUh+fEgjbVHYUnvOi//HQxoelzKb5ToIHzlD5QJSAlgttlr5tV6u0yBwLUNGacnZDYttkPfszqOGgZczQmgF5JLYkyk9CCXFfNaBQl7kEFhpUebpkOBmhH3YHOYof9n0U5BY4YVfdTm0G54P4+TW63YzOS+W5kqdUYqfcUEcKI5WZUC9hf0NXdqAtLdXyxqT+5OtJt3vk75XdLnZi9+Jyb+MujxNbZwVe6DzpDPmRDIYAHg+kfKJTbr7wApTkdIfvrSp2wVBe+N93UXXCFg7sWRthLuAm51fjfw0CqB0WtSoVrs7efCHFS5LHOK+P9pePR52SjnT374OXhjEDd48tChdoNyMBRGDxXvp1ddMB/3ao36RWtImry1EkI/hKauc+2/SiMQNIO/UVtImfCiSJWF9ydVCAYoP0NgoBmO5wqsO+VCx+VYIKGH2Mof7MB6ROkoEX9kVOtsw93KmP6+IoO0jIWt4xn93zVlKIUObgWGRA7Aw94sKfLtHDb5rrXTzh/72xfannqF6WU55Qqk/iTol5i7KuA5BWi8VIYbkenPWbetLPNPhNjm8d6H1ZlNaQzQz+v/4UO9Xifr8NFEOzUUdOddYurxtJT7yW2IjUZhNJO6JSGGe5gRWYkh0t93WFURyKAfwwIGLDycERueFievPGhHZV66yzjuDNC4FLlnE/mx7j9u2JmqjM2hn4ztW5xFJfcpt73XDqI09uOafqmGx3WeS0cvZX6wtGtX/1rtuYgM92eWLasSPFOJ8Ef8EF3oItkl/1v7k9dPjsiyEASCe5p9+VfOSOUk2MgLLOxmtR4SpJ3rzcAmznuAADxaSD2KGZLRB5cafc7RYUnXlLNQ=="},"ROVENA KIÇI":{"s":"2mvpyb+JKnrpdkiFeQ0GjA==","i":"i4T+9mXZI1qwNXDl","c":"OEB5fw8OFeU/xs0rqBZe2BcU4VbvCVJZO+/niPyz1zYrquENw9jt6xpJgM/29bir2IP46sNx0vZM6tdUvUxON3W+tc7J7GhcTukZhcD+zm5PPsli7zMezGOm7YF2GM8+qCfpcfXXXqeTbK4SwNtbIzXJqCmw71hNAZghMdkTuVP43BjhNdTReLxoaS1Xdig+Up8Bj99b7K58tZkIdZslAXHgX6pX5g3axMsE/AyjyAMl1ET5HH30wLiNrF6wMI9Mct4ZZkPv8bh9/zxWUDHYObDL1R6f4vaFuTabBJF5pKe5dsS5zhItI8Md11HamkamrFp14BGAVJ6L+1tPPA5SGmetmFLD+6/vbcd3WGpOUNPe9uHcugVJd21IgSHHen/SHDraE5QPTrwH0SPcFp1AjuOQYZDDDCyRwu17/7FHeWmvg/NyfN9D6E9Ow2XnixWcfp3+u2FVJhCKxmRK+wLhouI3Y3wo253dYn0VB0O88iI3DvEL+M7EfY84FXMjwnaLZmNduxdVI1Hgw4UiUWP2D9lPvJClf0cGJDJpuYI3zIMatUzrIYwbHJTkLj65Poci2gBNAK8zmjONim1iY03yA7JQHur+3tnjKR2+ygl8qS5cCvzmjDw/83Ft7HI36BvbKzYMPxuQS332MSLB+jAUup0SYQWCYvJ8vfTEyaCAH7Gk6L3Hdti9mEaYEO8Q0l3BTD9emoOnK3wxpTHPjFzbxZlIJ/4sZtXppr7Ki6xazR02eaacc/mw8KX1lIwIWcziJ16ErkJFXTLf9kvvAftwHbJzPY5KVvwfGT1LkOx8jRnLbupsht0zRyei0ioC/y0PrxlJD2rkhNeCC1ZRdf6uMnOvhZz0bBKq3o5qmYsN1Q6szCL00FwLlZKrUWqjsVTliA/DLXvYHauQ2c5m4zrH0f+oy/R6NEs7KeVaLGqPP0CacQGBMSr2H+mLRsc3us2pqYMkFblxNDaa9XA7Y3+p6P5yEwLeU3Qbfur4MxZDIfbn8UAmVMgMtFq1wdAItc353XElczXG3o/BR2B3FCUeR5YklEYpSRQhbmhila+XNSiFw1W7HZKlfw354Ok0zy02e3oCJhDyEaGkUtPFbKxBTrHPqCGM6/v1Uk0VaMa2uYts3Uou"},"SADIN TOLA":{"s":"g4O30IYXwqdt4dQi+S3gxA==","i":"HfUJ5B7+cM1KGuq/","c":"1XTv/XXpth8M6+GCV2h0QBQlOq+m8QIyAaOh5xCGbZFDNy1JLcV1bOnpi9ASk/CmRJgH6FcyByR2XBxJPA86/EOHTr606SLvHdfKfxzPhOm+U56l5q1Ogx4pR1GwJl1yBPJMs4vLcI1vvNBpsXdd0CgphOCsSYKeZQryoY7+mBUFtRtyzohQmDWXcOROEh4RmZSH8cN2ZL6JXx6ix3RVDmIZVsUuGY35isBVhy6hcWHmVgAMQ2x+RhlGAghtjD50M8aW5Vw9zyYQkmkpF2XehUby4UP+YRWZkePBc58mClTleTiVfu2vJ9EBP7Wn+6kstb/kHw5Jo3W7Hanlx1tAV996TCecB56LpZ1WsiG9GTJuryxZOqP6bvpoDNyKIofqyd9dPbaRC61awkOcc3M+M3R5AaXw/PJy96mA+nl1rD3bTjAXz15kAYHBPDrNkt/YOBZ2moqIfsrUuwtGfUm2aiVUGZzpnbbybr6iUcmR6jX0WT0L93nz/lUvvuw3YZUXzowZv9iGm99xUkWkMeUvFIBBnxehJNnsLVGq2mlEUVaNQKisdgHkWDjJ9qzVBm9bki3ONXMZ+tdpNB5LZcu52/lfTIC8AwTgMoc5smJjRxf0qseImut4O9oHdwgCH+bbxYQcFDfIBpngafqjGW8yafizIos14cnD367GESxywnTzI8MckyX2ZOtPgwSo8XhM4is63egX8YrKKRXMJwUuMYTnGJMpyvxr05xRyBOaTRDsMOYKuh7Bvfvr7GwGHzeu6KMRI3dkR5rm70Qy3r0sla8NZx9WuwDeFQDzMJBQ5xHwmadq6IPhVF19A1Hyb5Fw5bWka5lrhk8fkAEMKUjTI7sbLEv2BLpKozoFQ397zEXgw/rrB9SnVAgAVTm2nyHbvJc="},"TEFTA NUREDINI":{"s":"M23Et8y9DN4/5P7VtMG3OQ==","i":"TUVKxbkrTFJu8GVC","c":"BMj70IKQg6mVCPLq4E5rjSSpfTN8naANmmOyjGWwfWoqPTMx+9q8WxnhZTWAdjzbAg0aFuMBQIDbUqzTCnXLH0GSkLBZ+fYj9VVERV7+acsy15FbCPrU/Bt16tXHG25Jku6Eq4dmuegg8oGzFXpcB259V9xRN3LRv8eCfn9flnVnLNGgrNd6XlMFua3fj862p7I3uJZkaW22una22L35dM8ZtDnCD+msQuyC2RaeNfTdSClX3aaxgPhXD/7y8BCc9aWcutVco516bW8bVymnjAHIGMMdIRP4q+tqX0F7OFClIg8P9JlUSf+1cn0rIzTtiAgZbsdUjXhTg6U+4B6ZvTvoOio+f3v/d9Jx+mtJqIcqq7bStkYlR7nJrAOD5lMPmmC7aItGP+kVMZG6G/7T5bb/ynrNDBTSdkC60OhCJ3DNBqlYqqQjbEt3SvcUHPb7Phz5H917bfHU8DhIIt7q/Mtf8jhAirMRuQT1g6pHlMTnnZK0jPj/aa8vX2kdSVtp9iNFI+bqCxV3OURqS8POa5cBzg+cqMJSD9g3CDs1xfRV64k9JiobxFQajlR1IcO25eAuXNvpPsvCIwpnssDtCLjK9cef+MoyzAxtSEJ2KXXspJIBvE1K5bX/0+3oYmD2zCz/F4rYz3LXzlpEwQ6HKSOYhLvd7tH8vFNH1hTYZ1Otl5QJnb4w7qt1l0XpORO28irAaze0BzB+q1s/6/Hvk6jPNFP38+NhagZgHX+lyueV8ZFPmNYBSRjhjuXD/N7cBgiE4K/PRSMkVL0ieGZ5ve0nfByqi6Ec4Rf1dtku8qdEnJljlfHzKgd9iEj53QASCcR4dDKnTszU+A+OQlf5QtPg6+r5VKBqTGx4Oiqm/ZAv0Iapt2I="},"TENEDA TOÇI":{"s":"7hYMYHyi0J6o49CO3FH8Ow==","i":"bLrc2Ad6RPipz5HG","c":"1mxr9A6MWm9Vd3ySba1kl0gscsCAc2aTZM50frGh6l0+NLV1I4szIYN0nyp5r+cri+gJa7QMvrQowe6vtcFj6Zwrl4w6KeqGGG7PbwsP0sd0b10ezA9E7lDX7JDtamtB38ZPAkYhz8RBtMN4hq8insOBcgUHPwko9ic2ShmExged2C6Noe/4Fs/A4ezuqxl/I3ukVhxC0bWIgOWkxbDvFnrbYfsgtEZj2O561irVb4GNiK7X0e/lw/Zof08tAmj3pLdm3rnvMJLZxTb8OPx0DMdrczAQJLKYW/C5vAoQOdivdAo/Dl7QT/rlp+6C4V7/1cv1VIRVXFpiwrR0dwV6djY+cNyZoxZX+XgcFKwLceGxe6COdF5wnjMg56V9FMw39bx7kv63EyXtk8Xt0ACpmwtWpJuDYw50ab+ST3BoOdcljE1U9Q/0dX4MydmgvoBvSCq50//nZhjACl+gGR10Wr5/ubFXsIjKReQ1ifpMC9J1yOP1w3E0W/x63VPFuAUAmrl4yfOC3Y1Yb3jUWY7aXHqbgvaxXK1L9kRYvHk9Oo0pB9AIUmQyMynbSTlW6Zih6xIwcsL12U7m0YR6XdhdLqEqoj7Xe5q3ZPwhHdyo+oUeudRHzkFiG4NyRYjxi68OY4nhfuTD1caXkPnegpvDK/b8pU/JuaW2x8KMbDY0dbH7bqZtYDjyBJqKOrbCCEKYwpPfV3C1ONIQeW9S1IOIsXiQRuPb8XAJi1E6ICZAJ2tjntMcmhaM5i6E/kT8BNSIvoXYRdNkvHbJabXMkdOzcUmMO2FlQdtmvS0pjkINtjLKD3gmnwSrO249znL1ZvrUVA3HM/3cKmx1mLMEJUX8dTXhpGfyCsJDiCaQDiDpO4uLFTBrapit8Ckc9xFBl6sjMRbnOheBe43D9IJr1GCjFizflOKFHVv9SZJ6B8JGXptJoviV6he1bQqLWtgw6TtzUtZ3mlBk0fDIgkb1MytqgZs8FBR/P5Jmy5m7n8Rh7cY="},"VALBONA MUÇA":{"s":"vfxTXz6zbNj2sgi3Il71EQ==","i":"DVfjJqDGPeUtK//E","c":"dSgEM4lD6ymxsvJ/iQR/7xr50GdZ4ZSPKjJTRy6zfrsJct3JrcLWL9RO6pwb9TLT7o5Q0hP4IYVfLw73BTOyrTfyAiYrPkqoBj5fspVjeB4B7F2+dbPNAiX5fEefkGCBedkUre67ZDCAJUqhCT3GpT44m6+20+OMzm2ppgDMTzyw0MCwGYZDfaTXe9Yg3hf4quo5jJjafkM3IMxXjH2N7ReRlVVHoIQZIOqjrwQ8USNZzvgjoYWmGwlAUrAYtW7IODU2mZl7SxMYJcozZkCz6saa7yNHnuU7SjtUC/Jwg2T0E83qBG5MYsTbQhgBEBVIaxdnDj3KyvHe4RYSLEopOxaWHovGznmYZRXhL5k42f9C977b1HarpNQPAjE3UiG4nL98dtejyAEfPxxUxa1aQEO0FIq2gy3F2645Agt1P9FJc8so7FDwRh3J7V+0CHPm1j32qs86UOMBg0hjRkryB7BchksEgh/xiqMawM8Kpb2H7A63aPet3/jFt0/du4/It3qZl9r+5T5odBdKP/O/ErkMpnb24ldqQ+32Z+bUdAdylCjxJmxJJW/UPo2mcNHe4V9RF8/Fqf8htof/gKhp0GtSmHuNL+IpGuSjUWKkvsPBciAp4xVhx0dnCjV0XY1CSUeATxJHHNUEH4o8/6cb/UMMgPQOW5PaRbKMQDk8KIBknEMaUfkQLmPJNKEzkcLyqo1SHmKmLvjYP2Twf1W/zyq6tmYPtibEL+LGKpuV60A7ZDJ3zoLSGKKDCUajY2E6iYc1a7qkzAdIj/lNHMYXOsEu4Tguhr+bZqjyCdxen3fdI0ma9h4CxeaLkWRDb0GKfV3PDRMS4eD04fu6KX6KWLZNLslMADh2k1y5OuLL261c8KQJ2QpWhueJQ77bz3FpYqh0sSciOqc4JyYAHx5kAB30d22XEu9M3xhKOsBPMTM2bjTKOxAuUze6ba9ooccNKk+mishi7ElJsAZTk6FRF5YtRpyA0ioaH+UM9ngvOeP3YyNdloRhq0w1xQIM1pGqKanJ1fVC7e7pPy0Id9Xb2HB30QCsXSbSrr0="},"VALBONA VRANEZI":{"s":"XhUPFb3RHie2GNCNbXDBkg==","i":"vPVEMVvFDompi2/W","c":"yGJ4Qd9Sfv42dZh4KkhaMhQW5P36b5BAq5Zqv36+gknZa8QpCwXe9ADFLEzdWEG0OWBxZ+Qc4eYTJ1xcWq38PdNd7P7KGjvO+T0XmOAsHqotpc54wXeiOQB2AjQN+QeVPSdany7ksbmXb8c7HszLs7I0NdwYVf2A9TAi/TkUoPPAN6Cuty5UL/B1An99oX7LuDviRnGUzMJhNpZAFJAnlCf9Q2jQdAFiG5NxHUEppDJFTajID8nZc78XR35br2cSytf59dyHXHbNnAPITmxAj2Y9V5KjbA/o6K2C5xOmqJKvW+iNLjOwHRfXNEFWI9ML8FU3wL2DCuEkHu2g1NcV8AIbDZE0Ua8TQEhd8+cL77DTzntJtYpNk1zi+Kpy5GPLokmo049x7wh4f3IpOy2IvwMaY8DtV8Iu7xSuN+1JKcopWUEzCeECVeH93/DgoY7ZNhc+okzlGXLj8UCacKxZEnyPgudoGuqARAmZ36XRQ38gG24JemIwwZaoAH+9hVJ0UewJ3xgCSr+QIjsjIQVfwCxoBLPA+qovXDHHKfSezTnIdiIRAe1h3l51m4M5jmC1ztvGiv6Y/Mmr9oGFgXlI1gquQSRKXvDQKJ/w6rVkan5TeSKJvEcBe+F7vKh0Nu0k/1QjxJJQrVk6A51BwtJ/EDJ2YROLeB1L4pF2WXqSKEzLAhFDe0wm/Nz8wbGX7eg2qUvpn5A4s7StonRgfxpLECwTPCkWjTu576rkVktYrUkbhGQaONI/gSHkF7Uvol7c9f6XZdMWqHsT/B0s3Kd796yfwkzmPHrEnl/fnwYXQFppo4x9U6kzBS5N9sdrInfBFCO/uuAFzui5Jh2rsCbEftvoVnRq6iX7qFgGCD0O9F0GpjBNCTEoi+xF0yWsJ/l+9DlZErJFRj4rICZp5rYww3JzTEB5It9+muNAsvXAvbsL8RwF6CyZAF0VoS9Czuy6mrBe0DERzqw1JIKdZxB661hy9IdY1pyPAvpFg0LB9+NW8DI8MICM0IPzskjhtf0aBbd4V4TiBcqbq5mYYjJXC6ezsEt2dcxoHSpwmC5XkzWcLpu1YjVX+bm7snjNxr6DBo90xWJy6DOcURr9ENWMJmqOsstHLatn6OB9X8VaW1bLhzFAByY/GcwqFkdcLFvn7xD5z9fKtUPFKi4WkJrmXP18pGvyRWS1V9g="},"XHOANA CERJANI":{"s":"rbiD7z3TQW+HO4MFrRGWIA==","i":"wryN/TWG5boxSKdN","c":"+8yclQCXIBqX/6diu36QW44KjcfS4XeU/Zd6EY3fJwWNNUP86vzPkqCu6z9K1lpnWA2O28ZVfIDl0sbYf31NRe9WrFRrYLPCgltZi2lqyWQkLyU0CQiii55Tz1hjn0UhSWeh8ggoRghUOSSnOuTlNhOn6h64ZeN1DmWZ508DVmI4bRMdOHKAW57fy58QLwVvaoSnJkP34KtwiWV0KMf+RH0m11Yzv3bfK7w0dsRszp/XxDPVpyNN474UmjQBfMZxF2K9FwhjiJ9RFWqwSOq7sxn/seLQTPZgXARJ/A5R51RhezHM+CxyBVHSKQSedPzBzqltdFcLPXq4APVuZeuNU5k9aRalINYk+DtCZvTI2RZXs5Br9mXMjHQh/HWJX7HOR6I3aZ/QjFon4zkdjRDL8CjkxXSfwL8Bk34bHad7dQcH5m2sNA2ie+ov4DHgDB0LObilYJA1vjm/kW/68eknVr7LbDwaZy0o2LocgzGA3AoMcRdr/30AfokpJ9kAX4X3Fvv2ItEaCKURN2KajAxbFlu5+4JkUaBX78yh8sqZF+x99UXgPH5xAlgdMupypWhwlX9x8u1oaRHBEHU+DdfTyVJ2WSsCdV65kfbonzdeptlyvUI0T8UQx3dLhdPQDxwwSaFK2hsLOW4TLV4u9F5QfrshETjTazPptQ9aOHto5xyXpUF+e/eJXdS20WxF2ZvZeIbm2QKTLzrSDre8BMWvJwnwqRmvmdUT7rfuUtH/kSsR1vS/vQip5W71tiJUvhW8KXDiUTgSxEnV6QR53eWWoN0LdUCTJNMZpjsQBDUk2tg53vSM8uQ1Q8djMx5f6P5cXsVcAdqnm9tjsKwZR2vtQuGkgWLZ8OqH3Pjn5q7OVildiTigCcMq7edjfvXFa0mrjlNPJR8W1E+MW0Ak6vBkefPuOZjk4REJdLvdZK4wihPqpb/FtQwN2z/L6OiQYDxlgzTinj+Kafss+mFv+uDlU7W6gqyzND8YuBhWNSH3TwsZMlM/sftYT9V4MQ1Xt596yh3EsoGT2jInPefWfmryOin0t237J0CoWxSpncgubbEYHKk6L0YLWpcqALJpCQZ/a4+VrhKIWdIMz9qSG1JoNGdbxVs83g52IBL9c5bG41WmGGTp0Y/XckfIVGpu8Mhj9YJQseO8XKI/Cwg5EapYzvAOWQvROsQzuAkrAUycgDMQj+mJGkd6EoypSy5dch7ECIE/o/WRmNqVtZb4jiRvkVjh0xnsUQ=="},"YLBER MUÇA":{"s":"G3rcMsehaWwV3BcvW5Rgng==","i":"Eog9i2NT1OcTZv6P","c":"Mk7qEKmGAVXsoFER7zNXVwLiDj14Z50TxtbLrRFjEB7bWVTRXLi/VnTmnIsvXvM0j7E6xywQGILeDR3LSdA117v4TX4iXkJfQHkVCiejJPqAWQreT8d00UO3Wa+FKFCeryWLCQ725hwtk7K2rS4uUF2zQn8vGEVfvunSlW7Yh+h7KL9zmEF2u4osiSN7bs5oozIF9i3B9lAkQonq1M7tqAlJTcNGE65Q8ItyWu+h6rb+VYKwTVMJQaj8oIRihJYWLu/ziD7BfrsVKHdahfm3WWXEv/jwW5jCgtD898iCGjYrqpy3D51Kn4OBLTKKslEGHfGBowql0RzCcttJVG3uMgSnWZj1P8A55G98Br1sWCywIEnUv2LpD4X2AnqPs6cOw30gK2rx52M6xNS0gXhYzT1sI+RGR3nFTy9MXbRepeKtdZMaV1EUizPP9/JZ2f+codVprAIJpS6nb/mPxcHnBLpg4hHWFTSRVr9erJ54xB6crVEJkow2MePnczMQ8+Mlk1c5FxltxsS3+44hOwG/popypMoJj2kCsYhes0JOqvTOtN4FUhp7af6F6KXsl/sKPomDTzViLx/DdPXQn9BmkVwSP7SkJbpcFhFQ4BJcSnTl36EGhws2jGwsj0QoLpUEq4mWA3kzDjAv17IaDDSDA1Oq+4EYhvuty3DOHbx4ioKqjM1l6LoiWR/aqD3r13/eEjF/B1uW3sOs20JfyconZZkQm2gH2yBxA715js65B1SihI8jpPBo4QKUnqE7xrxfRknrqxTdq5xKGuVwzgD1iaO/3mYQn1pVNgw9xYbtTLiipShHA+0zaLuL85jBx9q/JRbl0dftUxxyrJDLOIKW8lrO1k9OdYuNCUnNxvtqrVutaXaVxXvNModSrEr2JL7JQrw7y0TJFtMiDCoCGgnTbpTXWXVsObLxn6NC35NNnJJhMJMvzqcBMbPRexca/8GBrQxn98Tc68Bj7NuzOtLXPnRY3mVQK6GbWC1ZuC5PajRRPcfzXZ3zoINPe3HRsMCfxFr57SxiA7/LMvlPUrmV1XrJUIwUO6oTty7ebk5me0nQusv/Iv1twYFbRznOYaLIxID1BGUVOzldh0AeirpSe2RmqXWbWQIhmWPjjyIw6TwTlPwWCxFWLXtB4GMhMZ5xPY2T003HmxZrKfuzILyGndF7pqUn3AhBIbk2mJ+xd6eS33RcNzYcdUtN38FdELv2ER3jo6fkczVGoghKA6N7M1P1Ju+xrWq+Mx1pr/W9HaEfg/j6q1fhHDGY1XwzGAsYF0C5GIKBnevbYR1Gujlnob8LCmhX9x4QJ+wcdSucnFXi10AEYof1iG25UmoRtauwhA/a3mbTJcNFnQw4lvxlOzraAmsFbGtbz2Sq4g6TMn1ABiImgAKutSLli+QpL5RN+m8kUmGCT11y++CkiUp6LJlWmdrBQWwiMQ5YPwpIV7nNlYgB7lNFV7M4FAIAXg/JHEyXWkVw2dzMUCbt1/ZInS+Zexiq2/M7pELK8kXTvWe8xFg="},"ZAMIRA ELEZI":{"s":"ysPxqUlIxffo/F5gUdKRjw==","i":"uBMEAuEfd+QXHcps","c":"K17N/v9r4+1D9ZgFP0vfnjyemXL+eDMc5gVbs6EarozYvLnzhjpVw1voJzcTGcbuznKDJhGMn+mcop6kBg6+xkqlUyqc+ooer/ijtVXJNMS+7Kc0S6H9KHs8dV+GB86akTQzDjQQjnBQlqQqnrj1X/ae5vPWYXKRUP/zcRGLkgojw4+NzUoxsAX9PF8wkh0pnMDHzOElAleaf1/pZchCR0Bwp1TShtw7qNyGx+bkjTLgZmiwhdafhK5OakBBJX92RWnpwxrhKjf39nj0Hk2dxYtvIr+LpGvHmQqpBZVXrH+6U2Nt3U6GfZyAx9DxngLEVC/Oa5Q+pDLlQPWynVfcPFAJkLOiOKHt9+7qCbmjp5PU7LnHBAmPOUGg8YyjJqLkQCMOmaxKSG4ebiSKGn1ZsRQAUO/ZVSEFFZ1wWGKWHDHxyZ0Ob0MExkbA9f5USczHUd61CyrVqu8YodGSDzY0aXE8rtTSV56rKksZXI5hDNoftUH5ojg0qlh/o1oMuQ6P/cerCm2gNNrB1Sfv/2uYg4aLzkrk8pNXeY9GyijgwFIDI//phM1EWZFnPByMwElTVOqX3BNIxEBKv35SXDRn4vlc845dzoM1iBCJk7ls3JWe2d65bRkjEg8BDt6mu5qxClmmPlzYo4A0U/SFVcMW9n1bm+cpOUe+AQEJ0bE5d92/eI1+Z9c6Ti8e8Um0ja/+fN5PF5vxd91jBUfJ3XqM8D6q84nYbFMnu7zOWAM+XuwhWsYP77JrchQI0a95qIxUrWZHEOaKW+cBVBmziibU4sXjpN7cpupKcGlmLryrPWad9qt2oNngmT/j7Ixtbm2HYYkyklUERZ3gIXcauzZvA3ICJFzfcXkMvSXYNYvT8Tmm3kcJX/WhoJWtHtNltVhQhnvS666//KRqU7OzTA1UNXSpfgPfqNBw+436DoMZ5Bqpd2DItxT1dZ7EBB2EAg8aQSCOaP9+PG+QlxJdoYwp21GkQpBFli569CiEOK4sLyFBKWsRg+fx8yc67Gd+M+tO6YMFpIXVEciF45Rw1Jz7Rf4oGQUFheU5Y15Bu1gp+XeE4J3v2NKbCSN2YeK0IL5YRT+37124QfpaSALr0mWwoMdVs4J3s/a8DFcPd1OWfuhq+5v7XhznZHD7wAMY+vBBmRvHA++Ur1/la9tAONY5IxC8YdpgHSSnuci3wrq0usZW4mcbnWwwSvuyBkYcdjyKXPCwbzlN47hYXQkErlFNFGZbxfKcLOmjMx9T3qPc/lMEVMbZXWS3Yt1KGNjXYIb7oUqzSxDDysoYdK5G5jbhMzeLfYmZRBqdn4zBU4mIII9fd8fwrzn+zrcj0x5ibTU3GxVG+nM5pa1xeUE+HBr1ys03a0YTQ9tlbQS27nLLUkZ5Gx3snitYE36H6XJSOMt+9UGkrPL36G+MXg=="}};
+const TEACHER_LIST = ["ALBINA SHAHI","ALI NESIMI","ANILA DACI","ARMELDA ISKURTI","ARMEND MURRJA","BELIZA TOMÇINI","BESJAN MUÇA","BEXHET HYSA","BLERIM LAZIMI","BUKURIE TUFA","DALLANDYSHE ZHUKA","DENIS LAMULLARI","DIANA HOXHA","DONALDA VRANIÇI","DORINA SELMANI","DRINI GJECI","EDLIRA KALOSHI","ELIDA RUÇI","ELIDA ÇERA","EMANUELA HOXHA","ENADA HODA","ERIOLA ÇELA","ERJOLA LATA","ERLIND KAMBERI","ERVIN LLESHI","ESMERALDA LUSHA","ETLEVA TAFA","FATMIR PACI","GJUZIANA HOXHA","ILDA GROSHA","JURIDA ZEBI","KLODIANA JASHARI","LILJANA SADIKAJ","LORENCA KARASANI","MANUSHAQE BRUÇI","MARINGLENA SELAMI","MARJANA ZEBI","MATILDA TAFA","MENDIM MERA","MIRANDA ÇIKU","MIRJAN RAZA","NATASHA XHEMBULLA","NERTILA HYSA","OLIGERTA SULA","PREMTIM SHEHI","RABAXHAN PILAFI","RESMIJE BRAHIMI","RIFAN ZHUZHI","RIZA CIBAKU","ROALDA DOMAZETI","ROVENA KIÇI","SADIN TOLA","TEFTA NUREDINI","TENEDA TOÇI","VALBONA MUÇA","VALBONA VRANEZI","XHOANA CERJANI","YLBER MUÇA","ZAMIRA ELEZI"];
+const PERIODS = [{"p":"1","start":"8:30","end":"9:15","brk":null},{"p":"2","start":"9:20","end":"10:05","brk":{"s":"9:15","e":"9:20","big":false}},{"p":"3","start":"10:10","end":"10:55","brk":{"s":"10:05","e":"10:10","big":false}},{"p":"4","start":"11:25","end":"12:10","brk":{"s":"10:55","e":"11:25","big":true}},{"p":"5","start":"12:15","end":"13:00","brk":{"s":"12:10","e":"12:15","big":false}},{"p":"6","start":"13:05","end":"13:50","brk":{"s":"13:00","e":"13:05","big":false}},{"p":"7","start":"13:55","end":"14:40","brk":{"s":"13:50","e":"13:55","big":false}}];
+const FIRST_CLASS = "10-A";
+const DAYS = ["1","2","3","4","5"];
+const DAY_NAMES = {1:'E Hënë',2:'E Martë',3:'E Mërkurë',4:'E Enjte',5:'E Premte'};
+const DAY_SHORT = {1:'Hën',2:'Mar',3:'Mër',4:'Enj',5:'Pre'};
+
+let currentMode = 'class';
+let currentClass = '10-A';
+let currentTeacher = null;
+let activeDay = parseInt(DAYS[0]);
+
+function switchMode(mode) {
+  currentMode = mode;
+  document.getElementById('viewClass').classList.toggle('active', mode==='class');
+  document.getElementById('viewTeacher').classList.toggle('active', mode==='teacher');
+  document.getElementById('btnClass').classList.toggle('active', mode==='class');
+  document.getElementById('btnTeacher').classList.toggle('active', mode==='teacher');
+}
+
+function selectClass(cls) {
+  if(!cls) return;
+  currentClass = cls;
+  document.getElementById('classSelect').value = cls;
+  document.getElementById('classBtnTxt').textContent = cls;
+  document.querySelectorAll('.cls-item').forEach(b=>b.classList.toggle('active',b.dataset.cls===cls));
+  closeClassPicker();
+  document.getElementById('classNumber').textContent = cls.split('-')[0];
+  document.getElementById('className').textContent = 'Klasa ' + cls;
+  renderTable('class', cls);
+}
+
+function buildClassPicker(){
+  const p=document.getElementById('classPanel'),sel=document.getElementById('classSelect');
+  const cls=[...sel.options].map(o=>o.value).filter(Boolean);
+  const groups={};cls.forEach(c=>{(groups[c.split('-')[0]]=groups[c.split('-')[0]]||[]).push(c);});
+  p.innerHTML=Object.keys(groups).map(g=>'<div class="cls-grp">Klasat '+g+'</div><div class="cls-grid">'+groups[g].map(c=>'<button type="button" class="cls-item" data-cls="'+c+'" onclick="selectClass(this.dataset.cls)">'+c+'</button>').join('')+'</div>').join('');
+  document.getElementById('classBtnTxt').textContent=sel.value||cls[0]||'—';
+  document.querySelectorAll('.cls-item').forEach(b=>b.classList.toggle('active',b.dataset.cls===sel.value));
+}
+function toggleClassPicker(e){e.stopPropagation();const p=document.getElementById('classPanel'),o=!p.classList.contains('open');p.classList.toggle('open',o);document.getElementById('classBtn').classList.toggle('open',o);}
+function closeClassPicker(){document.getElementById('classPanel').classList.remove('open');document.getElementById('classBtn').classList.remove('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('#classPanel'))closeClassPicker();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeClassPicker();});
+buildClassPicker();
+function buildTeacherSelect(list) { /* replaced by autocomplete */ }
+
+let teacherDropdownIdx = -1;
+
+function filterTeacherSelect(q) {
+  const query = q.trim().toLowerCase();
+  const filtered = query === '' ? TEACHER_LIST : TEACHER_LIST.filter(t => t.toLowerCase().includes(query));
+  showTeacherDropdown(filtered, q.trim());
+}
+
+// Mësuesit që e kanë hapur orarin në këtë pajisje (më i fundit i pari)
+function recentTeachers(){
+  let r=[];
+  try{r=JSON.parse(localStorage.getItem('orari_recent')||'[]');}catch(e){r=[];}
+  if(!Array.isArray(r))r=[];
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);
+    if(k&&k.indexOf('orari_kod_')===0){const n=k.slice(10);if(r.indexOf(n)<0)r.push(n);}}}catch(e){}
+  return r.filter(n=>TEACHER_LIST.indexOf(n)>=0).slice(0,5);
+}
+function rememberTeacher(n){
+  let r=[];
+  try{r=JSON.parse(localStorage.getItem('orari_recent')||'[]');}catch(e){r=[];}
+  if(!Array.isArray(r))r=[];
+  r=[n].concat(r.filter(x=>x!==n)).slice(0,10);
+  try{localStorage.setItem('orari_recent',JSON.stringify(r));}catch(e){}
+}
+
+function showTeacherDropdown(list, query) {
+  const dd = document.getElementById('teacherDropdown');
+  teacherDropdownIdx = -1;
+  if (!list.length) {
+    dd.innerHTML = '<li style="color:var(--text-faint);cursor:default;">Nuk u gjet asnjë mësuese</li>';
+    dd.classList.add('open');
+    return;
+  }
+  const rec = recentTeachers().filter(n => list.indexOf(n) >= 0);
+  const rest = list.filter(n => rec.indexOf(n) < 0);
+  const item = (name, cls) => {
+    const q = query.toLowerCase();
+    const highlighted = q ? name.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'), '<mark>$1</mark>') : name;
+    return '<li' + (cls ? ' class="' + cls + '"' : '') + ' onclick="pickTeacher(\'' + name.replace(/'/g,"\\'") + '\')">' + highlighted + '</li>';
+  };
+  let html = '';
+  if (rec.length && !query) html += '<li class="dd-head">Të hapura në këtë pajisje</li>';
+  html += rec.map(n => item(n, 'recent')).join('');
+  if (rec.length && rest.length && !query) html += '<li class="dd-head">Të gjithë mësuesit</li>';
+  html += rest.map(n => item(n, '')).join('');
+  dd.innerHTML = html;
+  dd.classList.add('open');
+}
+
+function pickTeacher(name) {
+  document.getElementById('teacherSearch').value = name;
+  document.getElementById('teacherDropdown').classList.remove('open');
+  teacherDropdownIdx = -1;
+  requestTeacher(name);
+}
+
+function teacherSearchKey(e) {
+  const dd = document.getElementById('teacherDropdown');
+  const items = dd.querySelectorAll('li:not(.dd-head)');
+  if (!dd.classList.contains('open') || !items.length) return;
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    teacherDropdownIdx = Math.min(teacherDropdownIdx+1, items.length-1);
+    items.forEach((el,i) => el.classList.toggle('active', i===teacherDropdownIdx));
+    items[teacherDropdownIdx]?.scrollIntoView({block:'nearest'});
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    teacherDropdownIdx = Math.max(teacherDropdownIdx-1, 0);
+    items.forEach((el,i) => el.classList.toggle('active', i===teacherDropdownIdx));
+    items[teacherDropdownIdx]?.scrollIntoView({block:'nearest'});
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (teacherDropdownIdx >= 0) items[teacherDropdownIdx]?.click();
+    else if (items.length === 1) items[0]?.click();
+  } else if (e.key === 'Escape') {
+    dd.classList.remove('open');
+  }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', e => {
+  if (!document.getElementById('teacherAutocomplete')?.contains(e.target)) {
+    document.getElementById('teacherDropdown')?.classList.remove('open');
+  }
+}, true);
+
+function b64u(b){const x=atob(b),a=new Uint8Array(x.length);for(let i=0;i<x.length;i++)a[i]=x.charCodeAt(i);return a;}
+async function tDecrypt(name,code,encObj){
+  const e=encObj||TEACHER_ENC[name];
+  const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64u(e.s),iterations:100000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64u(e.i)},key,b64u(e.c));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+let pendingTeacher=null,pendingEnc=null;
+function normCodeIn(v){return String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'');}
+function customKey(n){return 'orari_custom_'+n;}
+function stamp(n){return TEACHER_ENC&&TEACHER_ENC[n]?String(TEACHER_ENC[n].c).slice(0,32):'';}
+function getCustom(n){try{const r=localStorage.getItem(customKey(n));if(!r)return null;const o=JSON.parse(r);return o&&o.v===stamp(n)?o.e:null;}catch(e){return null;}}
+async function tEncrypt(obj,code){
+  const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+  const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:100000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt']);
+  const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(JSON.stringify(obj))));
+  const b=u=>{let s='';for(const x of u)s+=String.fromCharCode(x);return btoa(s);};
+  return{s:b(salt),i:b(iv),c:b(ct)};
+}
+function resetCustom(n,fromPanel){
+  if(!n)return;
+  try{localStorage.removeItem(customKey(n));localStorage.removeItem('orari_kod_'+n);}catch(e){}
+  if(fromPanel){const m=document.getElementById('ccMsg');m.className='cc-msg ok';m.textContent='U rikthye numri personal i kartës si kod.';return;}
+  pendingEnc=null;
+  document.getElementById('lockHint').style.display='none';
+  document.getElementById('lockErr').textContent='Shkruaj numrin personal të kartës.';
+}
+async function saveNewCode(){
+  const m=document.getElementById('ccMsg'),n=currentTeacher;
+  const a=normCodeIn(document.getElementById('ccNew').value),b=normCodeIn(document.getElementById('ccNew2').value);
+  const bad=x=>{m.className='cc-msg bad';m.textContent=x;};
+  if(!n||!TEACHER_DATA[n])return bad('Hap fillimisht orarin tënd.');
+  if(a.length<6)return bad('Kodi duhet të ketë të paktën 6 shkronja ose numra.');
+  if(a!==b)return bad('Dy kodet nuk përputhen.');
+  const btn=document.getElementById('ccSave');btn.disabled=true;
+  try{
+    const enc=await tEncrypt(TEACHER_DATA[n],a);
+    localStorage.setItem(customKey(n),JSON.stringify({v:stamp(n),e:enc}));
+    lsSet('orari_kod_'+n,a);
+    document.getElementById('ccNew').value='';document.getElementById('ccNew2').value='';
+    m.className='cc-msg ok';m.textContent='Kodi u ndryshua. Do ta përdorësh në këtë pajisje; në pajisje të tjera vlen ende numri i kartës.';
+  }catch(e){bad('Nuk u ruajt kodi në këtë pajisje.');}
+  btn.disabled=false;
+}
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function forgetDevice(n){
+  try{localStorage.removeItem('orari_kod_'+n);}catch(e){}
+  try{
+    let r=JSON.parse(localStorage.getItem('orari_recent')||'[]');
+    if(Array.isArray(r))localStorage.setItem('orari_recent',JSON.stringify(r.filter(x=>x!==n)));
+  }catch(e){}
+  const m=document.getElementById('ccMsg');m.className='cc-msg ok';m.textContent='Kodi u harrua në këtë pajisje. Herën tjera do ta kërkojë përsëri.';
+}
+function togglePw(){
+  const i=document.getElementById('lockCode'),b=document.getElementById('lockEye');
+  const hide=i.style.webkitTextSecurity==='disc';
+  i.style.webkitTextSecurity=hide?'none':'disc';b.textContent=hide?'Fshih kodin':'Shfaq kodin';
+}
+async function requestTeacher(name){
+  document.getElementById('teacherSchedule'+'Wrap').style.display='none';
+  document.getElementById('teacherLock').classList.remove('show');
+  document.getElementById('codeChange').classList.remove('show');document.getElementById('ccMsg').textContent='';
+  if(!TEACHER_ENC){selectTeacher(name);return;}
+  for(const k of Object.keys(TEACHER_DATA))delete TEACHER_DATA[k];
+  pendingTeacher=name;
+  pendingEnc=getCustom(name);
+  document.getElementById('lockHint').style.display=pendingEnc?'block':'none';
+  document.getElementById('lockName').textContent=name;
+  document.getElementById('lockErr').textContent='';
+  const inp=document.getElementById('lockCode');inp.value='';
+  inp.style.webkitTextSecurity='disc';document.getElementById('lockEye').textContent='Shfaq kodin';
+  const saved=lsGet('orari_kod_'+name);
+  if(saved){
+    inp.value=saved;
+    if(await tryUnlock(name,saved,true))return;
+    inp.value='';
+    if(pendingTeacher!==name)return;
+  }
+  document.getElementById('teacherLock').classList.add('show');
+  inp.focus();
+}
+async function tryUnlock(name,code,silent){
+  try{
+    if(!window.crypto||!crypto.subtle)throw new Error('nocrypto');
+    TEACHER_DATA[name]=await tDecrypt(name,code,pendingEnc);
+    lsSet('orari_kod_'+name,code);
+    document.getElementById('teacherLock').classList.remove('show');
+    selectTeacher(name);
+    return true;
+  }catch(e){
+    if(e&&e.message==='nocrypto'){
+      document.getElementById('lockErr').textContent='Kjo faqe duhet hapur përmes HTTPS ose si skedar në pajisje.';
+    } else if(!silent){
+      document.getElementById('lockErr').textContent='Kod i gabuar. Provo përsëri.';
+    } else { try{localStorage.removeItem('orari_kod_'+name);}catch(_){} }
+    return false;
+  }
+}
+async function unlockTeacher(){
+  if(!pendingTeacher)return;
+  const code=document.getElementById('lockCode').value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(!code)return;
+  const btn=document.getElementById('lockBtn');btn.disabled=true;
+  await tryUnlock(pendingTeacher,code,false);
+  btn.disabled=false;
+}
+
+function selectTeacher(name) {
+  if(!name) return;
+  rememberTeacher(name);
+  currentTeacher = name;
+  const parts = name.trim().split(' ');
+  document.getElementById('teacherInitial').textContent = parts[0][0]+(parts[1]?parts[1][0]:'');
+  document.getElementById('teacherName').textContent = name;
+  const data = TEACHER_DATA[name];
+  const subjSet=new Set(); let totalH=0; const clSet=new Set();
+  for(const d of DAYS) for(const {p} of PERIODS){
+    const e=data[d][p]; if(e){subjSet.add(e.s);totalH++;clSet.add(e.cl);}
+  }
+  document.getElementById('teacherSubjects').textContent=[...subjSet].join(' · ');
+  document.getElementById('teacherScheduleWrap').style.display='block';
+  document.getElementById('statsBar').innerHTML=`
+    <div class="stat-pill"><div class="stat-val">${totalH}</div><div class="stat-lbl">Orë / javë</div></div>
+    <div class="stat-pill"><div class="stat-val">${clSet.size}</div><div class="stat-lbl">Klasa</div></div>
+    <div class="stat-pill"><div class="stat-val">${subjSet.size}</div><div class="stat-lbl">Lëndë</div></div>
+  `;
+  renderTable('teacher', name);
+  document.getElementById('teacherScheduleWrap').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function setActiveDay(d) {
+  activeDay = d;
+  document.querySelectorAll('.day-nav-btn').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.day) === d);
+  });
+  document.querySelectorAll('.day-panel').forEach(panel => {
+    panel.classList.toggle('active', parseInt(panel.dataset.day) === d);
+  });
+}
+
+// Dy ore të njëpasnjëshme të së njëjtës lëndë (dhe të njëjtit mësues/klasë) bashkohen në një qelizë dyorëshe.
+// Kthen për çdo orë: 1 = e vetme, 2 = fillimi i dyorëshes, 0 = ora e dytë e dyorëshes (nuk vizatohet vetë).
+function calcSpans(get,infoFn,len){
+  const N=len||PERIODS.length;
+  const out=new Array(N).fill(1);
+  for(let i=0;i<N-1;i++){
+    if(out[i]===0)continue;
+    const a=get(i),b=get(i+1);
+    if(a&&b&&a.s===b.s&&a.c===b.c&&infoFn(a)===infoFn(b)){out[i]=2;out[i+1]=0;i++;}
+  }
+  return out;
+}
+function renderTable(type, key) {
+  const data = type==='class' ? CLASS_DATA[key] : TEACHER_DATA[key];
+  const bodyId = type==='class' ? 'classBody' : 'teacherBody';
+  const wrapId = type==='class' ? 'classTableWrap' : 'teacherTableWrap';
+  const mobileId = type==='class' ? 'classMobile' : 'teacherMobile';
+
+  const wrap = document.getElementById(wrapId);
+  wrap.classList.remove('anim'); void wrap.offsetWidth; wrap.classList.add('anim');
+  let html='';
+  const infoFn=type==='class'?(x=>x.t):(x=>x.cl);
+  const SP={};for(const d of DAYS)SP[d]=calcSpans(i=>data[d][PERIODS[i].p],infoFn);
+  for(let ri=0;ri<PERIODS.length;ri++){
+    const {p,start,end,brk}=PERIODS[ri];
+    html+='<tr>';
+    html+=`<td class="ora-td"><div class="ora-nr">${p}</div><div class="ora-time">${start}–${end}</div></td>`;
+    for(const d of DAYS){
+      if(SP[d][ri]===0)continue;
+      const e=data[d][p];
+      if(e){
+        const info=type==='class'?e.t:e.cl;
+        html+=`<td class="cat-${e.c}"${SP[d][ri]===2?' rowspan="2"':''}><div class="cell-inner"><span class="cell-subj">${e.s}</span><span class="cell-info">${info}</span></div></td>`;
+      } else {
+        html+=`<td><div class="cell-inner"><span class="cell-empty">·</span></div></td>`;
+      }
+    }
+    html+='</tr>';
+  }
+  document.getElementById(bodyId).innerHTML=html;
+
+  const mob = document.getElementById(mobileId);
+  let mhtml = `<div class="day-nav">`;
+  for(const d of DAYS){
+    mhtml += `<button class="day-nav-btn${parseInt(d)===activeDay?' active':''}" data-day="${d}" onclick="setActiveDay(${d})">${DAY_SHORT[d]}</button>`;
+  }
+  mhtml += `</div>`;
+  for(const d of DAYS){
+    mhtml += `<div class="day-panel day-section-card${parseInt(d)===activeDay?' active':''}" data-day="${d}">`;
+    const spm=calcSpans(i=>data[d][PERIODS[i].p],infoFn);
+    for(let ri=0;ri<PERIODS.length;ri++){
+      if(spm[ri]===0)continue;
+      const {p,start,end,brk}=PERIODS[ri];
+      const dbl=spm[ri]===2,p2=dbl?PERIODS[ri+1].p:p,end2=dbl?PERIODS[ri+1].end:end;
+      const e=data[d][p];
+      mhtml+=`<div class="slot-row${dbl?' dbl':''}">`;
+      if(dbl){const q=PERIODS[ri+1];
+        mhtml+=`<div class="slot-time two"><div class="sp"><div class="slot-nr">${p}</div><div class="slot-t">${start}–${end}</div></div><div class="sp"><div class="slot-nr">${q.p}</div><div class="slot-t">${q.start}–${q.end}</div></div></div>`;
+      }else{
+        mhtml+=`<div class="slot-time"><div class="slot-nr">${p}</div><div class="slot-t">${start}–${end}</div></div>`;
+      }
+      if(e){
+        const info=type==='class'?e.t:e.cl;
+        mhtml+=`<div class="slot-cell cat-${e.c}"><div class="slot-subj">${e.s}</div><div class="slot-info">${info}</div></div>`;
+      } else {
+        mhtml+=`<div class="slot-cell empty"><div class="slot-subj" style="color:var(--text-faint);font-weight:300;font-size:14px">—</div></div>`;
+      }
+      mhtml+=`</div>`;
+    }
+    mhtml += `</div>`;
+  }
+  mob.innerHTML = mhtml;
+}
+
+['classHead','teacherHead'].forEach(id=>{document.getElementById(id).innerHTML='<th>Ora</th>'+DAYS.map(d=>'<th>'+DAY_NAMES[d]+'</th>').join('');});
+// ===== Shkarkim PDF / JPEG =====
+const VITI_TXT='2026–2027';
+const UPD_TXT='8 nëntor 2026';
+const CAT_COL={exact:['#e3f6ea','#1b7a46'],lang:['#e3effd','#1d5fb4'],social:['#fde9e1','#c2410c'],other:['#f1e6fd','#7e22ce']};
+function wrapLines(ctx,text,maxW,maxLines){
+  const words=String(text||'').split(/\s+/).filter(Boolean);const lines=[];let cur='';
+  for(const w of words){const test=cur?cur+' '+w:w;if(ctx.measureText(test).width<=maxW||!cur)cur=test;else{lines.push(cur);cur=w;}}
+  if(cur)lines.push(cur);
+  if(lines.length>maxLines){lines.length=maxLines;let l=lines[maxLines-1];while(l.length>1&&ctx.measureText(l+'…').width>maxW)l=l.slice(0,-1);lines[maxLines-1]=l+'…';}
+  return lines;
+}
+function renderScheduleCanvas(type,key){
+  const data=type==='class'?CLASS_DATA[key]:TEACHER_DATA[key];
+  const title=type==='class'?'Klasa '+key:key;
+  let sub='Orari mësimor '+VITI_TXT;
+  if(type==='teacher'){const el=document.getElementById('teacherSubjects');if(el&&el.textContent&&el.textContent!=='—')sub=el.textContent+'  ·  '+sub;}
+  const S=2,W=1700,M=44,ORAW=150,HEAD=64,ROWH=84,TOP=M+86;
+  const rows=PERIODS.length,H=TOP+HEAD+rows*ROWH+M+20;
+  const cv=document.createElement('canvas');cv.width=W*S;cv.height=H*S;
+  const c=cv.getContext('2d');c.scale(S,S);
+  const F="'Outfit','Segoe UI',Arial,sans-serif";
+  c.fillStyle='#ffffff';c.fillRect(0,0,W,H);
+  c.textBaseline='middle';
+  c.fillStyle='#14171f';c.font='700 38px '+F;c.textAlign='left';c.fillText(title,M,M+22);
+  c.fillStyle='#6b7280';c.font='400 20px '+F;c.fillText(sub,M,M+62);
+  const colW=(W-2*M-ORAW)/DAYS.length;
+  // header
+  c.fillStyle='#1c1f2d';c.fillRect(M,TOP,W-2*M,HEAD);
+  c.fillStyle='#f0b429';c.font='600 20px '+F;c.textAlign='center';c.fillText('Ora',M+ORAW/2,TOP+HEAD/2);
+  c.fillStyle='#ffffff';
+  DAYS.forEach((d,i)=>c.fillText(DAY_NAMES[d],M+ORAW+colW*i+colW/2,TOP+HEAD/2));
+  // rows
+  const SPc={};DAYS.forEach(d=>{SPc[d]=calcSpans(i=>data[d]&&data[d][PERIODS[i].p],type==='class'?(x=>x.t):(x=>x.cl));});
+  PERIODS.forEach((pr,ri)=>{
+    const y=TOP+HEAD+ri*ROWH;
+    c.fillStyle='#f6f7fb';c.fillRect(M,y,ORAW,ROWH);
+    c.fillStyle='#c98a00';c.font='800 32px '+F;c.textAlign='center';c.fillText(pr.p,M+ORAW/2,y+ROWH/2-12);
+    c.fillStyle='#6b7280';c.font='400 16px '+F;c.fillText(pr.start+'–'+pr.end,M+ORAW/2,y+ROWH/2+20);
+    DAYS.forEach((d,i)=>{
+      const x=M+ORAW+colW*i,e=data[d]&&data[d][pr.p];
+      if(SPc[d][ri]===0)return;
+      const RH=ROWH*(SPc[d][ri]===2?2:1);
+      if(e){
+        const col=CAT_COL[e.c]||CAT_COL.other;
+        c.fillStyle=col[0];c.fillRect(x,y,colW,RH);
+        c.fillStyle=col[1];c.fillRect(x,y,5,RH);
+        c.save();c.strokeStyle=col[1];c.globalAlpha=.7;c.lineWidth=2.5;c.strokeRect(x+1.25,y+1.25,colW-2.5,RH-2.5);c.restore();
+        c.textAlign='center';
+        c.font='700 21px '+F;const sl=wrapLines(c,e.s,colW-30,2);
+        c.font='400 16px '+F;const info=type==='class'?e.t:e.cl;const il=wrapLines(c,info,colW-30,1);
+        const lh=26,tot=sl.length*lh+(il.length?22:0);let yy=y+(RH-tot)/2+13;
+        c.fillStyle=col[1];c.font='700 21px '+F;sl.forEach(l=>{c.fillText(l,x+colW/2+2,yy);yy+=lh;});
+        c.fillStyle='#4b5563';c.font='400 16px '+F;il.forEach(l=>{c.fillText(l,x+colW/2+2,yy-2);});
+      }
+    });
+  });
+  // grid
+  c.strokeStyle='#7c8596';c.lineWidth=2;
+  c.strokeRect(M+.5,TOP+.5,W-2*M,HEAD+rows*ROWH);
+  for(let r=0;r<=rows;r++){const y=TOP+HEAD+r*ROWH+.5;c.beginPath();
+    c.moveTo(M,y);c.lineTo(M+ORAW,y);
+    DAYS.forEach((d,i)=>{const x0=M+ORAW+colW*i;if(r>0&&r<rows&&SPc[d][r]===0){return;}c.moveTo(x0,y);c.lineTo(x0+colW,y);});
+    c.stroke();}
+  for(let i=0;i<=DAYS.length;i++){const x=M+ORAW+colW*i+.5;c.beginPath();c.moveTo(x,TOP);c.lineTo(x,TOP+HEAD+rows*ROWH);c.stroke();}
+  c.beginPath();c.moveTo(M+ORAW+.5,TOP);c.lineTo(M+ORAW+.5,TOP+HEAD+rows*ROWH);c.stroke();
+  c.fillStyle='#9ca3af';c.font='400 14px '+F;c.textAlign='right';c.fillText('Orari Mësimor '+VITI_TXT,W-M,H-M/2);
+  c.fillStyle='#6b7280';c.font='500 16px '+F;c.textAlign='left';c.fillText('Përditësuar: '+UPD_TXT,M,H-M/2);
+  return cv;
+}
+function makePdfMulti(pages,opt){
+  const enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const add=x=>{const b=typeof x==='string'?enc.encode(x):x;parts.push(b);len+=b.length;};
+  const o=opt||{},PW=o.pw||841.89,PH=o.ph||595.28,pm=o.pm==null?24:o.pm,n=pages.length;
+  add('%PDF-1.4\n');
+  const obj=(i,body)=>{offs[i]=len;add(i+' 0 obj\n'+body+'\nendobj\n');};
+  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2,'<< /Type /Pages /Kids ['+pages.map((_,i)=>(3+3*i)+' 0 R').join(' ')+'] /Count '+n+' >>');
+  pages.forEach((pg,i)=>{
+    const pi=3+3*i,ci=pi+1,ii=pi+2,w=pg.w,h=pg.h;
+    const sc=Math.min((PW-2*pm)/w,(PH-2*pm)/h),iw=w*sc,ih=h*sc,ix=(PW-iw)/2,iy=(PH-ih)/2;
+    const content='q '+iw.toFixed(2)+' 0 0 '+ih.toFixed(2)+' '+ix.toFixed(2)+' '+iy.toFixed(2)+' cm /Im0 Do Q';
+    obj(pi,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+PW+' '+PH+'] /Resources << /XObject << /Im0 '+ii+' 0 R >> >> /Contents '+ci+' 0 R >>');
+    obj(ci,'<< /Length '+content.length+' >>\nstream\n'+content+'\nendstream');
+    offs[ii]=len;
+    add(ii+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+w+' /Height '+h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+pg.jpg.length+' >>\nstream\n');
+    add(pg.jpg);add('\nendstream\nendobj\n');
+  });
+  const total=3+3*n,xr=len;let x='xref\n0 '+total+'\n0000000000 65535 f \n';
+  for(let i=1;i<total;i++)x+=String(offs[i]).padStart(10,'0')+' 00000 n \n';
+  add(x+'trailer\n<< /Size '+total+' /Root 1 0 R >>\nstartxref\n'+xr+'\n%%EOF');
+  const out=new Uint8Array(len);let p=0;for(const b of parts){out.set(b,p);p+=b.length;}
+  return out;
+}
+function makePdf(jpg,w,h){return makePdfMulti([{jpg,w,h}]);}
+let _crcT=null;
+function crc32(u8){
+  if(!_crcT){_crcT=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;_crcT[n]=c>>>0;}}
+  let c=0xFFFFFFFF;for(let i=0;i<u8.length;i++)c=_crcT[(c^u8[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0;
+}
+function makeZip(files){
+  const enc=new TextEncoder(),chunks=[],cen=[];let off=0;
+  const u16=v=>[v&255,(v>>8)&255],u32=v=>[v&255,(v>>8)&255,(v>>16)&255,(v>>>24)&255];
+  for(const f of files){
+    const nm=enc.encode(f.name),crc=crc32(f.data),sz=f.data.length;
+    const lh=new Uint8Array([0x50,0x4b,3,4,...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(crc),...u32(sz),...u32(sz),...u16(nm.length),...u16(0)]);
+    chunks.push(lh,nm,f.data);
+    cen.push({nm,crc,sz,off});off+=lh.length+nm.length+sz;
+  }
+  const cstart=off;
+  for(const c of cen){
+    const ch=new Uint8Array([0x50,0x4b,1,2,...u16(20),...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(c.crc),...u32(c.sz),...u32(c.sz),...u16(c.nm.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(c.off)]);
+    chunks.push(ch,c.nm);off+=ch.length+c.nm.length;
+  }
+  const end=new Uint8Array([0x50,0x4b,5,6,...u16(0),...u16(0),...u16(cen.length),...u16(cen.length),...u32(off-cstart),...u32(cstart),...u16(0)]);
+  chunks.push(end);
+  let tot=0;for(const c of chunks)tot+=c.length;
+  const out=new Uint8Array(tot);let p=0;for(const c of chunks){out.set(c,p);p+=c.length;}
+  return out;
+}
+function safeName(k){return k.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function canvasJpeg(cv){const bin=atob(cv.toDataURL('image/jpeg',0.92).split(',')[1]),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u;}
+async function buildAllClasses(fmt,onProgress){
+  const names=Object.keys(CLASS_DATA).sort((a,b)=>a.localeCompare(b,'sq',{numeric:true}));
+  const pages=[],files=[];
+  for(let i=0;i<names.length;i++){
+    const cv=renderScheduleCanvas('class',names[i]);const jpg=canvasJpeg(cv);
+    if(fmt==='pdf')pages.push({jpg,w:cv.width,h:cv.height});else files.push({name:'orari-'+safeName(names[i])+'.jpg',data:jpg});
+    if(onProgress)onProgress(i+1,names.length);
+    await new Promise(r=>setTimeout(r,0));
+  }
+  return fmt==='pdf'?makePdfMulti(pages):makeZip(files);
+}
+async function downloadAll(fmt,btn){
+  const old=btn.textContent;btn.disabled=true;
+  try{
+    try{if(document.fonts&&document.fonts.load){await document.fonts.load('700 20px Outfit');await document.fonts.load('400 16px Outfit');}}catch(e){}
+    const data=await buildAllClasses(fmt,(i,n)=>{btn.textContent='Po përgatitet '+i+'/'+n+'…';});
+    if(fmt==='pdf')saveFile(new Blob([data],{type:'application/pdf'}),'orari-gjithe-shkolla.pdf');
+    else saveFile(new Blob([data],{type:'application/zip'}),'orari-gjithe-shkolla-jpeg.zip');
+  }catch(e){alert('Gabim gjatë përgatitjes: '+e.message);}
+  btn.textContent=old;btn.disabled=false;
+}
+const ABBR={'matematikë':'Mat','matematikë a':'Mat A','fizikë':'Fiz','kimi':'Kim','biologji':'Bio','gjuhë shqipe':'Gjsh','letërsi':'Let','anglisht':'Ang','gjermanisht':'Gjer','histori':'Hist','gjeografi':'Gjeo','tik':'TIK','ed. fizike':'Ed.Fiz','ed. qytetare':'Qyt','filozofi':'Fil','sociologji':'Soc','psikologji':'Psi','ekonomi':'Eko','arte':'Arte','guidë turistike':'Guid','kompania e nxënësve':'Komp','ppu':'PPU'};
+function abbrSubj(name){
+  const nm=String(name||'').trim();
+  if(/\(zgj\.\)/i.test(nm))return abbrSubj(nm.replace(/\s*\(zgj\.\)/i,''))+'*';
+  const k=nm.toLowerCase();if(ABBR[k])return ABBR[k];
+  return nm.length<=5?nm:nm.slice(0,4)+'.';
+}
+function surnames(t){
+  return String(t||'').split(/\s*\/\s*/).filter(Boolean).map(n=>{const w=n.trim().split(/\s+/),l=w[w.length-1]||'';return l.charAt(0).toUpperCase()+l.slice(1).toLowerCase();}).join('/');
+}
+function fitText(c,text,maxW,size,weight,F){
+  c.font=weight+' '+size+'px '+F;
+  while(c.measureText(text).width>maxW&&size>10){size-=1;c.font=weight+' '+size+'px '+F;}
+  return size;
+}
+function renderSchoolCanvas(rec){
+  const names=Object.keys(CLASS_DATA).sort((a,b)=>a.localeCompare(b,'sq',{numeric:true}));
+  const n=names.length;
+  const W=4200,H=2970,M=80,F="'Times New Roman',Times,'Liberation Serif',serif";
+  const cv=rec?null:document.createElement('canvas');if(cv){cv.width=W;cv.height=H;}const c=rec||cv.getContext('2d');
+  c.textBaseline='middle';
+  // sfondi
+  c.fillStyle='#ffffff';c.fillRect(0,0,W,H);
+  // ditet dhe oret qe shfaqen (deri te ora e fundit e perdorur cdo dite)
+  const blocks=DAYS.map(d=>{
+    let last=-1;
+    PERIODS.forEach((pr,pi)=>{if(names.some(cn=>CLASS_DATA[cn][d]&&CLASS_DATA[cn][d][pr.p]))last=pi;});
+    return{d,rows:last>=0?PERIODS.slice(0,last+1):[]};
+  }).filter(b=>b.rows.length);
+  const totalRows=blocks.reduce((s,b)=>s+b.rows.length,0)||1;
+  const SPN={};names.forEach(cn=>blocks.forEach((b,bi)=>{SPN[cn+'|'+bi]=calcSpans(i=>CLASS_DATA[cn][b.d]&&CLASS_DATA[cn][b.d][b.rows[i].p],x=>x.t,b.rows.length);}));
+  // titulli
+  c.fillStyle='#000000';c.font='bold 108px '+F;c.textAlign='center';
+  c.fillText('ORARI MËSIMOR '+VITI_TXT,W/2,M+62);
+  const gold='#f0b429';
+  
+  const HD=118,LEG=120,dayW=116,perW=210;
+  const top=M+170,gridTop=top+HD;
+  const rowH=Math.min((H-M-LEG-gridTop)/totalRows,104);
+  const colW=(W-2*M-dayW-perW)/Math.max(n,1);
+  const gx=M+dayW+perW,gh=totalRows*rowH;
+  const gradeCol={'10':'#f0b429','11':'#38d9d0','12':'#c97eff'};
+  const gradeOf=cn=>String(cn).split('-')[0];
+  const title=s=>String(s||'').replace(/\S+/g,w=>w.charAt(0).toLocaleUpperCase('sq')+w.slice(1).toLocaleLowerCase('sq'));
+  // koka e klasave
+  c.fillStyle='#ffffff';c.fillRect(M,top,dayW+perW,HD);
+  c.fillStyle='#000000';c.font='800 40px '+F;c.textAlign='center';c.fillText('Dita / Ora',M+(dayW+perW)/2,top+HD/2);
+  names.forEach((cn,i)=>{
+    const x=gx+i*colW,gc=gradeCol[gradeOf(cn)]||gold;
+    c.fillStyle='#ffffff';c.fillRect(x,top,colW,HD);
+    const sz=fitText(c,cn,colW-14,58,'800',F);c.font='800 '+sz+'px '+F;c.fillStyle='#000000';c.textAlign='center';
+    c.fillText(cn,x+colW/2,top+(HD-12)/2);
+  });
+  // rreshtat
+  const used={};
+  let y=gridTop;
+  blocks.forEach((b,bi)=>{
+    const bh=b.rows.length*rowH;
+    // etiketa e dites (vertikale)
+    c.fillStyle='#ffffff';c.fillRect(M,y,dayW,bh);
+    c.save();c.translate(M+(dayW-8)/2,y+bh/2);c.rotate(-Math.PI/2);
+    const dn=DAY_NAMES[b.d].toUpperCase();
+    const dsz=fitText(c,dn,bh-30,56,'800',F);
+    c.font='800 '+dsz+'px '+F;c.fillStyle='#000000';c.textAlign='center';c.fillText(dn,0,0);c.restore();
+    b.rows.forEach((pr,ri)=>{
+      const ry=y+ri*rowH;
+      // ora
+      c.fillStyle='#ffffff';c.fillRect(M+dayW,ry,perW,rowH);
+      c.textAlign='left';c.fillStyle='#000000';
+      c.font='800 '+Math.min(50,rowH*.6)+'px '+F;c.fillText(pr.p,M+dayW+26,ry+rowH/2);
+      c.textAlign='center';c.fillStyle='#000000';
+      const ts=pr.start+' - '+pr.end,tsz=fitText(c,ts,perW-96,Math.min(32,rowH*.4),'700',F);
+      c.font='700 '+tsz+'px '+F;c.fillText(ts,M+dayW+perW/2+34,ry+rowH/2);
+      // qelizat
+      names.forEach((cn,ci)=>{
+        const x=gx+ci*colW,e=CLASS_DATA[cn][b.d]&&CLASS_DATA[cn][b.d][pr.p];
+        const spv=SPN[cn+'|'+bi][ri];if(spv===0)return;const RH=rowH*(spv===2?2:1);
+        if(!e){c.fillStyle='#ffffff';c.fillRect(x,ry,colW,rowH);return;}
+        c.fillStyle='#ffffff';c.fillRect(x,ry,colW,RH);
+        const maxW=colW-22;
+        let sj=({'Ed. Fizike':'Ed.Fizik','Ed. Qytetare':'Qytetari'})[e.s]||e.s,s1=fitText(c,sj,maxW,Math.min(38,rowH*.46),'800',F);
+        if(s1<19){const ab=abbrSubj(e.s);if(c.measureText(ab).width||1){sj=ab;used[ab]=e.s.replace(/\s*\(zgj\.\)/i,' (zgjedhore)');s1=fitText(c,sj,maxW,Math.min(38,rowH*.46),'800',F);}}
+        let tn=/\//.test(e.t||'')?String(e.t).split(/\s*\/\s*/).map(x=>title(x.trim().split(/\s+/)[0])).join(' / '):title(e.t),s2=fitText(c,tn||' ',maxW,Math.min(30,rowH*.34),'700',F);
+        if(s2<16){tn=surnames(e.t);s2=fitText(c,tn||' ',maxW,Math.min(30,rowH*.34),'700',F);}
+        c.textAlign='center';
+        c.font='800 '+s1+'px '+F;c.fillStyle='#000000';c.fillText(sj,x+colW/2+3,ry+RH*(tn?.36:.5));
+        if(tn){c.font='700 '+s2+'px '+F;c.fillStyle='#000000';c.fillText(tn,x+colW/2+3,ry+RH*.74);}
+      });
+    });
+    y+=bh;
+  });
+  // vijat e rrjetes
+  c.strokeStyle='#000000';c.lineWidth=2.5;
+  const rowMap=[];blocks.forEach((b,bi)=>b.rows.forEach((pr,ri)=>rowMap.push([bi,ri])));
+  for(let r=0;r<=totalRows;r++){const yy=gridTop+r*rowH;
+    c.beginPath();c.moveTo(M+dayW,yy);c.lineTo(gx,yy);
+    names.forEach((cn,ci)=>{const x0=gx+ci*colW;const inter=r>0&&r<totalRows&&SPN[cn+'|'+rowMap[r][0]][rowMap[r][1]]===0;if(!inter){c.moveTo(x0,yy);c.lineTo(x0+colW,yy);}});
+    c.stroke();}
+  for(let i=0;i<=n;i++){const x=gx+i*colW;c.beginPath();c.moveTo(x,gridTop);c.lineTo(x,gridTop+gh);c.stroke();}
+  // pushimi i madh (vije e arte)
+  c.strokeStyle='#000000';c.lineWidth=6;c.setLineDash([]);
+  let yy=gridTop;
+  blocks.forEach((b,bi)=>{b.rows.forEach((pr,ri)=>{if(ri>0&&pr.brk&&pr.brk.big){const ly=yy+ri*rowH;c.beginPath();c.moveTo(M+dayW,ly);c.lineTo(gx,ly);
+    names.forEach((cn,ci)=>{if(SPN[cn+'|'+bi][ri]===0)return;const x0=gx+ci*colW;c.moveTo(x0,ly);c.lineTo(x0+colW,ly);});c.stroke();}});yy+=b.rows.length*rowH;});
+  c.setLineDash([]);
+  // ndarja e viteve dhe diteve
+  c.strokeStyle='#14171f';c.lineWidth=4;
+  names.forEach((cn,i)=>{if(i>0&&gradeOf(cn)!==gradeOf(names[i-1])){const x=gx+i*colW;c.beginPath();c.moveTo(x,top);c.lineTo(x,gridTop+gh);c.stroke();}});
+  yy=gridTop;
+  blocks.forEach(b=>{yy+=b.rows.length*rowH;c.beginPath();c.moveTo(M,yy);c.lineTo(W-M,yy);c.stroke();});
+  c.beginPath();c.moveTo(gx,top);c.lineTo(gx,gridTop+gh);c.stroke();
+  c.beginPath();c.moveTo(M+dayW,gridTop);c.lineTo(M+dayW,gridTop+gh);c.stroke();
+  c.lineWidth=5;c.strokeRect(M,top,W-2*M,HD+gh);
+  // shkurtimet (pa legjenden e ngjyrave)
+  let lx=M,ly=gridTop+gh+62;
+  c.textAlign='left';
+  const ab=Object.entries(used).sort((a,b)=>a[0].localeCompare(b[0],'sq')).map(([a,f])=>a+' = '+f).join('   ·   ');
+  if(ab){c.fillStyle='#000000';c.font='bold 32px '+F;c.fillText('Shkurtime: '+ab,lx,ly);}
+  c.fillStyle='#000000';c.font='bold 36px '+F;c.textAlign='right';c.fillText('Përditësuar: '+UPD_TXT,W-M,H-M/2);
+  return cv;
+}
+
+// Regjistrues që vizaton orarin e shkollës si PDF vektoriale me tekst të vërtetë (i editueshëm në Acrobat)
+class PdfCtx{
+  constructor(W,H,PW,PH){
+    this.W=W;this.H=H;this.k=PW/W;this.PW=PW;this.PH=PH;
+    this.real=document.createElement('canvas').getContext('2d');
+    this.out=[];this.path=[];this.stack=[];
+    this.tx=0;this.ty=0;this.rot=0;this._font='';
+    this.fillStyle='#000000';this.strokeStyle='#000000';this.lineWidth=1;
+    this.textAlign='left';this.textBaseline='middle';
+  }
+  set font(v){this._font=v;this.real.font=v;}
+  get font(){return this._font;}
+  measureText(s){return this.real.measureText(s);}
+  _col(h){const m=/^#([0-9a-f]{6})$/i.exec(h)||[0,'000000'];const v=parseInt(m[1],16);return [(v>>16&255)/255,(v>>8&255)/255,(v&255)/255].map(x=>x.toFixed(3)).join(' ');}
+  _n(v){return (+v).toFixed(2);}
+  _X(x){return this._n(x*this.k);}
+  _Y(y){return this._n((this.H-y)*this.k);}
+  fillRect(x,y,w,h){this.out.push(this._col(this.fillStyle)+' rg '+this._X(x)+' '+this._Y(y+h)+' '+this._n(w*this.k)+' '+this._n(h*this.k)+' re f');}
+  strokeRect(x,y,w,h){this.out.push(this._col(this.strokeStyle)+' RG '+this._n(this.lineWidth*this.k)+' w '+this._X(x)+' '+this._Y(y+h)+' '+this._n(w*this.k)+' '+this._n(h*this.k)+' re S');}
+  beginPath(){this.path=[];}
+  moveTo(x,y){this.path.push(this._X(x)+' '+this._Y(y)+' m');}
+  lineTo(x,y){this.path.push(this._X(x)+' '+this._Y(y)+' l');}
+  setLineDash(a){this.dash=(a||[]).map(v=>this._n(v*this.k));}
+  stroke(){if(!this.path.length)return;
+    const d=this.dash&&this.dash.length?'['+this.dash.join(' ')+'] 0 d ':'[] 0 d ';
+    this.out.push(this._col(this.strokeStyle)+' RG '+this._n(this.lineWidth*this.k)+' w '+d+this.path.join(' ')+' S');}
+  save(){this.stack.push([this.tx,this.ty,this.rot]);}
+  restore(){const s=this.stack.pop();if(s){this.tx=s[0];this.ty=s[1];this.rot=s[2];}}
+  translate(x,y){const c=Math.cos(this.rot),s=Math.sin(this.rot);this.tx+=x*c-y*s;this.ty+=x*s+y*c;}
+  rotate(a){this.rot+=a;}
+  _enc(s){
+    const m={8211:0x96,8212:0x97,8216:0x91,8217:0x92,8220:0x93,8221:0x94,8226:0x95};
+    let o='';
+    for(const ch of String(s)){let cp=ch.codePointAt(0);
+      if(m[cp])cp=m[cp];else if(cp>255)cp=63;
+      const c=String.fromCharCode(cp);
+      o+=(c==='('||c===')'||c==='\\')?'\\'+c:c;}
+    return o;
+  }
+  fillText(txt,x,y){
+    const sz=parseFloat((/([\d.]+)px/.exec(this._font)||[0,20])[1]);
+    const w=this.real.measureText(txt).width;
+    const ox=this.textAlign==='center'?-w/2:this.textAlign==='right'?-w:0;
+    const oy=sz*0.34;
+    const lx=x+ox,ly=y+oy,c=Math.cos(this.rot),s=Math.sin(this.rot);
+    const gx=this.tx+lx*c-ly*s,gy=this.ty+lx*s+ly*c;
+    this.out.push('BT '+this._col(this.fillStyle)+' rg /F1 '+this._n(sz*this.k)+' Tf '+
+      [c,-s,s,c].map(v=>v.toFixed(4)).join(' ')+' '+this._X(gx)+' '+this._Y(gy)+' Tm ('+this._enc(txt)+') Tj ET');
+  }
+  toPdf(){
+    const content=this.out.join('\n'),parts=[],offs=[];let len=0;
+    const add=s=>{parts.push(s);len+=s.length;};
+    add('%PDF-1.4\n');
+    const obj=(i,b)=>{offs[i]=len;add(i+' 0 obj\n'+b+'\nendobj\n');};
+    obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
+    obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+    obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+this.PW+' '+this.PH+'] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>');
+    obj(4,'<< /Length '+content.length+' >>\nstream\n'+content+'\nendstream');
+    obj(5,'<< /Type /Font /Subtype /Type1 /BaseFont /Times-Bold /Encoding /WinAnsiEncoding >>');
+    const xr=len;let x='xref\n0 6\n0000000000 65535 f \n';
+    for(let i=1;i<6;i++)x+=String(offs[i]).padStart(10,'0')+' 00000 n \n';
+    add(x+'trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n'+xr+'\n%%EOF');
+    const all=parts.join(''),out=new Uint8Array(all.length);
+    for(let i=0;i<all.length;i++)out[i]=all.charCodeAt(i)&255;
+    return out;
+  }
+}
+async function downloadSchool(fmt,btn){
+  const old=btn.textContent;btn.disabled=true;btn.textContent='Po përgatitet…';
+  try{
+    try{if(document.fonts&&document.fonts.load){await document.fonts.load('700 20px Outfit');await document.fonts.load('400 16px Outfit');}}catch(e){}
+    await new Promise(r=>setTimeout(r,30));
+    if(fmt==='jpg'){const cv=renderSchoolCanvas(),jpg=canvasJpeg(cv);saveFile(new Blob([jpg],{type:'image/jpeg'}),'orari-shkolla-A3.jpg');}
+    else{const rec=new PdfCtx(4200,2970,1190.55,841.89);renderSchoolCanvas(rec);saveFile(new Blob([rec.toPdf()],{type:'application/pdf'}),'orari-shkolla-A3.pdf');}
+  }catch(e){alert('Gabim gjatë përgatitjes: '+e.message);}
+  btn.textContent=old;btn.disabled=false;
+}
+function saveFile(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(u),2000);}
+async function downloadSchedule(type,fmt){
+  const key=type==='class'?currentClass:currentTeacher;
+  if(!key)return;
+  try{if(document.fonts&&document.fonts.load){await document.fonts.load('700 20px Outfit');await document.fonts.load('400 16px Outfit');}}catch(e){}
+  const cv=renderScheduleCanvas(type,key);
+  const base='orari-'+key.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const url=cv.toDataURL('image/jpeg',0.92);
+  const bin=atob(url.split(',')[1]),jpg=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)jpg[i]=bin.charCodeAt(i);
+  if(fmt==='jpg')saveFile(new Blob([jpg],{type:'image/jpeg'}),base+'.jpg');
+  else saveFile(new Blob([makePdf(jpg,cv.width,cv.height)],{type:'application/pdf'}),base+'.pdf');
+}
+document.querySelectorAll('.sch-header').forEach((h,i)=>{
+  const ty=i===0?'class':'teacher';
+  const d=document.createElement('div');d.className='dl-actions';
+  d.innerHTML='<button onclick="downloadSchedule(\''+ty+'\',\'jpg\')">&#8595; JPEG</button>';
+  if(i===0){d.innerHTML+='<button onclick="downloadSchool(\'pdf\',this)">&#128424; <span class="lg">Orari i shkollës A3 (PDF)</span><span class="sm">A3 PDF</span></button>';}
+  if(i===1&&TEACHER_ENC){d.innerHTML+='<button onclick="document.getElementById(\'codeChange\').classList.toggle(\'show\')">&#128273;<span class="lg"> Ndrysho kodin</span></button>';}
+  h.appendChild(d);
+});
+// dropdown populated on demand
+selectClass(FIRST_CLASS);
+</script>
+</body>
+</html>
