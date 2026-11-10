@@ -3,7 +3,7 @@
 // titulli dhe mesazhi mund të lihen bosh: atëherë del teksti i gatshëm.
 window.ORARI_CILESIMET = {
   "viti": "2026–2027",
-  "mbyllur": true,
+  "mbyllur": false,
   "titulli": "",
   "mesazhi": ""
 };
