@@ -20,20 +20,28 @@
     if(!window.fetch)return;
     var LABELS={'orari_dita.html':'Orari i ditës','orari_kp.html':'Orari i kohës së pjesshme'};
     Promise.all(FILES.map(function(f){
-      return fetch(f,{method:'HEAD',cache:'no-cache'}).then(function(r){return r.ok?(r.headers.get('last-modified')||r.headers.get('etag')||''):'';}).catch(function(){return '';});
-    })).then(function(v){
+      return fetch(f,{cache:'no-cache'}).then(function(r){
+        if(!r.ok)return {sig:'',txt:''};
+        var sig=r.headers.get('last-modified')||r.headers.get('etag')||'';
+        return r.text().then(function(t){
+          var m=t.match(/class="upd">\s*Përditësuar:\s*([^<]+?)\s*</);   // data e gjenerimit brenda orarit
+          return {sig:sig,txt:m?m[1]:''};
+        });
+      }).catch(function(){return {sig:'',txt:''};});
+    })).then(function(res){
+      var v=res.map(function(x){return x.sig;});
       if(!v.some(Boolean))return;
       var cur={};FILES.forEach(function(f,i){cur[f]=v[i];});
       var old=null;try{old=JSON.parse(get('orari_lm2')||'null');}catch(e){old=null;}
-      var first=!old;
-      var changed=FILES.filter(function(f){return first||old[f]!==cur[f];});
+      if(!old){set('orari_lm2',JSON.stringify(cur));return;}   // hapja e parë: vetëm ruaj, pa mesazh
+      var changed=FILES.filter(function(f){return old[f]!==cur[f];});
       if(!changed.length)return;
       var lines=changed.map(function(f){
-        var d=new Date(cur[f]);var when=isNaN(d)?'':' <small style="display:inline">('+fmt(d)+')</small>';
+        var t=res[FILES.indexOf(f)].txt;var when=t?' <small style="display:inline">('+t+')</small>':'';
         return '<div>'+(LABELS[f]||f)+when+'</div>';
       }).join('');
       var box=document.createElement('div');box.className='nj show';box.id='njUpdate';
-      box.innerHTML='<b>&#128276; '+(first?'Orari i fundit i publikuar':'Orari u përditësua')+'</b><small style="margin:4px 0">'+lines+'</small><button type="button">Në rregull</button>';
+      box.innerHTML='<b>&#128276; '+'Orari u përditësua'+'</b><small style="margin:4px 0">'+lines+'</small><button type="button">Në rregull</button>';
       var cards=document.querySelector('.cards');if(cards)cards.parentNode.insertBefore(box,cards);
       box.querySelector('button').onclick=function(){set('orari_lm2',JSON.stringify(cur));box.className='nj';};
     });
