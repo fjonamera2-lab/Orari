@@ -1,5 +1,6 @@
+try{importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');}catch(e){}
 const CACHE = 'orari-v15';
-const CORE = ['./', './index.html', './orari_dita.html', './orari_kp.html', './stema.jpg', './icon-192.png', './apple-touch-icon.png', './stema.png', './icon-512.png', './manifest.webmanifest', './cilesimet.js', './mbyllja.js', './zoom.js'];
+const CORE = ['./', './index.html', './orari_dita.html', './orari_kp.html', './stema.jpg', './icon-192.png', './apple-touch-icon.png', './stema.png', './icon-512.png', './manifest.webmanifest', './cilesimet.js', './mbyllja.js', './njoftim.js'];
 
 self.addEventListener('install', e => {
   e.waitUntil(
