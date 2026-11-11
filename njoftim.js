@@ -18,19 +18,24 @@
   /* 1. Kallëzimi brenda aplikacionit (pa llogari, pa shërbim të jashtëm) */
   function checkUpdate(){
     if(!window.fetch)return;
+    var LABELS={'orari_dita.html':'Orari i ditës','orari_kp.html':'Orari i kohës së pjesshme'};
     Promise.all(FILES.map(function(f){
       return fetch(f,{method:'HEAD',cache:'no-cache'}).then(function(r){return r.ok?(r.headers.get('last-modified')||r.headers.get('etag')||''):'';}).catch(function(){return '';});
     })).then(function(v){
-      var sig=v.join('|'); if(!v.some(Boolean))return;
-      var old=get('orari_lm');
-      if(old===null){set('orari_lm',sig);return;}           // hapja e parë: vetëm ruaj
-      if(old===sig)return;
-      var dates=v.map(function(x){var d=new Date(x);return isNaN(d)?0:d.getTime();});
-      var mx=Math.max.apply(null,dates);
+      if(!v.some(Boolean))return;
+      var cur={};FILES.forEach(function(f,i){cur[f]=v[i];});
+      var old=null;try{old=JSON.parse(get('orari_lm2')||'null');}catch(e){old=null;}
+      var first=!old;
+      var changed=FILES.filter(function(f){return first||old[f]!==cur[f];});
+      if(!changed.length)return;
+      var lines=changed.map(function(f){
+        var d=new Date(cur[f]);var when=isNaN(d)?'':' <small style="display:inline">('+fmt(d)+')</small>';
+        return '<div>'+(LABELS[f]||f)+when+'</div>';
+      }).join('');
       var box=document.createElement('div');box.className='nj show';box.id='njUpdate';
-      box.innerHTML='<b>&#128276; Orari u përditësua</b>'+(mx?'<small>'+fmt(new Date(mx))+'</small>':'')+'<button type="button">Në rregull</button>';
+      box.innerHTML='<b>&#128276; '+(first?'Orari i fundit i publikuar':'Orari u përditësua')+'</b><small style="margin:4px 0">'+lines+'</small><button type="button">Në rregull</button>';
       var cards=document.querySelector('.cards');if(cards)cards.parentNode.insertBefore(box,cards);
-      box.querySelector('button').onclick=function(){set('orari_lm',sig);box.className='nj';};
+      box.querySelector('button').onclick=function(){set('orari_lm2',JSON.stringify(cur));box.className='nj';};
     });
   }
 
