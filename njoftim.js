@@ -54,10 +54,14 @@
     window.OneSignalDeferred=window.OneSignalDeferred||[];
     window.OneSignalDeferred.push(function(OS){
       var dir=location.pathname.replace(/[^\/]*$/,'');
-      return OS.init({appId:id,serviceWorkerPath:'sw.js',serviceWorkerParam:{scope:dir},notifyButton:{enable:false},welcomeNotification:{disable:true}}).then(function(){
+      return OS.init({appId:id,serviceWorkerPath:dir+'sw.js',serviceWorkerParam:{scope:dir},notifyButton:{enable:false},welcomeNotification:{disable:true}}).then(function(){
         refresh(OS);
         try{OS.User.PushSubscription.addEventListener('change',function(){refresh(OS);});}catch(e){}
         btn.onclick=function(){OS.Notifications.requestPermission().then(function(){refresh(OS);});};
+      }).catch(function(err){
+        /* init dështoi (p.sh. Site URL në OneSignal nuk përputhet me domenin): trego gabimin që të dallohet */
+        try{console.error('OneSignal init error:',err);}catch(e){}
+        ok.className='njok show';ok.style.color='#ff8a8a';ok.textContent='Njoftimet nuk u aktivizuan: '+((err&&err.message)||err||'gabim i panjohur');
       });
     });
     var s=document.createElement('script');s.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';s.defer=true;document.head.appendChild(s);
