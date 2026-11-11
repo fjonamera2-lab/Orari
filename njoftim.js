@@ -49,7 +49,10 @@
     function refresh(OS){
       var on=false;try{on=!!(OS.User.PushSubscription.optedIn);}catch(e){}
       var denied=Notification.permission==='denied';
-      btn.className='njbtn'+((on||denied)?'':' show');ok.className='njok'+(on?' show':'');
+      btn.className='njbtn'+((on||denied)?'':' show');
+      if(on){ok.className='njok show';ok.style.color='';ok.innerHTML='&#10003; Njoftimet janë aktive';}
+      else if(denied){ok.className='njok show';ok.style.color='';ok.innerHTML='&#128277; Njoftimet janë bllokuar. Për t\u2019i aktivizuar: te cilësimet e telefonit (ose shfletuesit) për Orari/ këtë faqe zgjidh <b>Lejo njoftimet</b>, pastaj rihape aplikacionin.';}
+      else ok.className='njok';
     }
     window.OneSignalDeferred=window.OneSignalDeferred||[];
     window.OneSignalDeferred.push(function(OS){
@@ -57,7 +60,11 @@
       return OS.init({appId:id,serviceWorkerPath:dir+'sw.js',serviceWorkerParam:{scope:dir},notifyButton:{enable:false},welcomeNotification:{disable:true}}).then(function(){
         refresh(OS);
         try{OS.User.PushSubscription.addEventListener('change',function(){refresh(OS);});}catch(e){}
-        btn.onclick=function(){OS.Notifications.requestPermission().then(function(){refresh(OS);});};
+        btn.onclick=function(){
+          var p=Promise.resolve();
+          try{ if(Notification.permission==='granted'){p=OS.User.PushSubscription.optIn();} else {p=OS.Notifications.requestPermission();} }catch(e){}
+          Promise.resolve(p).then(function(){refresh(OS);},function(){refresh(OS);});
+        };
       }).catch(function(err){
         /* init dështoi (p.sh. Site URL në OneSignal nuk përputhet me domenin): trego gabimin që të dallohet */
         try{console.error('OneSignal init error:',err);}catch(e){}
