@@ -1,1 +1,26 @@
+name: Njofto kur ndryshon orari
 
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'orari_dita.html'
+      - 'orari_kp.html'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  njofto:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Dërgo njoftimin me OneSignal
+        env:
+          ONESIGNAL_APP_ID: f3078191-63c9-4593-a683-3116806ff6f3
+          ONESIGNAL_API_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
+          ORARI_LINK: https://fjonamera2-lab.github.io/Orari/
+        run: bash .github/njofto.sh "${{ github.event.before }}" "${{ github.sha }}"
