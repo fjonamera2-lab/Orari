@@ -29,12 +29,11 @@
         });
       }).catch(function(){return {sig:'',txt:''};});
     })).then(function(res){
-      var v=res.map(function(x){return x.sig;});
-      if(!v.some(Boolean))return;
-      var cur={};FILES.forEach(function(f,i){cur[f]=v[i];});
-      var old=null;try{old=JSON.parse(get('orari_lm2')||'null');}catch(e){old=null;}
-      if(!old){set('orari_lm2',JSON.stringify(cur));return;}   // hapja e parë: vetëm ruaj, pa mesazh
-      var changed=FILES.filter(function(f){return old[f]!==cur[f];});
+      var cur={};FILES.forEach(function(f,i){cur[f]=res[i].txt;});   // krahasohet vetëm data e gjenerimit brenda orarit
+      if(!FILES.some(function(f){return cur[f];}))return;
+      var old=null;try{old=JSON.parse(get('orari_dt')||'null');}catch(e){old=null;}
+      if(!old){set('orari_dt',JSON.stringify(cur));return;}   // hapja e parë: vetëm ruaj, pa mesazh
+      var changed=FILES.filter(function(f){return cur[f]&&old[f]!==cur[f];});
       if(!changed.length)return;
       var lines=changed.map(function(f){
         var t=res[FILES.indexOf(f)].txt;var when=t?' <small style="display:inline">('+t+')</small>':'';
@@ -43,7 +42,7 @@
       var box=document.createElement('div');box.className='nj show';box.id='njUpdate';
       box.innerHTML='<b>&#128276; '+'Orari u përditësua'+'</b><small style="margin:4px 0">'+lines+'</small><button type="button">Në rregull</button>';
       var cards=document.querySelector('.cards');if(cards)cards.parentNode.insertBefore(box,cards);
-      box.querySelector('button').onclick=function(){set('orari_lm2',JSON.stringify(cur));box.className='nj';};
+      box.querySelector('button').onclick=function(){var sv={};FILES.forEach(function(f){sv[f]=cur[f]||old[f]||'';});set('orari_dt',JSON.stringify(sv));box.className='nj';};
     });
   }
 
