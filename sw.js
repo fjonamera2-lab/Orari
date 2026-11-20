@@ -1,7 +1,7 @@
 try{importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');}catch(e){}
-const CACHE = 'orari-v16';
+const CACHE = 'orari-v17';
 const BADGE_CACHE = 'orari-badge';   // ruan numrin e njoftimeve të palexuara (nuk fshihet gjatë përditësimit të cache-s)
-const CORE = ['./', './index.html', './orari_dita.html', './orari_kp.html', './stema.jpg', './icon-192.png', './apple-touch-icon.png', './stema.png', './icon-512.png', './manifest.webmanifest', './cilesimet.js', './mbyllja.js', './njoftim.js'];
+const CORE = ['./', './index.html', './orari_dita.html', './orari_kp.html', './grafiku_testimeve.html', './grafiku_testimeve.pdf', './stema.jpg', './icon-192.png', './apple-touch-icon.png', './stema.png', './icon-512.png', './manifest.webmanifest', './cilesimet.js', './mbyllja.js', './njoftim.js'];
 
 self.addEventListener('install', e => {
   e.waitUntil(

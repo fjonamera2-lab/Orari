@@ -51,6 +51,10 @@ h1{font-size:clamp(26px,6vw,40px);font-weight:800;letter-spacing:-.5px;margin-bo
 .ico{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:6px}
 .a .ico{background:var(--gold-dim);border:1px solid var(--gold-glow)}
 .b .ico{background:var(--teal-dim);border:1px solid var(--teal-glow)}
+.card.c{grid-column:1/-1;animation-delay:.2s}
+.card.c:hover,.card.c:focus-visible{border-color:rgba(182,156,255,.32);box-shadow:0 10px 40px rgba(182,156,255,.12);background:var(--surface2)}
+.c .ico{background:rgba(182,156,255,.12);border:1px solid rgba(182,156,255,.32)}
+.c .go{color:#b69cff}
 .card h2{font-size:22px;font-weight:700;line-height:1.2}
 .card .days{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.5px}
 .a .days{color:var(--gold)}.b .days{color:var(--teal)}
@@ -127,6 +131,11 @@ footer{text-align:center;margin-top:40px;color:var(--text-faint);font-size:10px;
       <div class="ico">&#128338;</div>
       <h2>Orari i kohës së pjesshme</h2>
       <div class="go">Hap orarin &rarr;</div>
+    </a>
+    <a class="card c" href="grafiku_testimeve.html">
+      <div class="ico">&#128221;</div>
+      <h2>Grafiku i testimeve</h2>
+      <div class="go">Hap grafikun &rarr;</div>
     </a>
   </div>
   <button class="install" id="installBtn" type="button">&#128242; Instalo aplikacionin në telefon</button>

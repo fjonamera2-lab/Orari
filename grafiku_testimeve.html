@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grafiku i testimeve</title>
+<meta name="theme-color" content="#0c0e14">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0c0e14;--surface:#141720;--surface2:#1c1f2d;--border:rgba(255,255,255,.09);--gold:#f0b429;--gold-dim:rgba(240,180,41,.13);--gold-glow:rgba(240,180,41,.28);--violet:#b69cff;--violet-dim:rgba(182,156,255,.12);--violet-glow:rgba(182,156,255,.32);--text:#eceaf4;--text-dim:#9b98aa;--text-faint:#5a5870}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.page{max-width:720px;margin:0 auto;padding:18px 14px 40px}
+.back{display:inline-block;color:var(--text-dim);text-decoration:none;font-size:14px;font-weight:600;padding:6px 0}
+.hdr{text-align:center;margin:6px 0 16px}
+.hdr h1{font-size:clamp(24px,6vw,34px);font-weight:800;letter-spacing:-.4px}
+.hdr p{color:var(--text-dim);font-size:14px;margin-top:4px}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tab{flex:1;padding:11px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text-dim);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.tab.on{border-color:var(--violet-glow);background:var(--violet-dim);color:var(--violet)}
+.lbl{font-size:12px;color:var(--text-dim);margin:2px 0 8px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;text-transform:uppercase}
+.chips{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:16px}
+.chip{padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.chip.on{background:var(--violet);border-color:var(--violet);color:#150f2a}
+.row{display:flex;gap:12px;align-items:center;padding:14px;margin-bottom:10px;border-radius:16px;background:var(--surface);border:1px solid var(--border)}
+.row.next{border-color:var(--violet);box-shadow:0 0 0 1px var(--violet),0 8px 30px rgba(182,156,255,.14)}
+.row.past{opacity:.45}
+.dt{flex:0 0 66px;text-align:center;line-height:1.1}
+.dt b{display:block;font-size:26px;font-weight:800;color:var(--gold)}
+.dt span{font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px}
+.mid{flex:1;min-width:0}
+.mid h3{font-size:19px;font-weight:700;line-height:1.2}
+.mid p{font-size:13px;color:var(--text-dim);margin-top:3px}
+.tag{flex:0 0 auto;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:var(--violet-dim);border:1px solid var(--violet-glow);color:var(--violet);white-space:nowrap}
+.empty{padding:22px;text-align:center;color:var(--text-dim);background:var(--surface);border:1px dashed var(--border);border-radius:16px}
+.dsel{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px}
+.dbtn{flex:0 0 auto;min-width:64px;padding:8px 10px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:inherit;cursor:pointer;line-height:1.2}
+.dbtn b{display:block;font-size:20px}.dbtn small{font-size:11px;color:var(--text-dim)}
+.dbtn.on{background:var(--violet);border-color:var(--violet);color:#150f2a}.dbtn.on small{color:#150f2a}
+.cl{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);font-size:15px}
+.cl:last-child{border:0}.cl b{color:var(--violet)}.cl span{text-align:right}.cl small{color:var(--text-dim)}
+.box{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.pdf{display:block;margin-top:18px;padding:13px;text-align:center;border-radius:14px;border:1px solid var(--gold-glow);background:var(--gold-dim);color:var(--gold);font-weight:700;font-size:15px;text-decoration:none}
+.note{margin-top:10px;text-align:center;font-size:12px;color:var(--text-faint)}
+@media(max-width:480px){.chips{grid-template-columns:repeat(6,1fr)}}
+</style>
+<script src="cilesimet.js"></script>
+<script src="mbyllja.js"></script>
+</head>
+<body>
+<div class="page">
+  <a class="back" href="index.html">&larr; Kryefaqja</a>
+  <div class="hdr"><h1>&#128221; Grafiku i testimeve</h1><p>Periudha e parë &middot; 2&ndash;15 dhjetor 2026</p></div>
+  <div class="tabs"><button class="tab on" id="t1" type="button">Klasa ime</button><button class="tab" id="t2" type="button">Sipas ditës</button></div>
+  <div id="v1"><div class="lbl">Zgjidh klasën</div><div class="chips" id="chips"></div><div id="list"></div></div>
+  <div id="v2" style="display:none"><div class="lbl">Zgjidh ditën</div><div class="dsel" id="dsel"></div><div class="box" id="dlist"></div></div>
+  <a class="pdf" href="grafiku_testimeve.pdf" target="_blank" rel="noopener">&#128196; Hap grafikun e plotë (PDF)</a>
+  <div class="note">Ora tregon rreshtat e grafikut të testimeve. Mund të ndryshojë; kontrollo njoftimet e shkollës.</div>
+</div>
+<script>
+var DATA={"dates":[{"d":"2026-12-02","n":"E mërkurë","j":1},{"d":"2026-12-03","n":"E enjte","j":1},{"d":"2026-12-04","n":"E premte","j":1},{"d":"2026-12-07","n":"E hënë","j":2},{"d":"2026-12-09","n":"E mërkurë","j":2},{"d":"2026-12-10","n":"E enjte","j":2},{"d":"2026-12-11","n":"E premte","j":2},{"d":"2026-12-14","n":"E hënë","j":3},{"d":"2026-12-15","n":"E martë","j":3}],"tests":[{"c":"10-A","d":0,"h":[3,4],"s":"GJEOG"},{"c":"10-A","d":0,"h":[5,6],"s":"KIMI"},{"c":"10-B","d":0,"h":[1,2],"s":"LET"},{"c":"10-B","d":0,"h":[3,4],"s":"ANGL"},{"c":"10-C","d":0,"h":[3,4],"s":"GJEOG"},{"c":"10-C","d":0,"h":[5,6],"s":"KIMI"},{"c":"10-D","d":0,"h":[1,2],"s":"QYTE"},{"c":"10-E","d":0,"h":[3,4],"s":"Gjerma"},{"c":"10-F","d":0,"h":[3,4],"s":"BIOLO"},{"c":"10-G","d":0,"h":[1,2],"s":"LET"},{"c":"10-H","d":0,"h":[4,5],"s":"FIZIKE"},{"c":"11-A","d":0,"h":[3,4],"s":"KIMI"},{"c":"11-B","d":0,"h":[1,2],"s":"LET"},{"c":"11-C","d":0,"h":[1,2],"s":"KIMI"},{"c":"11-C","d":0,"h":[3,4],"s":"HIST"},{"c":"11-D","d":0,"h":[1,2],"s":"MATEM"},{"c":"11-D","d":0,"h":[5,6],"s":"GJUHË"},{"c":"11-E","d":0,"h":[1,2],"s":"MATEM"},{"c":"11-E","d":0,"h":[3,4],"s":"LET"},{"c":"11-F","d":0,"h":[3,4],"s":"MATEM"},{"c":"11-F","d":0,"h":[5,6],"s":"ANGL"},{"c":"11-G","d":0,"h":[3,4],"s":"HIST"},{"c":"11-G","d":0,"h":[5,6],"s":"FIZIKE"},{"c":"12-A","d":0,"h":[1,2],"s":"SOCIO"},{"c":"12-B","d":0,"h":[5,6],"s":"LET Z"},{"c":"12-C","d":0,"h":[1,2],"s":"BIOLO"},{"c":"12-D","d":0,"h":[5,6],"s":"BIOLO"},{"c":"12-E","d":0,"h":[5,6],"s":"GJUHË"},{"c":"12-F","d":0,"h":[5,6],"s":"PSIKOL"},{"c":"12-G","d":0,"h":[1,2],"s":"EKON"},{"c":"12-G","d":0,"h":[5,6],"s":"GJUHË"},{"c":"10-A","d":1,"h":[5,6],"s":"QYTE"},{"c":"10-B","d":1,"h":[1,2],"s":"GJUHË"},{"c":"10-C","d":1,"h":[3,4],"s":"GJUHË"},{"c":"10-D","d":1,"h":[1,2],"s":"FIZIKE"},{"c":"10-D","d":1,"h":[5,6],"s":"MATEM"},{"c":"10-E","d":1,"h":[1,2],"s":"BIOLO"},{"c":"10-E","d":1,"h":[5,6],"s":"ANGL"},{"c":"10-F","d":1,"h":[3,4],"s":"GJEOG"},{"c":"10-G","d":1,"h":[1,2],"s":"GJUHË"},{"c":"10-H","d":1,"h":[2,3],"s":"HIST"},{"c":"10-H","d":1,"h":[4,5],"s":"MATEM"},{"c":"11-A","d":1,"h":[1,2],"s":"LET"},{"c":"11-A","d":1,"h":[5,6],"s":"ANGL"},{"c":"11-B","d":1,"h":[3,4],"s":"FILOZ"},{"c":"11-B","d":1,"h":[5,6],"s":"KIMI"},{"c":"11-C","d":1,"h":[1,2],"s":"MATEM"},{"c":"11-D","d":1,"h":[5,6],"s":"LET"},{"c":"11-E","d":1,"h":[1,2],"s":"KIMI"},{"c":"11-F","d":1,"h":[5,6],"s":"FIZIKE"},{"c":"11-G","d":1,"h":[1,2],"s":"MATEM"},{"c":"12-A","d":1,"h":[3,4],"s":"GJUHË"},{"c":"12-B","d":1,"h":[4,5],"s":"SOCIO"},{"c":"12-B","d":1,"h":[6,7],"s":"GJEOG"},{"c":"12-C","d":1,"h":[5,6],"s":"EKON"},{"c":"12-D","d":1,"h":[1],"s":"ANGL"},{"c":"12-D","d":1,"h":[7],"s":"EKON"},{"c":"12-E","d":1,"h":[1,2],"s":"BIOLO"},{"c":"12-E","d":1,"h":[5,6],"s":"ANGL"},{"c":"12-F","d":1,"h":[4],"s":"EKON"},{"c":"12-G","d":1,"h":[4,5],"s":"MATEM"},{"c":"10-A","d":2,"h":[3,4],"s":"MATEM"},{"c":"10-B","d":2,"h":[5,6],"s":"BIOLO"},{"c":"10-C","d":2,"h":[5,6],"s":"MATEM"},{"c":"10-D","d":2,"h":[3,4],"s":"Gjerma"},{"c":"10-E","d":2,"h":[3,4],"s":"MATEM"},{"c":"10-F","d":2,"h":[1,2],"s":"ANGL"},{"c":"10-F","d":2,"h":[3,4],"s":"GJUHË"},{"c":"10-G","d":2,"h":[3,4],"s":"KIMI"},{"c":"10-G","d":2,"h":[5,6],"s":"FIZIKE"},{"c":"10-H","d":2,"h":[1,2],"s":"GJEOG"},{"c":"10-H","d":2,"h":[3,4],"s":"ANGL"},{"c":"11-A","d":2,"h":[1,2],"s":"GJEOG"},{"c":"11-B","d":2,"h":[1,2],"s":"GJUHË"},{"c":"11-C","d":2,"h":[3,4],"s":"GJUHË"},{"c":"11-D","d":2,"h":[1,2],"s":"GJEOG"},{"c":"11-E","d":2,"h":[3,4],"s":"GJEOG"},{"c":"11-F","d":2,"h":[3,4],"s":"GJUHË"},{"c":"11-G","d":2,"h":[3,4],"s":"LET"},{"c":"12-A","d":2,"h":[3,4],"s":"EKON"},{"c":"12-A","d":2,"h":[5,6],"s":"LET Z"},{"c":"12-B","d":2,"h":[3,4],"s":"PSIKOL"},{"c":"12-C","d":2,"h":[3,4],"s":"MATEM"},{"c":"12-D","d":2,"h":[1,2],"s":"MATEM"},{"c":"12-E","d":2,"h":[5,6],"s":"LET"},{"c":"12-F","d":2,"h":[3,4],"s":"GJEOG"},{"c":"12-F","d":2,"h":[5,6],"s":"GJUHË"},{"c":"12-G","d":2,"h":[3,4],"s":"FIZIKE"},{"c":"10-A","d":3,"h":[1,2],"s":"GJUHË"},{"c":"10-A","d":3,"h":[4,5],"s":"FIZIKE"},{"c":"10-B","d":3,"h":[3,4],"s":"GJEOG"},{"c":"10-C","d":3,"h":[1,2],"s":"QYTE"},{"c":"10-C","d":3,"h":[3],"s":"ANGL"},{"c":"10-D","d":3,"h":[1,2],"s":"HIST"},{"c":"10-D","d":3,"h":[3,4],"s":"GJEOG"},{"c":"10-E","d":3,"h":[1,2],"s":"QYTE"},{"c":"10-E","d":3,"h":[5,6],"s":"GJUHË"},{"c":"10-F","d":3,"h":[1,2],"s":"MATEM"},{"c":"10-F","d":3,"h":[3,4],"s":"HIST"},{"c":"10-G","d":3,"h":[5,6],"s":"BIOLO"},{"c":"10-H","d":3,"h":[1,2],"s":"KIMI"},{"c":"10-H","d":3,"h":[5,6],"s":"BIOLO"},{"c":"11-A","d":3,"h":[1,2],"s":"GJUHË"},{"c":"11-B","d":3,"h":[1,2],"s":"BIOLO"},{"c":"11-B","d":3,"h":[3,4],"s":"ANGL"},{"c":"11-C","d":3,"h":[1,2],"s":"ANGL"},{"c":"11-C","d":3,"h":[5,6],"s":"FILOZ"},{"c":"11-D","d":3,"h":[3,4],"s":"Gjerma"},{"c":"11-E","d":3,"h":[3,4],"s":"BIOLO"},{"c":"11-E","d":3,"h":[5,6],"s":"GJUHË"},{"c":"11-F","d":3,"h":[1,2],"s":"BIOLO"},{"c":"11-F","d":3,"h":[3,4],"s":"HIST"},{"c":"11-G","d":3,"h":[1,2],"s":"BIOLO"},{"c":"11-G","d":3,"h":[3,4],"s":"ANGL"},{"c":"12-A","d":3,"h":[5,6],"s":"PSIKOL"},{"c":"12-B","d":3,"h":[1,2],"s":"HIST"},{"c":"12-B","d":3,"h":[5,6],"s":"LET"},{"c":"12-C","d":3,"h":[1,2],"s":"KIMI"},{"c":"12-D","d":3,"h":[3,4],"s":"LET"},{"c":"12-E","d":3,"h":[3,4],"s":"KIMI"},{"c":"12-F","d":3,"h":[1,2],"s":"LET Z"},{"c":"12-F","d":3,"h":[3,4],"s":"HIST"},{"c":"12-G","d":3,"h":[3,4],"s":"LET"},{"c":"10-A","d":4,"h":[1,2],"s":"HIST"},{"c":"10-B","d":4,"h":[5,6],"s":"HIST"},{"c":"10-C","d":4,"h":[1,2],"s":"HIST"},{"c":"10-D","d":4,"h":[5,6],"s":"ANGL"},{"c":"10-E","d":4,"h":[5,6],"s":"GJEOG"},{"c":"10-F","d":4,"h":[1,2],"s":"FIZIKE"},{"c":"10-G","d":4,"h":[3,4],"s":"MATEM"},{"c":"10-G","d":4,"h":[5,6],"s":"ANGL"},{"c":"10-H","d":4,"h":[1,2],"s":"Gjerma"},{"c":"11-A","d":4,"h":[1,2],"s":"HIST"},{"c":"11-B","d":4,"h":[4,5],"s":"MATEM"},{"c":"11-C","d":4,"h":[5,6],"s":"GJEOG"},{"c":"11-D","d":4,"h":[3,4],"s":"FIZIKE"},{"c":"11-E","d":4,"h":[5,6],"s":"FILOZ"},{"c":"11-F","d":4,"h":[1,2],"s":"GJEOG"},{"c":"12-A","d":4,"h":[3,4],"s":"MATEM"},{"c":"12-B","d":4,"h":[1,2],"s":"MATEM"},{"c":"12-C","d":4,"h":[5,6],"s":"FIZIKE"},{"c":"12-D","d":4,"h":[3,4],"s":"GJUHË"},{"c":"12-E","d":4,"h":[4],"s":"EKON"},{"c":"12-F","d":4,"h":[1,2],"s":"MATEM"},{"c":"12-G","d":4,"h":[3,4],"s":"BIOLO"},{"c":"10-A","d":5,"h":[3,4],"s":"ANGL"},{"c":"10-B","d":5,"h":[5,6],"s":"Gjerma"},{"c":"10-D","d":5,"h":[3,4],"s":"BIOLO"},{"c":"10-E","d":5,"h":[3,4],"s":"KIMI"},{"c":"10-F","d":5,"h":[1,2],"s":"KIMI"},{"c":"10-H","d":5,"h":[6,7],"s":"QYTE"},{"c":"11-A","d":5,"h":[3,4],"s":"MATEM"},{"c":"11-B","d":5,"h":[1,2],"s":"GJEOG"},{"c":"11-C","d":5,"h":[5,6],"s":"BIOLO"},{"c":"11-D","d":5,"h":[3,4],"s":"BIOLO"},{"c":"11-E","d":5,"h":[3,4],"s":"FIZIKE"},{"c":"11-F","d":5,"h":[1,2],"s":"Gjerma"},{"c":"11-G","d":5,"h":[5,6],"s":"GJEOG"},{"c":"12-A","d":5,"h":[1,2],"s":"GJEOG"},{"c":"12-A","d":5,"h":[5,6],"s":"HIST"},{"c":"12-B","d":5,"h":[3],"s":"ANGL"},{"c":"12-C","d":5,"h":[3,4],"s":"GJUHË"},{"c":"12-D","d":5,"h":[4,5],"s":"KIMI"},{"c":"12-E","d":5,"h":[3,4],"s":"FIZIKE"},{"c":"12-F","d":5,"h":[5,6],"s":"LET"},{"c":"12-G","d":5,"h":[1],"s":"ANGL"},{"c":"10-A","d":6,"h":[1,2],"s":"Gjerma"},{"c":"10-B","d":6,"h":[1,2],"s":"FIZIKE"},{"c":"10-B","d":6,"h":[3,4],"s":"MATEM"},{"c":"10-C","d":6,"h":[1,2],"s":"BIOLO"},{"c":"10-D","d":6,"h":[1,2],"s":"LET"},{"c":"10-E","d":6,"h":[1,2],"s":"LET"},{"c":"10-F","d":6,"h":[5,6],"s":"Gjerma"},{"c":"10-G","d":6,"h":[1,2],"s":"QYTE"},{"c":"10-H","d":6,"h":[5,6],"s":"GJUHË"},{"c":"11-A","d":6,"h":[3,4],"s":"FIZIKE"},{"c":"11-B","d":6,"h":[5,6],"s":"FIZIKE"},{"c":"11-D","d":6,"h":[3],"s":"ANGL"},{"c":"11-D","d":6,"h":[4,5],"s":"HIST"},{"c":"11-E","d":6,"h":[5,6],"s":"ANGL"},{"c":"11-F","d":6,"h":[5,6],"s":"KIMI"},{"c":"11-G","d":6,"h":[5,6],"s":"FILOZ"},{"c":"12-A","d":6,"h":[1,2],"s":"ANGL"},{"c":"12-B","d":6,"h":[1,2],"s":"EKON"},{"c":"12-C","d":6,"h":[1,2],"s":"ANGL"},{"c":"12-D","d":6,"h":[5,6],"s":"FIZIKE"},{"c":"12-E","d":6,"h":[1,2],"s":"MATEM"},{"c":"12-G","d":6,"h":[5,6],"s":"KIMI"},{"c":"10-E","d":7,"h":[3,4],"s":"HIST"},{"c":"10-F","d":7,"h":[5,6],"s":"LET"},{"c":"11-E","d":7,"h":[1,2],"s":"Gjerma"},{"c":"11-G","d":7,"h":[5,6],"s":"GJUHË"},{"c":"12-F","d":7,"h":[5,6],"s":"ANGL"},{"c":"10-A","d":8,"h":[3,4],"s":"BIOLO"},{"c":"10-A","d":8,"h":[5,6],"s":"LET"},{"c":"10-B","d":8,"h":[3,4],"s":"KIMI"},{"c":"10-B","d":8,"h":[5,6],"s":"QYTE"},{"c":"10-C","d":8,"h":[1,2],"s":"LET"},{"c":"10-C","d":8,"h":[3,4],"s":"FIZIKE"},{"c":"10-D","d":8,"h":[1,2],"s":"KIMI"},{"c":"10-D","d":8,"h":[5,6],"s":"GJUHË"},{"c":"10-E","d":8,"h":[1,2],"s":"FIZIKE"},{"c":"10-F","d":8,"h":[4,5],"s":"QYTE"},{"c":"10-G","d":8,"h":[1,2],"s":"HIST"},{"c":"10-G","d":8,"h":[4,5],"s":"GJEOG"},{"c":"10-H","d":8,"h":[5,6],"s":"LET"},{"c":"11-A","d":8,"h":[3,4],"s":"BIOLO"},{"c":"11-A","d":8,"h":[5,6],"s":"FILOZ"},{"c":"11-B","d":8,"h":[4,5],"s":"Gjerma"},{"c":"11-B","d":8,"h":[6,7],"s":"HIST"},{"c":"11-C","d":8,"h":[1,2],"s":"LET"},{"c":"11-C","d":8,"h":[4,5],"s":"FIZIKE"},{"c":"11-D","d":8,"h":[1,2],"s":"KIMI"},{"c":"11-D","d":8,"h":[5,6],"s":"FILOZ"},{"c":"11-E","d":8,"h":[1,2],"s":"HIST"},{"c":"11-F","d":8,"h":[1,2],"s":"LET"},{"c":"11-F","d":8,"h":[3,4],"s":"FILOZ"},{"c":"11-G","d":8,"h":[3,4],"s":"KIMI"},{"c":"12-A","d":8,"h":[5,6],"s":"LET"},{"c":"12-B","d":8,"h":[3,4],"s":"GJUHË"},{"c":"12-C","d":8,"h":[5,6],"s":"LET"},{"c":"12-F","d":8,"h":[1,2],"s":"SOCIO"}]};
+var SUBJ={LET:'Letërsi','LET Z':'Letërsi Z',GJUHË:'Gjuhë shqipe',MATEM:'Matematikë',ANGL:'Anglisht',GJEOG:'Gjeografi',HIST:'Histori',KIMI:'Kimi',BIOLO:'Biologji',FIZIKE:'Fizikë',QYTE:'Qytetari',Gjerma:'Gjermanisht',FILOZ:'Filozofi',SOCIO:'Sociologji',EKON:'Ekonomi',PSIKOL:'Psikologji'};
+var MON=['janar','shkurt','mars','prill','maj','qershor','korrik','gusht','shtator','tetor','nëntor','dhjetor'];
+var $=function(i){return document.getElementById(i);};
+function get(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function set(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function hrs(h){return 'Ora '+(h.length>1?h[0]+'–'+h[h.length-1]:h[0]);}
+function sn(s){return SUBJ[s]||s;}
+function day(i){var p=DATA.dates[i].d.split('-');return {n:+p[2],m:MON[+p[1]-1],ts:new Date(+p[0],+p[1]-1,+p[2]).getTime()};}
+var today=new Date();today=new Date(today.getFullYear(),today.getMonth(),today.getDate()).getTime();
+function rel(ts){var d=Math.round((ts-today)/864e5);return d===0?'Sot':d===1?'Nesër':d>1?'Pas '+d+' ditësh':'';}
+var classes=[];DATA.tests.forEach(function(t){if(classes.indexOf(t.c)<0)classes.push(t.c);});
+classes.sort();
+var cur=get('testim_klasa');if(classes.indexOf(cur)<0)cur=classes[0];
+function drawChips(){
+  $('chips').innerHTML=classes.map(function(c){return '<button type="button" class="chip'+(c===cur?' on':'')+'" data-c="'+c+'">'+c+'</button>';}).join('');
+  Array.prototype.forEach.call($('chips').children,function(b){b.onclick=function(){cur=b.getAttribute('data-c');set('testim_klasa',cur);drawChips();drawList();};});
+}
+function drawList(){
+  var ts=DATA.tests.filter(function(t){return t.c===cur;}).sort(function(a,b){return a.d-b.d||a.h[0]-b.h[0];});
+  if(!ts.length){$('list').innerHTML='<div class="empty">Klasa '+cur+' nuk ka teste në këtë periudhë.</div>';return;}
+  var nx=-1;ts.forEach(function(t,i){if(nx<0&&day(t.d).ts>=today)nx=i;});
+  $('list').innerHTML=ts.map(function(t,i){
+    var d=day(t.d),I=DATA.dates[t.d],past=d.ts<today,r=rel(d.ts);
+    return '<div class="row'+(i===nx?' next':'')+(past?' past':'')+'"><div class="dt"><b>'+d.n+'</b><span>'+d.m.slice(0,3)+'</span></div>'
+      +'<div class="mid"><h3>'+sn(t.s)+'</h3><p>'+I.n+' &middot; '+hrs(t.h)+' &middot; Java '+I.j+'</p></div>'
+      +(r&&!past?'<div class="tag">'+r+'</div>':'')+'</div>';
+  }).join('');
+}
+var curD=0;DATA.dates.forEach(function(x,i){if(day(i).ts<today)curD=Math.min(i+1,DATA.dates.length-1);});
+function drawDays(){
+  $('dsel').innerHTML=DATA.dates.map(function(x,i){var d=day(i);return '<button type="button" class="dbtn'+(i===curD?' on':'')+'" data-i="'+i+'"><b>'+d.n+'</b><small>'+x.n.replace('E ','')+'</small></button>';}).join('');
+  Array.prototype.forEach.call($('dsel').children,function(b){b.onclick=function(){curD=+b.getAttribute('data-i');drawDays();};});
+  var ts=DATA.tests.filter(function(t){return t.d===curD;}).sort(function(a,b){return a.c<b.c?-1:a.c>b.c?1:0;});
+  $('dlist').innerHTML=ts.map(function(t){return '<div class="cl"><b>'+t.c+'</b><span>'+sn(t.s)+' <small>&middot; '+hrs(t.h)+'</small></span></div>';}).join('');
+}
+$('t1').onclick=function(){$('t1').className='tab on';$('t2').className='tab';$('v1').style.display='';$('v2').style.display='none';};
+$('t2').onclick=function(){$('t2').className='tab on';$('t1').className='tab';$('v2').style.display='';$('v1').style.display='none';drawDays();};
+drawChips();drawList();
+</script>
+</body>
+</html>
