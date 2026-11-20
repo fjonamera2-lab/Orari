@@ -26,14 +26,20 @@ NAMES="$(printf '%s, ' "${CHANGED[@]}")"; NAMES="${NAMES%, }"
 TITLE="Orari u përditësua"
 BODY="U përditësua: $NAMES"
 
-PAYLOAD="$(jq -n --arg app "$APP_ID" --arg t "$TITLE" --arg b "$BODY" --arg u "$LINK" \
-  '{app_id:$app, included_segments:["Subscribed Users"], headings:{en:$t}, contents:{en:$b}, url:$u}')"
+mk(){ jq -n --arg app "$APP_ID" --arg t "$TITLE" --arg b "$BODY" --arg u "$LINK" --arg seg "$1" \
+  '{app_id:$app, included_segments:[$seg], headings:{en:$t}, contents:{en:$b}, url:$u}'; }
 
-if [ -n "${DRY_RUN:-}" ]; then echo "DRY_RUN payload:"; echo "$PAYLOAD"; exit 0; fi
+if [ -n "${DRY_RUN:-}" ]; then echo "DRY_RUN payload:"; mk "Total Subscriptions"; exit 0; fi
 
 : "${ONESIGNAL_API_KEY:?Mungon sekreti ONESIGNAL_API_KEY}"
-curl -fsS -X POST "https://api.onesignal.com/notifications?c=push" \
-  -H "Authorization: Key $ONESIGNAL_API_KEY" -H "Content-Type: application/json; charset=utf-8" \
-  -d "$PAYLOAD"
-echo
-echo "Njoftimi u dërgua: $BODY"
+# Emri i segmentit varet nga aplikacioni OneSignal: provohet njëri, pastaj tjetri
+for SEG in "Total Subscriptions" "Subscribed Users"; do
+  if RESP="$(mk "$SEG" | curl -sS -X POST "https://api.onesignal.com/notifications?c=push" \
+      -H "Authorization: Key $ONESIGNAL_API_KEY" -H "Content-Type: application/json; charset=utf-8" \
+      -d @- -w '\n%{http_code}')"; then
+    CODE="${RESP##*$'\n'}"; echo "${RESP%$'\n'*}"
+    if [ "$CODE" = "200" ]; then echo "Njoftimi u dërgua ($SEG): $BODY"; exit 0; fi
+    echo "Segmenti '$SEG' dështoi (HTTP $CODE), provoj tjetrin..."
+  fi
+done
+echo "Njoftimi NUK u dërgua. Kontrollo ONESIGNAL_API_KEY dhe App ID."; exit 1
