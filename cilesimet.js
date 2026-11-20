@@ -9,5 +9,5 @@ window.ORARI_CILESIMET = {
   "grafiku": true,
   "titulli": "",
   "mesazhi": "",
-  "onesignal": "b8419706-f4ab-42a9-94db-bfc70d70442b"
+  "onesignal": "51d5bfeb-b4a9-411e-a341-7fe049c8aa8e"
 };
