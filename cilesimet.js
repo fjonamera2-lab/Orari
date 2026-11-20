@@ -7,5 +7,5 @@ window.ORARI_CILESIMET = {
   "mbyllur": false,
   "titulli": "",
   "mesazhi": "",
-  "onesignal": "f3078191-63c9-4593-a683-3116806ff6f3"
+  "onesignal": "b8419706-f4ab-42a9-94db-bfc70d70442b"
 };

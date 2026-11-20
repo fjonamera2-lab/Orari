@@ -53,38 +53,92 @@
     var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
     var standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
     if(ios&&!standalone)return;                              // në iPhone njoftimet punojnë vetëm në aplikacionin e instaluar
-    var anchor=$('installBtn')||document.querySelector('.cards');if(!anchor)return;
-    var btn=document.createElement('button');btn.type='button';btn.className='njbtn';btn.id='njBtn';btn.innerHTML='&#128276; Më njofto kur ndryshon orari';
-    var ok=document.createElement('div');ok.className='njok';ok.id='njOk';ok.innerHTML='&#10003; Njoftimet janë aktive';
-    var hint=$('installHint')||anchor;
-    hint.parentNode.insertBefore(btn,hint.nextSibling);btn.parentNode.insertBefore(ok,btn.nextSibling);
-    function refresh(OS){
-      var on=false;try{on=!!(OS.User.PushSubscription.optedIn);}catch(e){}
-      var denied=Notification.permission==='denied';
-      btn.className='njbtn'+((on||denied)?'':' show');
-      if(on){ok.className='njok show';ok.style.color='';ok.innerHTML='&#10003; Njoftimet janë aktive';}
-      else if(denied){ok.className='njok show';ok.style.color='';ok.innerHTML='&#128277; Njoftimet janë bllokuar. Për t\u2019i aktivizuar: te cilësimet e telefonit (ose shfletuesit) për Orari/ këtë faqe zgjidh <b>Lejo njoftimet</b>, pastaj rihape aplikacionin.';}
-      else ok.className='njok';
+    var cards=document.querySelector('.cards');if(!cards)return;
+    var wasOn=get('orari_push')==='1';                        // mban mend që njoftimet janë aktive, që banera të mos dalë kot
+
+    var st=document.createElement('style');
+    st.textContent='@keyframes njpulse{0%,100%{box-shadow:0 0 0 0 rgba(240,180,41,.55)}70%{box-shadow:0 0 0 14px rgba(240,180,41,0)}}'
+     +'@keyframes njring{0%,100%{transform:rotate(0)}10%,30%,50%{transform:rotate(-16deg)}20%,40%,60%{transform:rotate(16deg)}70%{transform:rotate(0)}}'
+     +'.njb{display:none;margin:0 0 16px;padding:20px 18px 18px;border-radius:20px;border:2px solid var(--gold,#f0b429);background:linear-gradient(160deg,rgba(240,180,41,.26),rgba(240,180,41,.08));color:var(--text,#f2f0f8);text-align:center;animation:njpulse 2s infinite}'
+     +'.njb.show{display:block}.njb .bell{font-size:44px;line-height:1;display:inline-block;transform-origin:50% 10%;animation:njring 2.4s ease-in-out infinite}'
+     +'.njb h3{margin:8px 0 6px;font-size:21px;font-weight:800;color:var(--gold,#f0b429);line-height:1.2}'
+     +'.njb p{margin:0 0 14px;font-size:15px;line-height:1.45;color:var(--text,#f2f0f8)}'
+     +'.njb button{width:100%;padding:15px 14px;border:0;border-radius:14px;background:var(--gold,#f0b429);color:#1a1300;font-family:inherit;font-weight:800;font-size:17px;cursor:pointer}'
+     +'.njb button:active{transform:scale(.98)}.njb .msg{display:none;margin-top:10px;font-size:13px;line-height:1.4}.njb .msg.show{display:block}'
+     +'.njb.err{animation:none;border-color:#ff8a8a}.njb.err h3{color:#ff8a8a}'
+     +'.njdone{display:none;margin:0 0 12px;text-align:center;color:var(--text-dim,#b4b1c4);font-size:12px}.njdone.show{display:block}';
+    document.head.appendChild(st);
+
+    var box=document.createElement('div');box.className='njb';box.id='njBanner';
+    box.innerHTML='<div class="bell">&#128276;</div><h3>Aktivizo njoftimet!</h3>'
+      +'<p>Merr njoftim në telefon sa të ndryshojë orari, që të mos humbasësh asnjë ndryshim.</p>'
+      +'<button type="button" id="njBtn">&#128276; Aktivizo njoftimet</button><div class="msg" id="njMsg"></div>';
+    cards.parentNode.insertBefore(box,cards);
+    var ok=document.createElement('div');ok.className='njdone';ok.id='njOk';ok.innerHTML='&#10003; Njoftimet janë aktive';
+    var anchor=$('installHint')||cards;anchor.parentNode.insertBefore(ok,anchor.nextSibling);
+    var btn=$('njBtn'),msg=$('njMsg');
+    var OSref=null,pending=false;
+
+    function show(on,denied){
+      if(on){set('orari_push','1');box.className='njb';ok.className='njdone show';return;}
+      set('orari_push','0');ok.className='njdone';
+      if(denied){
+        box.className='njb show err';btn.style.display='none';box.querySelector('h3').innerHTML='&#128277; Njoftimet janë bllokuar';
+        box.querySelector('p').innerHTML='Për t’i aktivizuar: te cilësimet e telefonit (ose shfletuesit) për Orari / këtë faqe zgjidh <b>Lejo njoftimet</b>, pastaj rihape aplikacionin.';
+      }else{box.className='njb show';btn.style.display='';}
     }
+    function refresh(){
+      var denied=Notification.permission==='denied';
+      var on=false;
+      if(OSref){try{on=!!OSref.User.PushSubscription.optedIn;}catch(e){}}
+      else if(Notification.permission==='granted'){
+        /* leja është e dhënë por OneSignal s'ka përfunduar ende (p.sh. pas fshirjes së historikut):
+           mos shfaq banerën, prit përgjigjen e SDK-së, pa e ndryshuar gjendjen e ruajtur */
+        box.className='njb';
+        if(wasOn)ok.className='njdone show';
+        return;
+      }
+      show(on,denied);
+    }
+    refresh();    // BANERA SHFAQET MENJËHERË, pa pritur OneSignal
+
+    btn.onclick=function(){
+      /* kërkesa e lejes bëhet drejtpërdrejt te shtypja (kërkohet nga iPhone/Chrome), pa pritur SDK-në */
+      btn.disabled=true;btn.style.opacity='.7';
+      var p;
+      try{
+        if(OSref){p=Notification.permission==='granted'?OSref.User.PushSubscription.optIn():OSref.Notifications.requestPermission();}
+        else{pending=true;p=Notification.requestPermission();}
+      }catch(e){p=Promise.resolve();}
+      Promise.resolve(p).then(function(){btn.disabled=false;btn.style.opacity='';refresh();},function(){btn.disabled=false;btn.style.opacity='';refresh();});
+    };
+
     window.OneSignalDeferred=window.OneSignalDeferred||[];
     window.OneSignalDeferred.push(function(OS){
       var dir=location.pathname.replace(/[^\/]*$/,'');
       return OS.init({appId:id,serviceWorkerPath:dir+'sw.js',serviceWorkerParam:{scope:dir},notifyButton:{enable:false},welcomeNotification:{disable:true}}).then(function(){
-        refresh(OS);
-        try{OS.User.PushSubscription.addEventListener('change',function(){refresh(OS);});}catch(e){}
-        btn.onclick=function(){
-          var p=Promise.resolve();
-          try{ if(Notification.permission==='granted'){p=OS.User.PushSubscription.optIn();} else {p=OS.Notifications.requestPermission();} }catch(e){}
-          Promise.resolve(p).then(function(){refresh(OS);},function(){refresh(OS);});
-        };
+        OSref=OS;
+        if(pending&&Notification.permission==='granted'){try{OS.User.PushSubscription.optIn();}catch(e){}}
+        refresh();
+        try{OS.User.PushSubscription.addEventListener('change',refresh);}catch(e){}
       }).catch(function(err){
-        /* init dështoi (p.sh. Site URL në OneSignal nuk përputhet me domenin): trego gabimin që të dallohet */
         try{console.error('OneSignal init error:',err);}catch(e){}
-        ok.className='njok show';ok.style.color='#ff8a8a';ok.textContent='Njoftimet nuk u aktivizuan: '+((err&&err.message)||err||'gabim i panjohur');
+        box.className='njb show err';btn.style.display='none';
+        box.querySelector('h3').textContent='Njoftimet nuk u aktivizuan';
+        box.querySelector('p').textContent=(err&&err.message)||err||'gabim i panjohur';
       });
     });
     var s=document.createElement('script');s.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';s.defer=true;document.head.appendChild(s);
   }
+  /* 3. Rrethi i kuq në ikonë: vendoset nga sw.js kur vjen njoftim; pastrohet sa hapet aplikacioni */
+  function clearBadge(){
+    try{if(navigator.clearAppBadge)navigator.clearAppBadge();else if(navigator.setAppBadge)navigator.setAppBadge(0);}catch(e){}
+    try{if(window.caches)caches.open('orari-badge').then(function(c){return c.delete(new URL('__badge',location.href).href);}).catch(function(){});}catch(e){}
+  }
+  clearBadge();
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')clearBadge();});
+  window.addEventListener('pageshow',clearBadge);
+  window.addEventListener('focus',clearBadge);
   function ready(f){if(document.readyState!=='loading')f();else document.addEventListener('DOMContentLoaded',f);}
-  ready(function(){checkUpdate();initPush();});
+  ready(function(){initPush();checkUpdate();});
 })();
