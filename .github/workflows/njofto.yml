@@ -20,7 +20,10 @@ jobs:
           fetch-depth: 0
       - name: Dërgo njoftimin me OneSignal
         env:
-          ONESIGNAL_APP_ID: f3078191-63c9-4593-a683-3116806ff6f3
           ONESIGNAL_API_KEY: ${{ secrets.ONESIGNAL_API_KEY }}
           ORARI_LINK: https://fjonamera2-lab.github.io/Orari/
-        run: bash .github/njofto.sh "${{ github.event.before }}" "${{ github.sha }}"
+        run: |
+          # App ID merret nga cilesimet.js, që të jetë gjithmonë i njëjti me atë ku regjistrohen telefonat
+          export ONESIGNAL_APP_ID="$(grep -o '"onesignal"[^"]*"[^"]*"' cilesimet.js | sed 's/.*: *"//; s/"$//')"
+          echo "OneSignal App ID: $ONESIGNAL_APP_ID"
+          bash .github/njofto.sh "${{ github.event.before }}" "${{ github.sha }}"
