@@ -22,6 +22,7 @@
   window.ORARI_MBYLLJA_CARD=card;
   function ready(fn){if(document.readyState!=='loading')fn();else document.addEventListener('DOMContentLoaded',fn);}
   ready(function(){
+    if(C.grafiku===false){var gc=document.querySelectorAll('[data-grafiku]');for(var g=0;g<gc.length;g++)gc[g].style.display='none';}
     if(viti){
       var els=document.querySelectorAll('[data-viti]');
       for(var i=0;i<els.length;i++)els[i].textContent=viti;
