@@ -1,5 +1,6 @@
 try{importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');}catch(e){}
-const CACHE = 'orari-v15';
+const CACHE = 'orari-v16';
+const BADGE_CACHE = 'orari-badge';   // ruan numrin e njoftimeve të palexuara (nuk fshihet gjatë përditësimit të cache-s)
 const CORE = ['./', './index.html', './orari_dita.html', './orari_kp.html', './stema.jpg', './icon-192.png', './apple-touch-icon.png', './stema.png', './icon-512.png', './manifest.webmanifest', './cilesimet.js', './mbyllja.js', './njoftim.js'];
 
 self.addEventListener('install', e => {
@@ -13,7 +14,7 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE && k !== BADGE_CACHE).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
@@ -33,4 +34,23 @@ self.addEventListener('fetch', e => {
       })
       .catch(() => caches.match(req).then(r => r || caches.match('./index.html')))
   );
+});
+
+// Rrethi i kuq në ikonën e aplikacionit kur vjen njoftim i ri (kur aplikacioni nuk është i hapur)
+const BADGE_KEY = new URL('__badge', self.registration.scope).href;
+async function getCount(){
+  try{ const c = await caches.open(BADGE_CACHE); const r = await c.match(BADGE_KEY); return r ? (parseInt(await r.text(), 10) || 0) : 0; }
+  catch(e){ return 0; }
+}
+async function setCount(n){
+  try{ const c = await caches.open(BADGE_CACHE); await c.put(BADGE_KEY, new Response(String(n))); }catch(e){}
+}
+self.addEventListener('push', e => {
+  e.waitUntil((async () => {
+    const wins = await self.clients.matchAll({type: 'window', includeUncontrolled: true});
+    if (wins.some(w => w.visibilityState === 'visible')) return;   // aplikacioni është hapur: s'ka nevojë për rreth
+    const n = (await getCount()) + 1;
+    await setCount(n);
+    if (self.navigator && self.navigator.setAppBadge) await self.navigator.setAppBadge(n);
+  })().catch(() => {}));
 });
